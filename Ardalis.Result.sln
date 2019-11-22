@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Result.SampleWeb", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Sample.Core", "sample\Ardalis.Sample.Core\Ardalis.Sample.Core.csproj", "{58143C42-9722-40E3-89A0-492D13862686}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Result.SampleWeb.FunctionalTests", "sample\Ardalis.Result.SampleWeb.FunctionalTests\Ardalis.Result.SampleWeb.FunctionalTests.csproj", "{CE817D81-37E9-4BAA-92E6-8602303FF772}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{58143C42-9722-40E3-89A0-492D13862686}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58143C42-9722-40E3-89A0-492D13862686}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58143C42-9722-40E3-89A0-492D13862686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE817D81-37E9-4BAA-92E6-8602303FF772}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE817D81-37E9-4BAA-92E6-8602303FF772}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE817D81-37E9-4BAA-92E6-8602303FF772}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE817D81-37E9-4BAA-92E6-8602303FF772}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{C7CA62F0-7954-42E3-9CF2-2A46311AC717} = {42693FB1-04E1-4635-B249-E1847609E801}
 		{4878A214-84B4-4689-BDF1-D2E586883E23} = {FA061DC6-61B7-401F-87A4-D338B396CCD9}
 		{58143C42-9722-40E3-89A0-492D13862686} = {FA061DC6-61B7-401F-87A4-D338B396CCD9}
+		{CE817D81-37E9-4BAA-92E6-8602303FF772} = {FA061DC6-61B7-401F-87A4-D338B396CCD9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7CD0ED8C-3B1C-4F16-8B8D-3D8F1A8F1A5A}

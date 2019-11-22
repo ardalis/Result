@@ -57,6 +57,18 @@ namespace Ardalis.Result.UnitTests
             Assert.Equal(ResultStatus.Ok, result.Status);
         }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData(123)]
+        [InlineData("test value")]
+        public void InitializesValueUsingFactoryMethodAndSetsStatusToOk(object value)
+        {
+            var result = Result<object>.Success(value);
+
+            Assert.Equal(ResultStatus.Ok, result.Status);
+            Assert.Equal(value, result.Value);
+        }
+
         [Fact]
         public void InitializesStatusToErrorGivenErrorFactoryCall()
         {
@@ -97,7 +109,6 @@ namespace Ardalis.Result.UnitTests
 
             Assert.Equal(ResultStatus.NotFound, result.Status);
         }
-
 
         [Fact]
         public void InitializesStatusToForbiddenGivenForbiddenFactoryCall()

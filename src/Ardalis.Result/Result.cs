@@ -18,6 +18,11 @@ namespace Ardalis.Result
         public ResultStatus Status { get; } = ResultStatus.Ok;
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
 
+        public static Result<T> Success(T value)
+        {
+            return new Result<T>(value);
+        }
+
         public static Result<T> Error(params string[] errorMessages)
         {
             return new Result<T>(ResultStatus.Error) { Errors = errorMessages };

@@ -22,10 +22,21 @@ namespace Ardalis.Result.SampleWeb.WeatherForecastFeature
             _logger = logger;
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<WeatherForecast>> Get(ForecastRequestDto model)
+        [HttpPost]
+        public ActionResult<IEnumerable<WeatherForecast>> GetForecast([FromBody]ForecastRequestDto model)
         {
-            return Ok(_weatherService.GetForecast(model));
+            var result = _weatherService.GetForecast(model);
+            if (result.Status == ResultStatus.NotFound) return NotFound();
+            if (result.Status == ResultStatus.Invalid)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("model", error);
+                }
+                return BadRequest(ModelState);
+            }
+
+            return Ok(result.Value);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Ardalis.Sample.Core.DTOs;
+﻿using Ardalis.Result;
+using Ardalis.Sample.Core.DTOs;
 using Ardalis.Sample.Core.Model;
 using System;
 using System.Collections.Generic;
@@ -13,16 +14,24 @@ namespace Ardalis.Sample.Core
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        public IEnumerable<WeatherForecast> GetForecast(ForecastRequestDto model)
+        public Result<IEnumerable<WeatherForecast>> GetForecast(ForecastRequestDto model)
         {
+            if (model.PostalCode == "NotFound") return Result<IEnumerable<WeatherForecast>>.NotFound();
+
+            // validate model
+            if (model.PostalCode.Length > 10)
+            {
+                return Result<IEnumerable<WeatherForecast>>.Invalid("PostalCode cannot exceed 10 characters.");
+            }
+
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            return new Result<IEnumerable<WeatherForecast>>(Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
-            .ToArray();
+            .ToArray());
         }
     }
 }

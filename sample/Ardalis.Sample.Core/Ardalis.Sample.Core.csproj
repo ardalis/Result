@@ -8,4 +8,8 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.6.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Ardalis.Result\Ardalis.Result.csproj" />
+  </ItemGroup>
+
 </Project>
