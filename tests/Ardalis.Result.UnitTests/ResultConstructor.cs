@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Ardalis.Result.UnitTests
@@ -48,19 +50,44 @@ namespace Ardalis.Result.UnitTests
         [InlineData(null)]
         [InlineData(123)]
         [InlineData("test value")]
-        public void InitializesSuccessStatusToTrueGivenValue(object value)
+        public void InitializesStatusToOkGivenValue(object value)
         {
             var result = new Result<object>(value);
 
-            Assert.True(result.Successful);
+            Assert.Equal(ResultStatus.Ok, result.Status);
         }
 
         [Fact]
-        public void InitializesSuccessStatusToFalseGivenUnsuccessfulFactoryCall()
+        public void InitializesStatusToErrorGivenErrorFactoryCall()
         {
-            var result = Result<object>.Unsuccessful();
+            var result = Result<object>.Error();
 
-            Assert.False(result.Successful);
+            Assert.Equal(ResultStatus.Error, result.Status);
+        }
+
+        [Fact]
+        public void InitializesStatusToErrorAndSetsErrorMessageGivenErrorFactoryCall()
+        {
+            string errorMessage = "Something bad happened.";
+            var result = Result<object>.Error(errorMessage);
+
+            Assert.Equal(ResultStatus.Error, result.Status);
+            Assert.Equal(errorMessage, result.Errors.First());
+        }
+
+        [Fact]
+        public void InitializesStatusToInvalidAndSetsErrorMessagesGivenInvalidFactoryCall()
+        {
+            List<string> validationErrors = new List<string>
+            {
+                "Name is required",
+                "Name cannot exceed 10 characters"
+            };
+            var result = Result<object>.Invalid(validationErrors.ToArray());
+
+            Assert.Equal(ResultStatus.Invalid, result.Status);
+            Assert.Equal("Name is required", result.Errors.First());
+            Assert.Equal("Name cannot exceed 10 characters", result.Errors.Last());
         }
     }
 }

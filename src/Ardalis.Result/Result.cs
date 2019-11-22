@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ardalis.Result
 {
@@ -8,17 +9,22 @@ namespace Ardalis.Result
         {
             Value = value;
         }
-        private Result(bool successful = false)
+        private Result(ResultStatus status)
         {
-            Successful = successful;
+            Status = status;
         }
 
         public T Value { get; }
-        public bool Successful { get; } = true;
+        public ResultStatus Status { get; } = ResultStatus.Ok;
+        public IEnumerable<string> Errors { get; private set; } = new List<string>();
 
-        public static Result<T> Unsuccessful()
+        public static Result<T> Error(params string[] errorMessages)
         {
-            return new Result<T>(false);
+            return new Result<T>(ResultStatus.Error) { Errors = errorMessages };
+        }
+        public static Result<T> Invalid(params string[] validationErrors)
+        {
+            return new Result<T>(ResultStatus.Invalid) { Errors = validationErrors };
         }
     }
 }
