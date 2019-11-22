@@ -26,5 +26,9 @@ namespace Ardalis.Result
         {
             return new Result<T>(ResultStatus.Invalid) { Errors = validationErrors };
         }
+        public static Result<T> NotFound()
+        {
+            return new Result<T>(ResultStatus.NotFound) ;
+        }
     }
 }

@@ -89,5 +89,15 @@ namespace Ardalis.Result.UnitTests
             Assert.Equal("Name is required", result.Errors.First());
             Assert.Equal("Name cannot exceed 10 characters", result.Errors.Last());
         }
+
+        [Fact]
+        public void InitializesStatusToNotFoundGivenNotFoundFactoryCall()
+        {
+            var result = Result<object>.NotFound();
+
+            Assert.Equal(ResultStatus.NotFound, result.Status);
+        }
+
+
     }
 }

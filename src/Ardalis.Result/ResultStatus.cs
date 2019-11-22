@@ -4,6 +4,7 @@
     {
         Ok,
         Error,
-        Invalid
+        Invalid,
+        NotFound
     }
 }
