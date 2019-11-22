@@ -99,5 +99,14 @@ namespace Ardalis.Result.UnitTests
         }
 
 
+        [Fact]
+        public void InitializesStatusToForbiddenGivenForbiddenFactoryCall()
+        {
+            var result = Result<object>.Forbidden();
+
+            Assert.Equal(ResultStatus.Forbidden, result.Status);
+        }
+
+
     }
 }

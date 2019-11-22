@@ -22,13 +22,20 @@ namespace Ardalis.Result
         {
             return new Result<T>(ResultStatus.Error) { Errors = errorMessages };
         }
+
         public static Result<T> Invalid(params string[] validationErrors)
         {
             return new Result<T>(ResultStatus.Invalid) { Errors = validationErrors };
         }
+
         public static Result<T> NotFound()
         {
-            return new Result<T>(ResultStatus.NotFound) ;
+            return new Result<T>(ResultStatus.NotFound);
+        }
+
+        public static Result<T> Forbidden()
+        {
+            return new Result<T>(ResultStatus.Forbidden);
         }
     }
 }
