@@ -17,6 +17,7 @@ namespace Ardalis.Result
         public T Value { get; }
         public ResultStatus Status { get; } = ResultStatus.Ok;
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
+        public Dictionary<string, string> ValidationErrors { get; private set;} = new Dictionary<string, string>();
 
         public static Result<T> Success(T value)
         {
@@ -28,9 +29,9 @@ namespace Ardalis.Result
             return new Result<T>(ResultStatus.Error) { Errors = errorMessages };
         }
 
-        public static Result<T> Invalid(params string[] validationErrors)
+        public static Result<T> Invalid(Dictionary<string, string> validationErrors)
         {
-            return new Result<T>(ResultStatus.Invalid) { Errors = validationErrors };
+            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = validationErrors };
         }
 
         public static Result<T> NotFound()
