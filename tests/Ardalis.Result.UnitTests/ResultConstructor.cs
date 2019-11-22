@@ -44,6 +44,23 @@ namespace Ardalis.Result.UnitTests
             Assert.Null(result.Value);
         }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData(123)]
+        [InlineData("test value")]
+        public void InitializesSuccessStatusToTrueGivenValue(object value)
+        {
+            var result = new Result<object>(value);
 
+            Assert.True(result.Successful);
+        }
+
+        [Fact]
+        public void InitializesSuccessStatusToFalseGivenUnsuccessfulFactoryCall()
+        {
+            var result = Result<object>.Unsuccessful();
+
+            Assert.False(result.Successful);
+        }
     }
 }
