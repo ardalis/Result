@@ -25,9 +25,9 @@ namespace Ardalis.Result.SampleWeb.WeatherForecastFeature
 
         [MyResultActionFilter]
         [HttpPost]
-        public IActionResult GetForecast([FromBody]ForecastRequestDto model)
+        public Result<IEnumerable<WeatherForecast>> GetForecast([FromBody]ForecastRequestDto model)
         {
-            return Ok(_weatherService.GetForecast(model));
+            return _weatherService.GetForecast(model);
 //            var result = _weatherService.GetForecast(model);
 //            if (result.Status == ResultStatus.NotFound) return NotFound();
 //            if (result.Status == ResultStatus.Invalid)
