@@ -23,11 +23,11 @@ namespace Ardalis.Result.SampleWeb.WeatherForecastFeature
             _logger = logger;
         }
 
+        [MyResultActionFilter]
         [HttpPost]
-        public ActionResult<IEnumerable<WeatherForecast>> GetForecast(
-            [FromBody]ForecastRequestDto model)
+        public IActionResult GetForecast([FromBody]ForecastRequestDto model)
         {
-            return this.ToActionResult(_weatherService.GetForecast(model));
+            return Ok(_weatherService.GetForecast(model));
 //            var result = _weatherService.GetForecast(model);
 //            if (result.Status == ResultStatus.NotFound) return NotFound();
 //            if (result.Status == ResultStatus.Invalid)
