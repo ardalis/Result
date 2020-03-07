@@ -3,7 +3,15 @@ using System.Collections.Generic;
 
 namespace Ardalis.Result
 {
-    public class Result<T>
+    public interface IResult
+    {
+        ResultStatus Status { get; }
+        IEnumerable<string> Errors { get; }
+        Dictionary<string, string> ValidationErrors { get; }
+
+    }
+    
+    public class Result<T> : IResult
     {
         public Result(T value)
         {

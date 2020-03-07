@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Ardalis.Result.SampleWeb.Extensions;
 using Ardalis.Sample.Core;
 using Ardalis.Sample.Core.DTOs;
 using Ardalis.Sample.Core.Model;
@@ -22,21 +23,23 @@ namespace Ardalis.Result.SampleWeb.WeatherForecastFeature
             _logger = logger;
         }
 
+        [MyResultActionFilter]
         [HttpPost]
-        public ActionResult<IEnumerable<WeatherForecast>> GetForecast([FromBody]ForecastRequestDto model)
+        public Result<IEnumerable<WeatherForecast>> GetForecast([FromBody]ForecastRequestDto model)
         {
-            var result = _weatherService.GetForecast(model);
-            if (result.Status == ResultStatus.NotFound) return NotFound();
-            if (result.Status == ResultStatus.Invalid)
-            {
-                foreach (var error in result.ValidationErrors)
-                {
-                    ModelState.AddModelError(error.Key, error.Value);
-                }
-                return BadRequest(ModelState);
-            }
-
-            return Ok(result.Value);
+            return _weatherService.GetForecast(model);
+//            var result = _weatherService.GetForecast(model);
+//            if (result.Status == ResultStatus.NotFound) return NotFound();
+//            if (result.Status == ResultStatus.Invalid)
+//            {
+//                foreach (var error in result.ValidationErrors)
+//                {
+//                    ModelState.AddModelError(error.Key, error.Value);
+//                }
+//                return BadRequest(ModelState);
+//            }
+//
+//            return Ok(result.Value);
 
             // TODO: Write a filter or helper so we can make this one line of code
             // Either return _weatherService.GetForecast(model); and use filter
