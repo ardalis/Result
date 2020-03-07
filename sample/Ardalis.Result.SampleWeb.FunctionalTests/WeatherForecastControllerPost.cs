@@ -51,5 +51,28 @@ namespace Ardalis.Result.SampleWeb.FunctionalTests
             var stringResponse = await response.Content.ReadAsStringAsync();
             Assert.Contains("PostalCode cannot exceed 10 characters.", stringResponse);
         }
+
+        [Fact]
+        public async Task ReturnsServerErrorGivenPostalCodeCausingTimeout()
+        {
+            var requestDto = new ForecastRequestDto() { PostalCode = "12345" };
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(requestDto), Encoding.Default, "application/json");
+            var response = await _client.PostAsync("/weatherforecast", jsonContent);
+            //response.EnsureSuccessStatusCode();
+
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Returns200WithResultGivenValidInput()
+        {
+            var requestDto = new ForecastRequestDto() { PostalCode = "01234" };
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(requestDto), Encoding.Default, "application/json");
+            var response = await _client.PostAsync("/weatherforecast", jsonContent);
+            response.EnsureSuccessStatusCode();
+
+            var stringResponse = await response.Content.ReadAsStringAsync();
+            Assert.Contains("PostalCode cannot exceed 10 characters.", stringResponse);
+        }
     }
 }

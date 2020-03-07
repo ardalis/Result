@@ -26,6 +26,13 @@ namespace Ardalis.Sample.Core
                 });
             }
 
+            // let's add a server error if the forecast times out
+            // we'll simulate that with a certain input, 12345
+            if(model.PostalCode == "12345")
+            {
+                return Result<IEnumerable<WeatherForecast>>.Error(new[] { "The forecast timed out." });
+            }
+
             var rng = new Random();
             return new Result<IEnumerable<WeatherForecast>>(Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
