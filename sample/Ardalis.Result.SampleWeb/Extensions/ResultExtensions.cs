@@ -2,9 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ardalis.Result.SampleWeb.Extensions
 {
+    /// <summary>
+    /// Extensions to support converting Result to an ActionResult
+    /// </summary>
+    // TODO: Move to an Ardalis.Result.AspNetCore Nuget package
     public static class ResultExtensions
     {
-
         public static ActionResult<T> ToActionResult<T>(this ControllerBase controller, Result<T> result)
         {
             if (result.Status == ResultStatus.NotFound) return controller.NotFound();
@@ -19,6 +22,5 @@ namespace Ardalis.Result.SampleWeb.Extensions
 
             return controller.Ok(result.Value);
         }
-        
     }
 }

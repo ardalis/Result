@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Ardalis.Result.SampleWeb
 {
+    // TODO: Move to an Ardalis.Result.AspNetCore Nuget package
     public class MyResultActionFilter : ActionFilterAttribute
     {
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            
             if (!((context.Result as ObjectResult).Value is IResult result)) return;
 
             if (!(context.Controller is ControllerBase controller)) return;
@@ -23,6 +23,11 @@ namespace Ardalis.Result.SampleWeb
                 }
 
                 context.Result = controller.BadRequest(controller.ModelState);
+            }
+
+            if(result.Status == ResultStatus.Ok)
+            {
+                context.Result = new OkObjectResult(result.GetValue());
             }
         }
     }

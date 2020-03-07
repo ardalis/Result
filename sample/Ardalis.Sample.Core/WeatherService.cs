@@ -26,8 +26,22 @@ namespace Ardalis.Sample.Core
                 });
             }
 
+            // test value
+            if (model.PostalCode == "55555")
+            {
+                return new Result<IEnumerable<WeatherForecast>>(Enumerable.Range(1, 1)
+                    .Select(index =>
+                    new WeatherForecast
+                    {
+                        Date = DateTime.Now,
+                        TemperatureC = 0,
+                        Summary = Summaries[0]
+                    }));
+            }
+
             var rng = new Random();
-            return new Result<IEnumerable<WeatherForecast>>(Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            return new Result<IEnumerable<WeatherForecast>>(Enumerable.Range(1, 5)
+                .Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),

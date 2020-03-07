@@ -1,7 +1,9 @@
 using Ardalis.Sample.Core.DTOs;
+using Ardalis.Sample.Core.Model;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -17,6 +19,20 @@ namespace Ardalis.Result.SampleWeb.FunctionalTests
         public WeatherForecastControllerPost(WebApplicationFactory<Startup> factory)
         {
             _client = factory.CreateClient();
+        }
+
+        [Fact]
+        public async Task ReturnsOkWithValueGivenValidPostalCode()
+        {
+            var requestDto = new ForecastRequestDto() { PostalCode = "55555" };
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(requestDto), Encoding.Default, "application/json");
+            var response = await _client.PostAsync("/weatherforecast", jsonContent);
+            response.EnsureSuccessStatusCode();
+
+            var stringResponse = await response.Content.ReadAsStringAsync();
+            var forecasts = JsonConvert.DeserializeObject<List<WeatherForecast>>(stringResponse);
+
+            Assert.Equal("Freezing", forecasts.First().Summary);
         }
 
         [Fact]

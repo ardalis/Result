@@ -3,14 +3,6 @@ using System.Collections.Generic;
 
 namespace Ardalis.Result
 {
-    public interface IResult
-    {
-        ResultStatus Status { get; }
-        IEnumerable<string> Errors { get; }
-        Dictionary<string, string> ValidationErrors { get; }
-
-    }
-    
     public class Result<T> : IResult
     {
         public Result(T value)
@@ -23,9 +15,21 @@ namespace Ardalis.Result
         }
 
         public T Value { get; }
+        public Type ValueType
+        {
+            get
+            {
+                return Value.GetType();
+            }
+        }
         public ResultStatus Status { get; } = ResultStatus.Ok;
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
         public Dictionary<string, string> ValidationErrors { get; private set;} = new Dictionary<string, string>();
+
+        public object GetValue()
+        {
+            return this.Value;
+        }
 
         public static Result<T> Success(T value)
         {
