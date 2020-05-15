@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
     <PackageTags>result pattern web api aspnetcore mvc</PackageTags>
     <PackageReleaseNotes>Testing GitHub action publishing.</PackageReleaseNotes>
-    <Version>0.9.1</Version>
+    <Version>0.9.2</Version>
     <AssemblyName>Ardalis.Result</AssemblyName>
     <PackageIconUrl></PackageIconUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
