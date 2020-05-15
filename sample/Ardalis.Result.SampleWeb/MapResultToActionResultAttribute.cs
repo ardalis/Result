@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Ardalis.Result.SampleWeb
 {
-    // TODO: Move to an Ardalis.Result.AspNetCore Nuget package
-    public class MyResultActionFilter : ActionFilterAttribute
+    public class MapResultToActionResultAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuted(ActionExecutedContext context)
         {
