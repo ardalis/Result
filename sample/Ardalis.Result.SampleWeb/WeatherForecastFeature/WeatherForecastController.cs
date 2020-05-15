@@ -25,9 +25,17 @@ namespace Ardalis.Result.SampleWeb.WeatherForecastFeature
 
         [TranslateResultToActionResult]
         [HttpPost]
-        public Result<IEnumerable<WeatherForecast>> GetForecast([FromBody]ForecastRequestDto model)
+        public Result<IEnumerable<WeatherForecast>> CreateForecast([FromBody]ForecastRequestDto model)
         {
             return _weatherService.GetForecast(model);
         }
+
+        // TODO: Implement once Nuget package is updated
+        //[HttpPost]
+        //public Result<IEnumerable<WeatherForecast>> CreateForecast2([FromBody]ForecastRequestDto model)
+        //{
+        //    return this.ToActionResult<IEnumerable<WeatherForecast>>(_weatherService.GetForecast(model));
+        //    return this._weatherService.GetForecast(model);
+        //}
     }
 }
