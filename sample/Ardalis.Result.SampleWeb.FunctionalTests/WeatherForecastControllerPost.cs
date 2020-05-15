@@ -29,8 +29,7 @@ namespace Ardalis.Result.SampleWeb.FunctionalTests
         public async Task ReturnsOkWithValueGivenValidPostalCode(string route)
         {
             var requestDto = new ForecastRequestDto() { PostalCode = "55555" };
-            var jsonContent = new StringContent(JsonConvert.SerializeObject(requestDto), Encoding.Default, "application/json");
-            var response = await _client.PostAsync(route, jsonContent);
+            var response = await PostDTOAndGetResponse(requestDto, route);
             response.EnsureSuccessStatusCode();
 
             var stringResponse = await response.Content.ReadAsStringAsync();
@@ -45,8 +44,7 @@ namespace Ardalis.Result.SampleWeb.FunctionalTests
         public async Task ReturnsBadRequestGivenNoPostalCode(string route)
         {
             var requestDto = new ForecastRequestDto() { PostalCode = "" };
-            var jsonContent = new StringContent(JsonConvert.SerializeObject(requestDto), Encoding.Default, "application/json");
-            var response = await _client.PostAsync(route, jsonContent);
+            var response = await PostDTOAndGetResponse(requestDto, route);
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -57,8 +55,7 @@ namespace Ardalis.Result.SampleWeb.FunctionalTests
         public async Task ReturnsNotFoundGivenNonExistentPostalCode(string route)
         {
             var requestDto = new ForecastRequestDto() { PostalCode = "NotFound" };
-            var jsonContent = new StringContent(JsonConvert.SerializeObject(requestDto), Encoding.Default, "application/json");
-            var response = await _client.PostAsync(route, jsonContent);
+            var response = await PostDTOAndGetResponse(requestDto, route);
 
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
@@ -69,12 +66,18 @@ namespace Ardalis.Result.SampleWeb.FunctionalTests
         public async Task ReturnsBadRequestGivenPostalCodeTooLong(string route)
         {
             var requestDto = new ForecastRequestDto() { PostalCode = "01234567890" };
-            var jsonContent = new StringContent(JsonConvert.SerializeObject(requestDto), Encoding.Default, "application/json");
-            var response = await _client.PostAsync(route, jsonContent);
+            var response = await PostDTOAndGetResponse(requestDto, route);
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
             var stringResponse = await response.Content.ReadAsStringAsync();
             Assert.Contains("PostalCode cannot exceed 10 characters.", stringResponse);
+        }
+
+        private async Task<HttpResponseMessage> PostDTOAndGetResponse(ForecastRequestDto dto, string route)
+        {
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(dto), 
+                Encoding.Default, "application/json");
+            return await _client.PostAsync(route, jsonContent);
         }
     }
 }
