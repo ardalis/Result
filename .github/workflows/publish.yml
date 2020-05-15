@@ -1,9 +1,8 @@
-name: .NET Core
+name: Publish to Nuget.org
 
 on:
-  pull_request:
+  push:
     branches: [ master ]
-
 jobs:
   build:
 
@@ -19,5 +18,9 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+
+    - name: Publish NuGet
+      uses: brandedoutcast/publish-nuget@v2.5.0
+      with:
+        PROJECT_FILE_PATH: src/Ardalis.Result/Ardalis.Result.csproj
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
