@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Ardalis.Result.AspNetCore;
 using Ardalis.Sample.Core;
 using Ardalis.Sample.Core.DTOs;
 using Ardalis.Sample.Core.Model;
@@ -22,7 +23,7 @@ namespace Ardalis.Result.SampleWeb.WeatherForecastFeature
             _logger = logger;
         }
 
-        //[TranslateResultToActionResult]
+        [TranslateResultToActionResult]
         [HttpPost]
         public Result<IEnumerable<WeatherForecast>> GetForecast([FromBody]ForecastRequestDto model)
         {
