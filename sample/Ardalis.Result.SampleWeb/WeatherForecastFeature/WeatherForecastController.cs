@@ -5,6 +5,7 @@ using Ardalis.Sample.Core.DTOs;
 using Ardalis.Sample.Core.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Ardalis.Result.SampleWeb.WeatherForecastFeature
 {
@@ -23,19 +24,17 @@ namespace Ardalis.Result.SampleWeb.WeatherForecastFeature
             _logger = logger;
         }
 
+        /// <summary>
+        /// This uses a filter to convert an Ardalis.Result return type to an ActionResult.
+        /// This filter could be used per controller or globally!
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [TranslateResultToActionResult]
-        [HttpPost]
+        [HttpPost("Create")]
         public Result<IEnumerable<WeatherForecast>> CreateForecast([FromBody]ForecastRequestDto model)
         {
             return _weatherService.GetForecast(model);
         }
-
-        // TODO: Implement once Nuget package is updated
-        //[HttpPost]
-        //public Result<IEnumerable<WeatherForecast>> CreateForecast2([FromBody]ForecastRequestDto model)
-        //{
-        //    return this.ToActionResult<IEnumerable<WeatherForecast>>(_weatherService.GetForecast(model));
-        //    return this._weatherService.GetForecast(model);
-        //}
     }
 }
