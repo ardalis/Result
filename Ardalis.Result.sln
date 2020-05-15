@@ -9,15 +9,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{865A74CD-F47
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{42693FB1-04E1-4635-B249-E1847609E801}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Result.UnitTests", "tests\Ardalis.Result.UnitTests\Ardalis.Result.UnitTests.csproj", "{C7CA62F0-7954-42E3-9CF2-2A46311AC717}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.UnitTests", "tests\Ardalis.Result.UnitTests\Ardalis.Result.UnitTests.csproj", "{C7CA62F0-7954-42E3-9CF2-2A46311AC717}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{FA061DC6-61B7-401F-87A4-D338B396CCD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Result.SampleWeb", "sample\Ardalis.Result.SampleWeb\Ardalis.Result.SampleWeb.csproj", "{4878A214-84B4-4689-BDF1-D2E586883E23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.SampleWeb", "sample\Ardalis.Result.SampleWeb\Ardalis.Result.SampleWeb.csproj", "{4878A214-84B4-4689-BDF1-D2E586883E23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Sample.Core", "sample\Ardalis.Sample.Core\Ardalis.Sample.Core.csproj", "{58143C42-9722-40E3-89A0-492D13862686}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Sample.Core", "sample\Ardalis.Sample.Core\Ardalis.Sample.Core.csproj", "{58143C42-9722-40E3-89A0-492D13862686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Result.SampleWeb.FunctionalTests", "sample\Ardalis.Result.SampleWeb.FunctionalTests\Ardalis.Result.SampleWeb.FunctionalTests.csproj", "{CE817D81-37E9-4BAA-92E6-8602303FF772}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.SampleWeb.FunctionalTests", "sample\Ardalis.Result.SampleWeb.FunctionalTests\Ardalis.Result.SampleWeb.FunctionalTests.csproj", "{CE817D81-37E9-4BAA-92E6-8602303FF772}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Result.AspNetCore", "src\Ardalis.Result.AspNetCore\Ardalis.Result.AspNetCore.csproj", "{B92FA989-EAD7-4542-BC51-F02DEF9C34B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{CE817D81-37E9-4BAA-92E6-8602303FF772}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE817D81-37E9-4BAA-92E6-8602303FF772}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE817D81-37E9-4BAA-92E6-8602303FF772}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B92FA989-EAD7-4542-BC51-F02DEF9C34B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B92FA989-EAD7-4542-BC51-F02DEF9C34B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B92FA989-EAD7-4542-BC51-F02DEF9C34B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B92FA989-EAD7-4542-BC51-F02DEF9C34B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{4878A214-84B4-4689-BDF1-D2E586883E23} = {FA061DC6-61B7-401F-87A4-D338B396CCD9}
 		{58143C42-9722-40E3-89A0-492D13862686} = {FA061DC6-61B7-401F-87A4-D338B396CCD9}
 		{CE817D81-37E9-4BAA-92E6-8602303FF772} = {FA061DC6-61B7-401F-87A4-D338B396CCD9}
+		{B92FA989-EAD7-4542-BC51-F02DEF9C34B3} = {865A74CD-F478-4AA5-AFA5-6C26FB38B849}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7CD0ED8C-3B1C-4F16-8B8D-3D8F1A8F1A5A}
