@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ardalis.Result.AspNetCore" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Ardalis.Sample.Core\Ardalis.Sample.Core.csproj" />
   </ItemGroup>
 

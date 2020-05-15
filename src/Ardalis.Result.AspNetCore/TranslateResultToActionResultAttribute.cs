@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Ardalis.Result.SampleWeb
+namespace Ardalis.Result.AspNetCore
 {
     public class TranslateResultToActionResultAttribute : ActionFilterAttribute
     {
