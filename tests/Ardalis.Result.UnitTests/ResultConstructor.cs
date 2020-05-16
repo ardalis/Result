@@ -90,17 +90,18 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void InitializesStatusToInvalidAndSetsErrorMessagesGivenInvalidFactoryCall()
         {
-            var validationErrors = new Dictionary<string, string>
+            var validationErrors = new Dictionary<string, string[]>
             {
-                { "name", "Name is required"},
-                { "postalCode", "PostalCode cannot exceed 10 characters"}
+                { "name", new[] {"Name is required", "Name cannot exceed 50 characters" } },
+                { "postalCode", new[] { "PostalCode cannot exceed 10 characters" } }
             };
             // TODO: Support duplicates of the same key with multiple errors
             var result = Result<object>.Invalid(validationErrors);
 
             Assert.Equal(ResultStatus.Invalid, result.Status);
-            Assert.Equal("Name is required", result.ValidationErrors.Values.First());
-            Assert.Equal("PostalCode cannot exceed 10 characters", result.ValidationErrors.Values.Last());
+            Assert.Equal("Name is required", result.ValidationErrors.Values.First().First());
+            Assert.Equal("Name cannot exceed 50 characters", result.ValidationErrors.Values.First().Last());
+            Assert.Equal("PostalCode cannot exceed 10 characters", result.ValidationErrors.Values.Last().First());
         }
 
         [Fact]

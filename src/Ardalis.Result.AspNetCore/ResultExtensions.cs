@@ -22,7 +22,10 @@ namespace Ardalis.Result.AspNetCore
             {
                 foreach (var error in result.ValidationErrors)
                 {
-                    controller.ModelState.AddModelError(error.Key, error.Value);
+                    foreach (var errorMessage in error.Value)
+                    {
+                        controller.ModelState.AddModelError(error.Key, errorMessage);
+                    }
                 }
                 return controller.BadRequest(controller.ModelState);
             }

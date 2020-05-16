@@ -18,7 +18,10 @@ namespace Ardalis.Result.AspNetCore
             {
                 foreach (var error in result.ValidationErrors)
                 {
-                    (context.Controller as ControllerBase).ModelState.AddModelError(error.Key, error.Value);
+                    foreach (var errorMessage in error.Value)
+                    {
+                        (context.Controller as ControllerBase).ModelState.AddModelError(error.Key, errorMessage);
+                    }
                 }
 
                 context.Result = controller.BadRequest(controller.ModelState);
