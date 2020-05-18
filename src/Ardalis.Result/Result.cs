@@ -14,6 +14,9 @@ namespace Ardalis.Result
             Status = status;
         }
 
+        public static implicit operator T(Result<T> result) => result.Value;
+        public static implicit operator Result<T>(T value) => Success(value);
+
         public T Value { get; }
         public Type ValueType
         {

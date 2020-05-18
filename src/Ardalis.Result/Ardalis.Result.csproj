@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
     <PackageTags>result pattern web api aspnetcore mvc</PackageTags>
     <PackageReleaseNotes>Update the icon</PackageReleaseNotes>
-    <Version>1.0.1</Version>
+    <Version>1.1.1</Version>
     <AssemblyName>Ardalis.Result</AssemblyName>
     <PackageIconUrl>https://user-images.githubusercontent.com/782127/82077419-64085e00-96ad-11ea-9c7a-0f17ccf0bda6.png</PackageIconUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
