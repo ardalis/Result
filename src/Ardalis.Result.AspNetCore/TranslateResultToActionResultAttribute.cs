@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -18,7 +19,7 @@ namespace Ardalis.Result.AspNetCore
             {
                 foreach (var error in result.ValidationErrors)
                 {
-                    (context.Controller as ControllerBase).ModelState.AddModelError(error.Key, error.Value);
+                    (context.Controller as ControllerBase).ModelState.AddModelError(error.Key, string.Join(Environment.NewLine, error.Value));
                 }
 
                 context.Result = controller.BadRequest(controller.ModelState);

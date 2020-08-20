@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -12,8 +12,8 @@
     <Summary>A simple package to implement the Result pattern for returning from services.</Summary>
     <RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
     <PackageTags>result pattern web api aspnetcore mvc</PackageTags>
-    <PackageReleaseNotes>Update the icon</PackageReleaseNotes>
-    <Version>1.1.1</Version>
+    <PackageReleaseNotes>IResult.ValidationErrors be message string[].</PackageReleaseNotes>
+    <Version>1.1.2</Version>
     <AssemblyName>Ardalis.Result</AssemblyName>
     <PackageIconUrl>https://user-images.githubusercontent.com/782127/82077419-64085e00-96ad-11ea-9c7a-0f17ccf0bda6.png</PackageIconUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>

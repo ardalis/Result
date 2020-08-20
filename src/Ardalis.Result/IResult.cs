@@ -7,7 +7,7 @@ namespace Ardalis.Result
     {
         ResultStatus Status { get; }
         IEnumerable<string> Errors { get; }
-        Dictionary<string, string> ValidationErrors { get; }
+        Dictionary<string, string[]> ValidationErrors { get; }
         Type ValueType { get; }
         Object GetValue();
     }

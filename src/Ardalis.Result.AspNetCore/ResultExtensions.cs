@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ardalis.Result.AspNetCore
 {
@@ -22,7 +24,7 @@ namespace Ardalis.Result.AspNetCore
             {
                 foreach (var error in result.ValidationErrors)
                 {
-                    controller.ModelState.AddModelError(error.Key, error.Value);
+                    controller.ModelState.AddModelError(error.Key, string.Join(Environment.NewLine, error.Value));
                 }
                 return controller.BadRequest(controller.ModelState);
             }
