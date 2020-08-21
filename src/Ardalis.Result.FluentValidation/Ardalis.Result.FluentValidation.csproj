@@ -12,7 +12,7 @@
     <Summary>A simple package to implement the FluentValidation in Result package.</Summary>
     <RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
     <PackageTags>result;pattern;web;api;aspnetcore;mvc;FluentValidation;Validation</PackageTags>
-    <PackageReleaseNotes>Package Initialize</PackageReleaseNotes>
+    <PackageReleaseNotes>Package initialize.</PackageReleaseNotes>
     <Version>3.0.0</Version>
     <AssemblyName>Ardalis.Result.FluentValidation</AssemblyName>
     <PackageIconUrl>https://user-images.githubusercontent.com/782127/82077419-64085e00-96ad-11ea-9c7a-0f17ccf0bda6.png</PackageIconUrl>
