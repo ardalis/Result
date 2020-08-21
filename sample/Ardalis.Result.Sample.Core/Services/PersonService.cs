@@ -1,9 +1,6 @@
-﻿using Ardalis.Result;
-using Ardalis.Result.Sample.Core.Model;
+﻿using Ardalis.Result.Sample.Core.Model;
 using Ardalis.Result.Sample.Core.Validators;
-using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
+using Ardalis.Result.FluentValidation;
 
 namespace Ardalis.Result.Sample.Core.Services
 {
@@ -24,41 +21,6 @@ namespace Ardalis.Result.Sample.Core.Services
             }
 
             return Result<Person>.Success(person);
-        }
-    }
-
-}
-
-namespace FluentValidation.Results
-{
-    public static class FluentValidationResultExtensions
-    {
-        public static List<ValidationError> AsErrors(this ValidationResult valResult)
-        {
-            var resultErrors = new List<ValidationError>();
-
-            foreach (var valFailure in valResult.Errors)
-            {
-                resultErrors.Add(new ValidationError()
-                {
-                    Severity = FromSeverity(valFailure.Severity),
-                    ErrorMessage = valFailure.ErrorMessage,
-                    Identifier = valFailure.PropertyName
-                }) ;
-            }
-
-            return resultErrors;
-        }
-
-        public static ValidationSeverity FromSeverity(Severity severity)
-        {
-            switch(severity)
-            {
-                case Severity.Error: return ValidationSeverity.Error;
-                case Severity.Warning: return ValidationSeverity.Warning;
-                case Severity.Info: return ValidationSeverity.Info;
-                default: throw new ArgumentOutOfRangeException(nameof(severity), "Unexpected Severity");
-            }
         }
     }
 

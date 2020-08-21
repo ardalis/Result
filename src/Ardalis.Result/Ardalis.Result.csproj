@@ -5,7 +5,7 @@
     <PackageId>Ardalis.Result</PackageId>
     <Title>Ardalis.Result</Title>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Steve Smith (@ardalis)</Authors>
+    <Authors>Steve Smith (@ardalis); Shady Nagy (@ShadyNagy)</Authors>
     <Company>Ardalis.com</Company>
     <PackageProjectUrl>https://github.com/ardalis/result</PackageProjectUrl>
     <Description>A simple package to implement the Result pattern for returning from services.</Description>
