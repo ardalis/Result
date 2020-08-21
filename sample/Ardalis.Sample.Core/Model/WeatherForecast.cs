@@ -1,7 +1,7 @@
 using System;
 
 namespace Ardalis.Sample.Core.Model
-{ 
+{
     public class WeatherForecast
     {
         public DateTime Date { get; set; }
