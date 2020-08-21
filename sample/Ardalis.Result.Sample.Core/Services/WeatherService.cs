@@ -1,11 +1,11 @@
 ﻿using Ardalis.Result;
-using Ardalis.Sample.Core.DTOs;
-using Ardalis.Sample.Core.Model;
+using Ardalis.Result.Sample.Core.DTOs;
+using Ardalis.Result.Sample.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ardalis.Sample.Core.Services
+namespace Ardalis.Result.Sample.Core.Services
 {
     public class WeatherService
     {

@@ -1,11 +1,11 @@
 ﻿using Ardalis.Result;
-using Ardalis.Sample.Core.Model;
-using Ardalis.Sample.Core.Validators;
+using Ardalis.Result.Sample.Core.Model;
+using Ardalis.Result.Sample.Core.Validators;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 
-namespace Ardalis.Sample.Core.Services
+namespace Ardalis.Result.Sample.Core.Services
 {
     public class PersonService
     {

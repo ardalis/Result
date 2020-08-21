@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace Ardalis.Sample.Core.DTOs
+namespace Ardalis.Result.Sample.Core.DTOs
 { 
     public class ForecastRequestDto
     {

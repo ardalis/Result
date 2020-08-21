@@ -1,6 +1,6 @@
 using System;
 
-namespace Ardalis.Sample.Core.Model
+namespace Ardalis.Result.Sample.Core.Model
 {
     public class WeatherForecast
     {

@@ -1,8 +1,8 @@
 ﻿using Ardalis.ApiEndpoints;
 using Ardalis.Result.AspNetCore;
-using Ardalis.Sample.Core.DTOs;
-using Ardalis.Sample.Core.Model;
-using Ardalis.Sample.Core.Services;
+using Ardalis.Result.Sample.Core.DTOs;
+using Ardalis.Result.Sample.Core.Model;
+using Ardalis.Result.Sample.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 

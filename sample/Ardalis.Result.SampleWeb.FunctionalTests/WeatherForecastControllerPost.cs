@@ -1,5 +1,5 @@
-using Ardalis.Sample.Core.DTOs;
-using Ardalis.Sample.Core.Model;
+using Ardalis.Result.Sample.Core.DTOs;
+using Ardalis.Result.Sample.Core.Model;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Collections.Generic;
