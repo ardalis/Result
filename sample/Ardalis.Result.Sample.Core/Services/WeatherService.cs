@@ -1,5 +1,4 @@
-﻿using Ardalis.Result;
-using Ardalis.Result.Sample.Core.DTOs;
+﻿using Ardalis.Result.Sample.Core.DTOs;
 using Ardalis.Result.Sample.Core.Model;
 using System;
 using System.Collections.Generic;

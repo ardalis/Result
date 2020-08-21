@@ -1,7 +1,6 @@
 using Ardalis.Result.Sample.Core.Model;
 using Ardalis.Result.Sample.Core.Validators;
 using FluentAssertions;
-using System;
 using System.Linq;
 using Xunit;
 

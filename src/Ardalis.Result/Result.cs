@@ -18,13 +18,7 @@ namespace Ardalis.Result
         public static implicit operator Result<T>(T value) => Success(value);
 
         public T Value { get; }
-        public Type ValueType
-        {
-            get
-            {
-                return Value.GetType();
-            }
-        }
+        public Type ValueType => Value.GetType();
         public ResultStatus Status { get; } = ResultStatus.Ok;
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
         public List<ValidationError> ValidationErrors { get; private set; } = new List<ValidationError>();
