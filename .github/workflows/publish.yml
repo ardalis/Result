@@ -30,3 +30,9 @@ jobs:
       with:
         PROJECT_FILE_PATH: src/Ardalis.Result.AspNetCore/Ardalis.Result.AspNetCore.csproj
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+    - name: Publish Ardalis.Result.FluentValidation to NuGet
+      uses: brandedoutcast/publish-nuget@v2.5.0
+      with:
+        PROJECT_FILE_PATH: src/Ardalis.Result.FluentValidation/Ardalis.Result.FluentValidation.csproj
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
