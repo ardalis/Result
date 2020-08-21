@@ -1,13 +1,10 @@
 ﻿using Ardalis.ApiEndpoints;
 using Ardalis.Result.AspNetCore;
-using Ardalis.Sample.Core;
 using Ardalis.Sample.Core.DTOs;
 using Ardalis.Sample.Core.Model;
+using Ardalis.Sample.Core.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Ardalis.Result.SampleWeb.WeatherForecastFeature
 {

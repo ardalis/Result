@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Ardalis.ApiEndpoints" Version="1.0.0" />
+    <PackageReference Include="Ardalis.Result.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.4.1" />
@@ -13,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Ardalis.Result.AspNetCore\Ardalis.Result.AspNetCore.csproj" />
     <ProjectReference Include="..\Ardalis.Sample.Core\Ardalis.Sample.Core.csproj" />
   </ItemGroup>
 

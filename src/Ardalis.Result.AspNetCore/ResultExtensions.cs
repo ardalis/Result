@@ -22,10 +22,8 @@ namespace Ardalis.Result.AspNetCore
             {
                 foreach (var error in result.ValidationErrors)
                 {
-                    foreach (var errorMessage in error.Value)
-                    {
-                        controller.ModelState.AddModelError(error.Key, errorMessage);
-                    }
+                    // TODO: Fix after updating to 3.0.0
+                    controller.ModelState.AddModelError(error.Identifier, error.ErrorMessage);
                 }
                 return controller.BadRequest(controller.ModelState);
             }
