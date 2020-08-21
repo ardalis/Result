@@ -1,7 +1,7 @@
-﻿using Ardalis.Sample.Core.Model;
+﻿using Ardalis.Result.Sample.Core.Model;
 using FluentValidation;
 
-namespace Ardalis.Sample.Core.Validators
+namespace Ardalis.Result.Sample.Core.Validators
 {
     public class PersonValidator : AbstractValidator<Person>
     {

@@ -1,4 +1,4 @@
-using Ardalis.Sample.Core.Services;
+using Ardalis.Result.Sample.Core.Services;
 using FluentAssertions;
 using Xunit;
 

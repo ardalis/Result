@@ -1,5 +1,5 @@
-using Ardalis.Sample.Core.Services;
-using Ardalis.Sample.Core;
+using Ardalis.Result.Sample.Core.Services;
+using Ardalis.Result.Sample.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

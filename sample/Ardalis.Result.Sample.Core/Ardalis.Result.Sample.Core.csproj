@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Ardalis.Result.Sample.Core</AssemblyName>
+    <RootNamespace>Ardalis.Result.Sample.Core</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

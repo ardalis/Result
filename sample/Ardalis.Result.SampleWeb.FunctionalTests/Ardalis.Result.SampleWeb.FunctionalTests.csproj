@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ardalis.Result.SampleWeb\Ardalis.Result.SampleWeb.csproj" />
-    <ProjectReference Include="..\Ardalis.Sample.Core\Ardalis.Sample.Core.csproj" />
+    <ProjectReference Include="..\Ardalis.Result.Sample.Core\Ardalis.Result.Sample.Core.csproj" />
   </ItemGroup>
 
 </Project>
