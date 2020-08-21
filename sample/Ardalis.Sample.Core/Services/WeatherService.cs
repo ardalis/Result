@@ -21,11 +21,11 @@ namespace Ardalis.Sample.Core.Services
             // validate model
             if (model.PostalCode.Length > 10)
             {
-                return Result<IEnumerable<WeatherForecast>>.Invalid(new List<ValidationError> { 
+                return Result<IEnumerable<WeatherForecast>>.Invalid(new List<ValidationError> {
                     new ValidationError
                     {
-                        Identifier = "PostalCode", 
-                        ErrorMessage = "PostalCode cannot exceed 10 characters." } 
+                        Identifier = "PostalCode",
+                        ErrorMessage = "PostalCode cannot exceed 10 characters." }
                 });
             }
 
@@ -45,11 +45,11 @@ namespace Ardalis.Sample.Core.Services
             var rng = new Random();
             return new Result<IEnumerable<WeatherForecast>>(Enumerable.Range(1, 5)
                 .Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
+                {
+                    Date = DateTime.Now.AddDays(index),
+                    TemperatureC = rng.Next(-20, 55),
+                    Summary = Summaries[rng.Next(Summaries.Length)]
+                })
             .ToArray());
         }
     }

@@ -1,4 +1,5 @@
 using Ardalis.Sample.Core.Services;
+using Ardalis.Sample.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +24,8 @@ namespace Ardalis.Result.SampleWeb
             services.AddControllers();
             services.AddRazorPages();
 
-            services.AddSwaggerGen(c => {
+            services.AddSwaggerGen(c =>
+            {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
                 c.EnableAnnotations();
             });

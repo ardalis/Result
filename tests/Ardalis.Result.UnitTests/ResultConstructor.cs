@@ -2,6 +2,7 @@ using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Xunit;
 
 namespace Ardalis.Result.UnitTests
@@ -127,7 +128,5 @@ namespace Ardalis.Result.UnitTests
 
             Assert.Equal(ResultStatus.Forbidden, result.Status);
         }
-
-
     }
 }

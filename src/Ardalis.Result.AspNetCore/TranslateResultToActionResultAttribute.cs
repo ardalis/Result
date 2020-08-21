@@ -7,7 +7,7 @@ namespace Ardalis.Result.AspNetCore
     {
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            if (!((context.Result as ObjectResult).Value is IResult result)) return;
+            if (!((context.Result as ObjectResult)?.Value is IResult result)) return;
 
             if (!(context.Controller is ControllerBase controller)) return;
 
@@ -18,7 +18,10 @@ namespace Ardalis.Result.AspNetCore
             {
                 foreach (var error in result.ValidationErrors)
                 {
-                    (context.Controller as ControllerBase).ModelState.AddModelError(error.Key, error.Value);
+                    foreach (var errorMessage in error.Value)
+                    {
+                        (context.Controller as ControllerBase)?.ModelState.AddModelError(error.Key, errorMessage);
+                    }
                 }
 
                 context.Result = controller.BadRequest(controller.ModelState);

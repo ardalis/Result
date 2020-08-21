@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-
 namespace Ardalis.Result.SampleWeb
 {
     // This is left here in case you want to implement your own custom filter
