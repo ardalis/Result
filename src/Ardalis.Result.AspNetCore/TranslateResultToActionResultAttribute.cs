@@ -18,16 +18,14 @@ namespace Ardalis.Result.AspNetCore
             {
                 foreach (var error in result.ValidationErrors)
                 {
-                    foreach (var errorMessage in error.Value)
-                    {
-                        (context.Controller as ControllerBase)?.ModelState.AddModelError(error.Key, errorMessage);
-                    }
+                    // TODO: Fix after updating to 3.0.0
+                    (context.Controller as ControllerBase)?.ModelState.AddModelError(error.Key, error.Value);
                 }
 
                 context.Result = controller.BadRequest(controller.ModelState);
             }
 
-            if(result.Status == ResultStatus.Ok)
+            if (result.Status == ResultStatus.Ok)
             {
                 context.Result = new OkObjectResult(result.GetValue());
             }
