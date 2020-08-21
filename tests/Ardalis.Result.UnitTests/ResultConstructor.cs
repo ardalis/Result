@@ -1,3 +1,4 @@
+using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,17 +91,25 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void InitializesStatusToInvalidAndSetsErrorMessagesGivenInvalidFactoryCall()
         {
-            var validationErrors = new Dictionary<string, string>
+            var validationErrors = new List<ValidationError>
             {
-                { "name", "Name is required"},
-                { "postalCode", "PostalCode cannot exceed 10 characters"}
+                new ValidationError
+                {
+                    Identifier = "name",
+                    ErrorMessage = "Name is required"
+                },
+                new ValidationError
+                {
+                    Identifier = "postalCode",
+                    ErrorMessage = "PostalCode cannot exceed 10 characters"
+                }
             };
             // TODO: Support duplicates of the same key with multiple errors
             var result = Result<object>.Invalid(validationErrors);
 
-            Assert.Equal(ResultStatus.Invalid, result.Status);
-            Assert.Equal("Name is required", result.ValidationErrors.Values.First());
-            Assert.Equal("PostalCode cannot exceed 10 characters", result.ValidationErrors.Values.Last());
+            result.Status.Should().Be(ResultStatus.Invalid);
+            result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "Name is required", Identifier = "name" });
+            result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "PostalCode cannot exceed 10 characters", Identifier = "postalCode" });
         }
 
         [Fact]

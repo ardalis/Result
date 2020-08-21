@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Ardalis.Result.AspNetCore;
-using Ardalis.Sample.Core;
+﻿using Ardalis.Result.AspNetCore;
 using Ardalis.Sample.Core.DTOs;
 using Ardalis.Sample.Core.Model;
+using Ardalis.Sample.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Annotations;
+using System.Collections.Generic;
 
 namespace Ardalis.Result.SampleWeb.WeatherForecastFeature
 {

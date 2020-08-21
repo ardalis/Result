@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ardalis.Sample.Core
+namespace Ardalis.Sample.Core.Services
 {
     public class WeatherService
     {
@@ -21,8 +21,11 @@ namespace Ardalis.Sample.Core
             // validate model
             if (model.PostalCode.Length > 10)
             {
-                return Result<IEnumerable<WeatherForecast>>.Invalid(new Dictionary<string, string> { 
-                    { "PostalCode", "PostalCode cannot exceed 10 characters." } 
+                return Result<IEnumerable<WeatherForecast>>.Invalid(new List<ValidationError> { 
+                    new ValidationError
+                    {
+                        Identifier = "PostalCode", 
+                        ErrorMessage = "PostalCode cannot exceed 10 characters." } 
                 });
             }
 
