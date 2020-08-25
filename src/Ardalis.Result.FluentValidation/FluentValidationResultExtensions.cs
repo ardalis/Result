@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
+using System;
+using System.Collections.Generic;
 
 namespace Ardalis.Result.FluentValidation
 {
