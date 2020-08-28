@@ -8,17 +8,20 @@ namespace Ardalis.Result
         public Result(T value)
         {
             Value = value;
+            ValueType = Value.GetType();
         }
         private Result(ResultStatus status)
         {
             Status = status;
+            ValueType = Value.GetType();
         }
 
         public static implicit operator T(Result<T> result) => result.Value;
         public static implicit operator Result<T>(T value) => Success(value);
 
         public T Value { get; }
-        public Type ValueType => Value.GetType();
+
+        public Type ValueType { get; set; }
         public ResultStatus Status { get; } = ResultStatus.Ok;
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
         public List<ValidationError> ValidationErrors { get; private set; } = new List<ValidationError>();
