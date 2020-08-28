@@ -8,12 +8,19 @@ namespace Ardalis.Result
         public Result(T value)
         {
             Value = value;
-            ValueType = Value.GetType();
+            if (Value != null)
+            {
+                ValueType = Value.GetType();
+            }
+            
         }
         private Result(ResultStatus status)
         {
             Status = status;
-            ValueType = Value.GetType();
+            if (Value != null)
+            {
+                ValueType = Value.GetType();
+            }
         }
 
         public static implicit operator T(Result<T> result) => result.Value;
