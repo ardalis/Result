@@ -24,10 +24,12 @@ namespace Ardalis.Result
 
         public T Value { get; }
 
-        public Type ValueType { get; set; }
+        public Type ValueType { get; private set; }
         public ResultStatus Status { get; } = ResultStatus.Ok;
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
         public List<ValidationError> ValidationErrors { get; private set; } = new List<ValidationError>();
+
+        public void ClearValueType() => ValueType = null;
 
         public object GetValue()
         {
@@ -57,6 +59,6 @@ namespace Ardalis.Result
         public static Result<T> Forbidden()
         {
             return new Result<T>(ResultStatus.Forbidden);
-        }
+        }        
     }
 }
