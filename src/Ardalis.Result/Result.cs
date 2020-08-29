@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ardalis.Result
 {
-    public partial class Result<T> : IResult
+    public class Result<T> : IResult
     {
         public Result(T value)
         {
