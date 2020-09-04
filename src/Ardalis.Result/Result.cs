@@ -8,6 +8,11 @@ namespace Ardalis.Result
         public Result(T value)
         {
             Value = value;
+            if (Value != null)
+            {
+                ValueType = Value.GetType();
+            }
+            
         }
         private Result(ResultStatus status)
         {
@@ -18,10 +23,13 @@ namespace Ardalis.Result
         public static implicit operator Result<T>(T value) => Success(value);
 
         public T Value { get; }
-        public Type ValueType => Value.GetType();
+
+        public Type ValueType { get; private set; }
         public ResultStatus Status { get; } = ResultStatus.Ok;
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
         public List<ValidationError> ValidationErrors { get; private set; } = new List<ValidationError>();
+
+        public void ClearValueType() => ValueType = null;
 
         public object GetValue()
         {
@@ -51,6 +59,6 @@ namespace Ardalis.Result
         public static Result<T> Forbidden()
         {
             return new Result<T>(ResultStatus.Forbidden);
-        }
+        }        
     }
 }
