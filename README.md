@@ -2,6 +2,8 @@
 
 [![Ardails.Result.AspNetCore - NuGet](https://img.shields.io/nuget/v/Ardalis.Result.AspNetCore.svg?label=Ardalis.Result.AspNetCore%20-%20nuget)](https://www.nuget.org/packages/Ardalis.Result.AspNetCore) [![NuGet](https://img.shields.io/nuget/dt/Ardalis.Result.AspNetCore.svg)](https://www.nuget.org/packages/Ardalis.Result.AspNetCore)
 
+[![Ardails.Result.FluentValidation - NuGet](https://img.shields.io/nuget/v/Ardalis.Result.FluentValidation.svg?label=Ardalis.Result.FluentValidation%20-%20nuget)](https://www.nuget.org/packages/Ardalis.Result.FluentValidation) [![NuGet](https://img.shields.io/nuget/dt/Ardalis.Result.FluentValidation.svg)](https://www.nuget.org/packages/Ardalis.Result.FluentValidation)
+
 [![.NET Core](https://github.com/ardalis/Result/workflows/.NET%20Core/badge.svg)](https://github.com/ardalis/Result/actions?query=workflow%3A%22.NET+Core%22)
 
 # Result
@@ -37,6 +39,33 @@ The standard way to address these concerns is with exceptions. Maybe you throw a
 Another approach is to return a `Tuple` of the expected result along with other things, like a status code and additional failure mode metadata. While tuples can be great for individual, flexible responses, they're not as good for having a single, standard, reusable approach to a problem.
 
 The result pattern provides a standard, reusable way to return both success as well as multiple kinds of non-success responses from .NET services in a way that can easily be mapped to API response types. Although the [Ardalis.Result](https://www.nuget.org/packages/Ardalis.Result/) package has no dependencies on ASP.NET Core and can be used from any .NET Core application, the [Ardalis.Result.AspNetCore](https://www.nuget.org/packages/Ardalis.Result.AspNetCore/) companion package includes resources to enhance the use of this pattern within ASP.NET Core web API applications.
+
+We can use Ardalis.Result.FluentValidation on a service with FluntValidation like that:
+
+```csharp
+public async Task<Result<BlogCategory>> UpdateAsync(BlogCategory blogCategory)
+{
+    if (Guid.Empty == blogCategory.BlogCategoryId) return Result<BlogCategory>.NotFound();
+
+    var validator = new BlogCategoryValidator();
+    var validation = await validator.ValidateAsync(blogCategory);
+    if (!validation.IsValid)
+    {
+        return Result<BlogCategory>.Invalid(validation.AsErrors());
+    }
+
+    var itemToUpdate = (await GetByIdAsync(blogCategory.BlogCategoryId)).Value;
+    if (itemToUpdate == null)
+    {
+        return Result<BlogCategory>.NotFound();
+    }
+
+    itemToUpdate.Update(blogCategory.Name, blogCategory.ParentId);
+
+    return Result<BlogCategory>.Success(await _blogCategoryRepository.UpdateAsync(itemToUpdate));
+}
+```
+
 
 ## Getting Started
 
