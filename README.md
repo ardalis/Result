@@ -40,7 +40,7 @@ Another approach is to return a `Tuple` of the expected result along with other 
 
 The result pattern provides a standard, reusable way to return both success as well as multiple kinds of non-success responses from .NET services in a way that can easily be mapped to API response types. Although the [Ardalis.Result](https://www.nuget.org/packages/Ardalis.Result/) package has no dependencies on ASP.NET Core and can be used from any .NET Core application, the [Ardalis.Result.AspNetCore](https://www.nuget.org/packages/Ardalis.Result.AspNetCore/) companion package includes resources to enhance the use of this pattern within ASP.NET Core web API applications.
 
-We can use Ardalis.Result.FluentValidation on a service with FluntValidation like that:
+We can use Ardalis.Result.FluentValidation on a service with FluentValidation like that:
 
 ```csharp
 public async Task<Result<BlogCategory>> UpdateAsync(BlogCategory blogCategory)
