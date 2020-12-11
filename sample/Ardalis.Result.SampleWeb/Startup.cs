@@ -1,10 +1,14 @@
 using Ardalis.Result.Sample.Core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace Ardalis.Result.SampleWeb
 {
@@ -22,7 +26,17 @@ namespace Ardalis.Result.SampleWeb
         {
             services.AddControllers();
             services.AddRazorPages();
-
+            services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
+            services.Configure<RequestLocalizationOptions>(options => {
+                List<CultureInfo> supportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("de-DE"),
+                };
+                options.DefaultRequestCulture = new RequestCulture("en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -49,6 +63,10 @@ namespace Ardalis.Result.SampleWeb
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
+
+            // TODO: Can we just request this in Configure()
+            var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(options.Value);
 
             app.UseEndpoints(endpoints =>
             {
