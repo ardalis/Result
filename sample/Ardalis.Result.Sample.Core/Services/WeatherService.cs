@@ -1,5 +1,6 @@
 ﻿using Ardalis.Result.Sample.Core.DTOs;
 using Ardalis.Result.Sample.Core.Model;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,16 @@ namespace Ardalis.Result.Sample.Core.Services
 {
     public class WeatherService
     {
+        public WeatherService(IStringLocalizer<WeatherService> stringLocalizer)
+        {
+            _stringLocalizer = stringLocalizer;
+        }
         private static readonly string[] Summaries = new[]
 {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
+
+        private IStringLocalizer<WeatherService> _stringLocalizer;
 
         public Result<IEnumerable<WeatherForecast>> GetForecast(ForecastRequestDto model)
         {
@@ -23,8 +30,8 @@ namespace Ardalis.Result.Sample.Core.Services
                 return Result<IEnumerable<WeatherForecast>>.Invalid(new List<ValidationError> {
                     new ValidationError
                     {
-                        Identifier = "PostalCode",
-                        ErrorMessage = "PostalCode cannot exceed 10 characters." }
+                        Identifier = nameof(model.PostalCode),
+                        ErrorMessage = _stringLocalizer["PostalCode cannot exceed 10 characters."].Value }
                 });
             }
 
