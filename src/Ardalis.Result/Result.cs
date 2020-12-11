@@ -15,17 +15,6 @@ namespace Ardalis.Result
             
         }
 
-        public Result(T value, string successMessage)
-        {
-            Value = value;
-            SuccessMessage = successMessage;
-            if (Value != null)
-            {
-                ValueType = Value.GetType();
-            }
-
-        }
-
         private Result(ResultStatus status)
         {
             Status = status;
@@ -56,7 +45,7 @@ namespace Ardalis.Result
 
         public static Result<T> Success(T value, string successMessage)
         {
-            return new Result<T>(value, successMessage);
+            return new Result<T>(value) {SuccessMessage = successMessage};
         }
 
         public static Result<T> Error(params string[] errorMessages)
