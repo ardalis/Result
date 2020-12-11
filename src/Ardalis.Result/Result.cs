@@ -3,16 +3,12 @@ using System.Collections.Generic;
 
 namespace Ardalis.Result
 {
-    public class Result<T> : IResult
+    public class Result<T> : IResult<T>
     {
         public Result(T value)
         {
+            if (value == null) throw new ArgumentNullException(nameof(value), "value is required; us non-generic Result if no value needed.");
             Value = value;
-            if (Value != null)
-            {
-                ValueType = Value.GetType();
-            }
-            
         }
         private Result(ResultStatus status)
         {
@@ -24,17 +20,9 @@ namespace Ardalis.Result
 
         public T Value { get; }
 
-        public Type ValueType { get; private set; }
         public ResultStatus Status { get; } = ResultStatus.Ok;
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
         public List<ValidationError> ValidationErrors { get; private set; } = new List<ValidationError>();
-
-        public void ClearValueType() => ValueType = null;
-
-        public object GetValue()
-        {
-            return this.Value;
-        }
 
         public static Result<T> Success(T value)
         {
