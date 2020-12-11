@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Ardalis.ApiEndpoints" Version="1.0.0" />
     <PackageReference Include="Ardalis.Result.AspNetCore" Version="3.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.4.1" />

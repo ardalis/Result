@@ -4,6 +4,7 @@ using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Ardalis.Result.Sample.Core.Services
 {
@@ -19,6 +20,11 @@ namespace Ardalis.Result.Sample.Core.Services
         };
 
         private IStringLocalizer<WeatherService> _stringLocalizer;
+
+        public Task<Result<IEnumerable<WeatherForecast>>> GetForecastAsync(ForecastRequestDto model)
+        {
+            return Task.FromResult(GetForecast(model));
+        }
 
         public Result<IEnumerable<WeatherForecast>> GetForecast(ForecastRequestDto model)
         {
