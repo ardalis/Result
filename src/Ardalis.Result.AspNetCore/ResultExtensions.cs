@@ -8,7 +8,7 @@ namespace Ardalis.Result.AspNetCore
     public static class ResultExtensions
     {
         /// <summary>
-        /// Convert an Ardalis.Result to a Microsoft.AspNetCore.Mvc.ActionResult
+        /// Convert an Ardalis.Result<typeparamref name="T"/> to a Microsoft.AspNetCore.Mvc.ActionResult
         /// </summary>
         /// <typeparam name="T">The value being returned</typeparam>
         /// <param name="controller">The controller this is called from</param>
@@ -29,6 +29,26 @@ namespace Ardalis.Result.AspNetCore
             }
 
             return controller.Ok(result.Value);
+        }
+        /// <summary>
+        /// Convert an Ardalis.Result to a Microsoft.AspNetCore.Mvc.ActionResult
+        /// </summary>
+        /// <param name="controller">The controller this is called from</param>
+        /// <param name="result">The Result to convert to an ActionResult</param>
+        /// <returns></returns>
+        public static ActionResult ToActionResult(this ControllerBase controller, Result result)
+        {
+            if (result.Status == ResultStatus.NotFound) return controller.NotFound();
+            if (result.Status == ResultStatus.Invalid)
+            {
+                foreach (var error in result.ValidationErrors)
+                {
+                    // TODO: Fix after updating to 3.0.0
+                    controller.ModelState.AddModelError(error.Identifier, error.ErrorMessage);
+                }
+                return controller.BadRequest(controller.ModelState);
+            }
+            return controller.Ok();
         }
     }
 }

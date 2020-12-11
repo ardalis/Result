@@ -27,7 +27,9 @@ namespace Ardalis.Result.AspNetCore
 
             if (result.Status == ResultStatus.Ok)
             {
-                context.Result = new OkObjectResult(result.GetValue());
+                //if(result is IResult<T>)
+                //context.Result = new OkObjectResult(result.Value); // Need a way to get generic IResult<T>.Value here if possible
+                context.Result = new OkResult();
             }
         }
     }
