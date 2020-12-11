@@ -4,6 +4,7 @@ namespace Ardalis.Result.UnitTests
 {
     public class ResultImplicitOperators
     {
+        private string successMessage = "Success";
         private string expectedString = "test string";
         private int expectedInt = 123;
         private TestObject expectedObject = new TestObject();
@@ -23,6 +24,15 @@ namespace Ardalis.Result.UnitTests
             var result = GetValueForResultExample(Result<string>.Success(expectedString));
 
             Assert.Equal(expectedString, result);
+        }
+
+        [Fact]
+        public void SuccessWithSuccessMessage()
+        {
+            var result = Result<string>.Success(expectedString, successMessage);
+
+            Assert.Equal(successMessage, result.SuccessMessage);
+            Assert.Equal(expectedString, result.Value);
         }
 
         [Fact]
