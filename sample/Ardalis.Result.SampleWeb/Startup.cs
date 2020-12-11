@@ -1,4 +1,6 @@
 using Ardalis.Result.Sample.Core.Services;
+using Ardalis.Result.SampleWeb.MediatrApi;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
@@ -24,6 +26,9 @@ namespace Ardalis.Result.SampleWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var webAssembly = typeof(Startup).Assembly;
+            services.AddMediatR(webAssembly);
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddControllers();
             services.AddRazorPages();
             services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
