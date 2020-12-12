@@ -7,11 +7,6 @@
             PagedInfo = pagedInfo;
         }
 
-        public PagedInfo PagedInfo { get; private set; }
-
-        public void SetPagedInfo(PagedInfo pagedInfo)
-        {
-            PagedInfo = pagedInfo;
-        }
+        public PagedInfo PagedInfo { get; }
     }
 }
