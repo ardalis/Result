@@ -14,6 +14,7 @@ namespace Ardalis.Result
             }
             
         }
+
         private Result(ResultStatus status)
         {
             Status = status;
@@ -26,6 +27,7 @@ namespace Ardalis.Result
 
         public Type ValueType { get; private set; }
         public ResultStatus Status { get; } = ResultStatus.Ok;
+        public string SuccessMessage { get; private set; } = string.Empty;
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
         public List<ValidationError> ValidationErrors { get; private set; } = new List<ValidationError>();
 
@@ -39,6 +41,11 @@ namespace Ardalis.Result
         public static Result<T> Success(T value)
         {
             return new Result<T>(value);
+        }
+
+        public static Result<T> Success(T value, string successMessage)
+        {
+            return new Result<T>(value) {SuccessMessage = successMessage};
         }
 
         public static Result<T> Error(params string[] errorMessages)
