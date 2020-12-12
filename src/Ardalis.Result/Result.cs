@@ -26,7 +26,7 @@ namespace Ardalis.Result
         public T Value { get; }
 
         public Type ValueType { get; private set; }
-        public ResultStatus Status { get; } = ResultStatus.Ok;
+        public ResultStatus Status { get; private set; } = ResultStatus.Ok;
         public string SuccessMessage { get; private set; } = string.Empty;
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
         public List<ValidationError> ValidationErrors { get; private set; } = new List<ValidationError>();
@@ -36,6 +36,19 @@ namespace Ardalis.Result
         public object GetValue()
         {
             return this.Value;
+        }
+
+        public PagedResult<T> ToPagedResult(PagedInfo pagedInfo)
+        {
+            var pagedResult = new PagedResult<T>(pagedInfo, Value)
+            {
+                Status = Status, 
+                SuccessMessage = SuccessMessage,
+                Errors = Errors,
+                ValidationErrors = ValidationErrors
+            };
+
+            return pagedResult;
         }
 
         public static Result<T> Success(T value)
@@ -66,6 +79,6 @@ namespace Ardalis.Result
         public static Result<T> Forbidden()
         {
             return new Result<T>(ResultStatus.Forbidden);
-        }        
+        }
     }
 }
