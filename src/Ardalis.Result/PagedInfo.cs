@@ -2,7 +2,6 @@
 {
     public class PagedInfo
     {
-
         public PagedInfo(long pageNumber, long pageSize, long totalPages, long totalRecords)
         {
             PageNumber = pageNumber;

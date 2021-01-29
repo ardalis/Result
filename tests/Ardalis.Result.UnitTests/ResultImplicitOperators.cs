@@ -8,7 +8,6 @@ namespace Ardalis.Result.UnitTests
         private string expectedString = "test string";
         private int expectedInt = 123;
         private TestObject expectedObject = new TestObject();
-        private TestObject expectedNullObject = null;
 
         [Fact]
         public void ConvertFromStringValue()

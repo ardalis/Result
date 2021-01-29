@@ -90,23 +90,15 @@ namespace Ardalis.Result.UnitTests
         {
             var validationErrors = new List<ValidationError>
             {
-                new ValidationError
-                {
-                    Identifier = "name",
-                    ErrorMessage = "Name is required"
-                },
-                new ValidationError
-                {
-                    Identifier = "postalCode",
-                    ErrorMessage = "PostalCode cannot exceed 10 characters"
-                }
+                new ValidationError("name", "Name is required"),
+                new ValidationError("postalCode", "PostalCode cannot exceed 10 characters")
             };
             // TODO: Support duplicates of the same key with multiple errors
             var result = Result<object>.Invalid(validationErrors);
 
             result.Status.Should().Be(ResultStatus.Invalid);
-            result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "Name is required", Identifier = "name" });
-            result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "PostalCode cannot exceed 10 characters", Identifier = "postalCode" });
+            result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError("name", "Name is required"));
+            result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError("postalCode", "PostalCode cannot exceed 10 characters"));
         }
 
         [Fact]
