@@ -1,5 +1,5 @@
-using FluentAssertions;
 using System;
+using FluentAssertions;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -45,9 +45,9 @@ namespace Ardalis.Result.UnitTests
         }
 
         [Fact]
-        public void ThrowsGivenNullConstructorArgument()
+        public void InitializesValueToNullGivenNullConstructorArgument()
         {
-            Assert.Throws<ArgumentNullException>( () => new PagedResult<object>(_pagedInfo, null));
+            Assert.Throws<ArgumentNullException>( () =>  new PagedResult<object>(_pagedInfo, null));
         }
 
         [Theory]
@@ -78,7 +78,7 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void InitializesStatusToErrorGivenErrorFactoryCall()
         {
-            var result = Result<object>
+            var result = Result
                 .Error()
                 .ToPagedResult(_pagedInfo);
 
@@ -90,7 +90,7 @@ namespace Ardalis.Result.UnitTests
         public void InitializesStatusToErrorAndSetsErrorMessageGivenErrorFactoryCall()
         {
             string errorMessage = "Something bad happened.";
-            var result = Result<object>
+            var result = Result
                 .Error(errorMessage)
                 .ToPagedResult(_pagedInfo);
 
@@ -104,32 +104,24 @@ namespace Ardalis.Result.UnitTests
         {
             var validationErrors = new List<ValidationError>
             {
-                new ValidationError
-                {
-                    Identifier = "name",
-                    ErrorMessage = "Name is required"
-                },
-                new ValidationError
-                {
-                    Identifier = "postalCode",
-                    ErrorMessage = "PostalCode cannot exceed 10 characters"
-                }
+                new ValidationError("name", "Name is required"),
+                new ValidationError("postalCode", "PostalCode cannot exceed 10 characters")
             };
             // TODO: Support duplicates of the same key with multiple errors
-            var result = Result<object>
+            var result = Result
                 .Invalid(validationErrors)
                 .ToPagedResult(_pagedInfo);
 
             result.Status.Should().Be(ResultStatus.Invalid);
-            result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "Name is required", Identifier = "name" });
-            result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "PostalCode cannot exceed 10 characters", Identifier = "postalCode" });
+            result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError("name", "Name is required"));
+            result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError("postalCode", "PostalCode cannot exceed 10 characters"));
             result.PagedInfo.Should().Be(_pagedInfo);
         }
 
         [Fact]
         public void InitializesStatusToNotFoundGivenNotFoundFactoryCall()
         {
-            var result = Result<object>
+            var result = Result
                 .NotFound()
                 .ToPagedResult(_pagedInfo);
 
@@ -140,7 +132,7 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void InitializesStatusToForbiddenGivenForbiddenFactoryCall()
         {
-            var result = Result<object>
+            var result = Result
                 .Forbidden()
                 .ToPagedResult(_pagedInfo);
 
