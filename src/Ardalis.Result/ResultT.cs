@@ -10,43 +10,54 @@ namespace Ardalis.Result
             if (value == null) throw new ArgumentNullException(nameof(value), "value is required; use non-generic Result if no value needed.");
             Value = value;
         }
-        private Result(ResultStatus status)
-        {
-            Status = status;
-        }
-
         public static implicit operator T(Result<T> result) => result.Value;
         public static implicit operator Result<T>(T value) => Success(value);
 
         public T Value { get; }
 
-        public ResultStatus Status { get; } = ResultStatus.Ok;
+        public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
+        public string SuccessMessage { get; private set; } = string.Empty;
+
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
         public List<ValidationError> ValidationErrors { get; private set; } = new List<ValidationError>();
 
-        public static Result<T> Success(T value)
+        public static Result<T> Success(T value, string successMessage = "Success")
         {
-            return new Result<T>(value);
+            return new Result<T>(value) { SuccessMessage = successMessage };
+        }
+        //public PagedResult<T> ToPagedResult(PagedInfo pagedInfo)
+        //{
+        //    if (Value is null) throw new NullReferenceException("Cannot convert result with null value to paged result");
+
+        //    var pagedResult = new PagedResult<T>(pagedInfo, Value)
+        //    {
+        //        Status = Status
+        //    };
+        //    pagedResult.SuccessMessage = SuccessMessage;
+        //    pagedResult.Errors = Errors;
+        //    pagedResult.ValidationErrors = ValidationErrors;
+
+        //    return pagedResult;
+        //}
+
+        public static IResult Error(params string[] errorMessages)
+        {
+            return new Result(ResultStatus.Error) { Errors = errorMessages };
         }
 
-        public static Result<T> Error(params string[] errorMessages)
+        public static IResult Invalid(List<ValidationError> validationErrors)
         {
-            return new Result<T>(ResultStatus.Error) { Errors = errorMessages };
+            return new Result(ResultStatus.Invalid) { ValidationErrors = validationErrors };
         }
 
-        public static Result<T> Invalid(List<ValidationError> validationErrors)
+        public static IResult NotFound()
         {
-            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = validationErrors };
+            return new Result(ResultStatus.NotFound);
         }
 
-        public static Result<T> NotFound()
+        public static IResult Forbidden()
         {
-            return new Result<T>(ResultStatus.NotFound);
+            return new Result(ResultStatus.Forbidden);
         }
-
-        public static Result<T> Forbidden()
-        {
-            return new Result<T>(ResultStatus.Forbidden);
-        }        
     }
 }

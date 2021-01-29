@@ -1,4 +1,5 @@
 using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -44,16 +45,12 @@ namespace Ardalis.Result.UnitTests
         }
 
         [Fact]
-        public void InitializesValueToNullGivenNullConstructorArgument()
+        public void ThrowsGivenNullConstructorArgument()
         {
-            var result = new PagedResult<object>(_pagedInfo, null);
-
-            Assert.Null(result.Value);
-            Assert.Equal(_pagedInfo, result.PagedInfo);
+            Assert.Throws<ArgumentNullException>( () => new PagedResult<object>(_pagedInfo, null));
         }
 
         [Theory]
-        [InlineData(null)]
         [InlineData(123)]
         [InlineData("test value")]
         public void InitializesStatusToOkGivenValue(object value)
@@ -65,7 +62,6 @@ namespace Ardalis.Result.UnitTests
         }
 
         [Theory]
-        [InlineData(null)]
         [InlineData(123)]
         [InlineData("test value")]
         public void InitializesValueUsingFactoryMethodAndSetsStatusToOk(object value)
