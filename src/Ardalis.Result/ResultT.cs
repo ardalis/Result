@@ -7,7 +7,7 @@ namespace Ardalis.Result
     {
         public Result(T value)
         {
-            if (value == null) throw new ArgumentNullException(nameof(value), "value is required; us non-generic Result if no value needed.");
+            if (value == null) throw new ArgumentNullException(nameof(value), "value is required; use non-generic Result if no value needed.");
             Value = value;
         }
         private Result(ResultStatus status)

@@ -57,22 +57,6 @@ namespace Ardalis.Result.UnitTests
             Assert.Equal(expectedObject, result);
         }
 
-        [Fact]
-        public void ConvertFromNullObjectValue()
-        {
-            var result = DoBusinessOperationExample(expectedNullObject);
-
-            Assert.Equal(expectedNullObject, result.Value);
-            Assert.Equal(ResultStatus.Ok, result.Status);
-        }
-        [Fact]
-        public void ConvertToNullObjectValue()
-        {
-            var result = GetValueForResultExample(Result<TestObject>.Success(expectedNullObject));
-
-            Assert.Equal(expectedNullObject, result);
-        }
-
         public Result<T> DoBusinessOperationExample<T>(T testValue) => testValue;
         public T GetValueForResultExample<T>(Result<T> testResult) => testResult;
 

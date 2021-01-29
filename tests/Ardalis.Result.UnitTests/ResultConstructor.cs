@@ -43,13 +43,10 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void InitializesValueToNullGivenNullConstructorArgument()
         {
-            var result = new Result<object>(null);
-
-            Assert.Null(result.Value);
+            Assert.Throws<ArgumentNullException>(() => new Result<object>(null));
         }
 
         [Theory]
-        [InlineData(null)]
         [InlineData(123)]
         [InlineData("test value")]
         public void InitializesStatusToOkGivenValue(object value)
@@ -60,7 +57,6 @@ namespace Ardalis.Result.UnitTests
         }
 
         [Theory]
-        [InlineData(null)]
         [InlineData(123)]
         [InlineData("test value")]
         public void InitializesValueUsingFactoryMethodAndSetsStatusToOk(object value)
