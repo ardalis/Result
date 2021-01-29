@@ -21,7 +21,7 @@ namespace Ardalis.Result
         public T Value { get; }
 
         public ResultStatus Status { get; private set; } = ResultStatus.Ok;
-        public string SuccessMessage { get; private set; }
+        public string? SuccessMessage { get; private set; }
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
         public List<ValidationError> ValidationErrors { get; private set; } = new List<ValidationError>();
 

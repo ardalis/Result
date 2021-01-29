@@ -25,18 +25,15 @@ namespace Ardalis.Result.Sample.Core.Services
         {
             return Task.FromResult(GetForecastPaged(model, pageIndex, pageSize));
         }
-        public PagedResult<IEnumerable<WeatherForecast>> GetForecastPaged(ForecastRequestDto model, int pageIndex = 0, int pageSize = 10)
+        public Result<IEnumerable<WeatherForecast>> GetForecastPaged(ForecastRequestDto model, int pageIndex = 0, int pageSize = 10)
         {
-            if (model.PostalCode == "NotFound") return PagedResult.NotFound();
+            if (model.PostalCode == "NotFound") return PagedResult<IEnumerable<WeatherForecast>>.NotFound();
 
             // validate model
             if (model.PostalCode.Length > 10)
             {
                 return Result<IEnumerable<WeatherForecast>>.Invalid(new List<ValidationError> {
-                    new ValidationError
-                    {
-                        Identifier = nameof(model.PostalCode),
-                        ErrorMessage = _stringLocalizer["PostalCode cannot exceed 10 characters."].Value }
+                    new ValidationError(nameof(model.PostalCode), _stringLocalizer["PostalCode cannot exceed 10 characters."].Value )
                 });
             }
 
@@ -78,10 +75,7 @@ namespace Ardalis.Result.Sample.Core.Services
             if (model.PostalCode.Length > 10)
             {
                 return Result<IEnumerable<WeatherForecast>>.Invalid(new List<ValidationError> {
-                    new ValidationError
-                    {
-                        Identifier = nameof(model.PostalCode),
-                        ErrorMessage = _stringLocalizer["PostalCode cannot exceed 10 characters."].Value }
+                    new ValidationError(nameof(model.PostalCode), _stringLocalizer["PostalCode cannot exceed 10 characters."].Value)
                 });
             }
 
