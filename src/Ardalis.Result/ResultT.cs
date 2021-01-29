@@ -20,13 +20,27 @@ namespace Ardalis.Result
 
         public T Value { get; }
 
-        public ResultStatus Status { get; } = ResultStatus.Ok;
+        public ResultStatus Status { get; private set; } = ResultStatus.Ok;
+        public string SuccessMessage { get; private set; }
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
         public List<ValidationError> ValidationErrors { get; private set; } = new List<ValidationError>();
 
-        public static Result<T> Success(T value)
+        public PagedResult<T> ToPagedResult(PagedInfo pagedInfo)
         {
-            return new Result<T>(value);
+            var pagedResult = new PagedResult<T>(pagedInfo, Value)
+            {
+                Status = Status,
+                SuccessMessage = SuccessMessage,
+                Errors = Errors,
+                ValidationErrors = ValidationErrors
+            };
+
+            return pagedResult;
+        }
+
+        public static Result<T> Success(T value, string successMessage = "Success")
+        {
+            return new Result<T>(value){ SuccessMessage = successMessage };
         }
 
         public static Result<T> Error(params string[] errorMessages)

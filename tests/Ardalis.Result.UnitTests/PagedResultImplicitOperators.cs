@@ -1,3 +1,4 @@
+using System;
 using Xunit;
 
 namespace Ardalis.Result.UnitTests
@@ -80,20 +81,14 @@ namespace Ardalis.Result.UnitTests
         }
 
         [Fact]
-        public void ConvertFromNullObjectValue()
+        public void ConvertFromNullObjectValueThrows()
         {
-            var result = DoBusinessOperationExample(expectedNullObject).ToPagedResult(_pagedInfo);
-
-            Assert.Equal(expectedNullObject, result.Value);
-            Assert.Equal(ResultStatus.Ok, result.Status);
-            Assert.Equal(_pagedInfo, result.PagedInfo);
+            Assert.Throws<ArgumentNullException>(() => DoBusinessOperationExample(expectedNullObject).ToPagedResult(_pagedInfo));
         }
         [Fact]
-        public void ConvertToNullObjectValue()
+        public void ConvertToNullObjectValueThrows()
         {
-            var result = GetValueForPagedResultExample(Result<TestObject>.Success(expectedNullObject).ToPagedResult(_pagedInfo));
-
-            Assert.Equal(expectedNullObject, result);
+            Assert.Throws<ArgumentNullException>(() => GetValueForPagedResultExample(Result<TestObject>.Success(expectedNullObject).ToPagedResult(_pagedInfo)));
         }
 
         public Result<T> DoBusinessOperationExample<T>(T testValue) => testValue;

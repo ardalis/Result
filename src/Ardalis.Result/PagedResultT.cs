@@ -1,8 +1,8 @@
 ﻿namespace Ardalis.Result
 {
-    public class PagedResult : Result
+    public class PagedResult<T> : Result<T>
     {
-        public PagedResult(PagedInfo pagedInfo, ResultStatus status) : base(status)
+        public PagedResult(PagedInfo pagedInfo, T value) : base(value)
         {
             PagedInfo = pagedInfo;
         }

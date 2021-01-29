@@ -1,3 +1,4 @@
+using System;
 using FluentAssertions;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,14 +47,10 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void InitializesValueToNullGivenNullConstructorArgument()
         {
-            var result = new PagedResult<object>(_pagedInfo, null);
-
-            Assert.Null(result.Value);
-            Assert.Equal(_pagedInfo, result.PagedInfo);
+            Assert.Throws<ArgumentNullException>( () =>  new PagedResult<object>(_pagedInfo, null));
         }
 
         [Theory]
-        [InlineData(null)]
         [InlineData(123)]
         [InlineData("test value")]
         public void InitializesStatusToOkGivenValue(object value)
@@ -65,7 +62,6 @@ namespace Ardalis.Result.UnitTests
         }
 
         [Theory]
-        [InlineData(null)]
         [InlineData(123)]
         [InlineData("test value")]
         public void InitializesValueUsingFactoryMethodAndSetsStatusToOk(object value)
@@ -82,7 +78,7 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void InitializesStatusToErrorGivenErrorFactoryCall()
         {
-            var result = Result<object>
+            var result = Result
                 .Error()
                 .ToPagedResult(_pagedInfo);
 
@@ -94,7 +90,7 @@ namespace Ardalis.Result.UnitTests
         public void InitializesStatusToErrorAndSetsErrorMessageGivenErrorFactoryCall()
         {
             string errorMessage = "Something bad happened.";
-            var result = Result<object>
+            var result = Result
                 .Error(errorMessage)
                 .ToPagedResult(_pagedInfo);
 
@@ -120,7 +116,7 @@ namespace Ardalis.Result.UnitTests
                 }
             };
             // TODO: Support duplicates of the same key with multiple errors
-            var result = Result<object>
+            var result = Result
                 .Invalid(validationErrors)
                 .ToPagedResult(_pagedInfo);
 
@@ -133,7 +129,7 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void InitializesStatusToNotFoundGivenNotFoundFactoryCall()
         {
-            var result = Result<object>
+            var result = Result
                 .NotFound()
                 .ToPagedResult(_pagedInfo);
 
@@ -144,7 +140,7 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void InitializesStatusToForbiddenGivenForbiddenFactoryCall()
         {
-            var result = Result<object>
+            var result = Result
                 .Forbidden()
                 .ToPagedResult(_pagedInfo);
 

@@ -4,12 +4,13 @@ namespace Ardalis.Result
 {
     public class Result : IResult
     {
-        private Result(ResultStatus status)
+        internal Result(ResultStatus status)
         {
             Status = status;
         }
 
-        public ResultStatus Status { get; } = ResultStatus.Ok;
+        public ResultStatus Status { get; private set; } = ResultStatus.Ok;
+        public string SuccessMessage { get; private set; }
         public IEnumerable<string> Errors { get; private set; } = new List<string>();
         public List<ValidationError> ValidationErrors { get; private set; } = new List<ValidationError>();
 
@@ -36,6 +37,18 @@ namespace Ardalis.Result
         public static Result Forbidden()
         {
             return new Result(ResultStatus.Forbidden);
+        }
+
+        public PagedResult ToPagedResult(PagedInfo pagedInfo)
+        {
+            var pagedResult = new PagedResult(pagedInfo, Status)
+            {
+                SuccessMessage = SuccessMessage,
+                Errors = Errors,
+                ValidationErrors = ValidationErrors
+            };
+
+            return pagedResult;
         }
 
     }
