@@ -22,6 +22,15 @@ namespace Ardalis.Result.Sample.Core.Services
 
             return Result<Person>.Success(person);
         }
+
+        public Result<Unit> WishHappyBirthday(Person person)
+        {
+            if(true) // it's their birthday
+            {
+                return Result<Unit>.Success(Unit.Value);
+            }
+            return Result<Unit>.Error("It wasn't their birthday.");
+        }
     }
 
 }

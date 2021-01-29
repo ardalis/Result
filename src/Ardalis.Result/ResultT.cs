@@ -10,6 +10,12 @@ namespace Ardalis.Result
             if (value == null) throw new ArgumentNullException(nameof(value), "value is required; use non-generic Result if no value needed.");
             Value = value;
         }
+
+        public static Result<T> Create(ResultStatus status, T value) where T:Unit
+            {
+            return new Result(Unit.Value) { ResultStatus = status} }
+            }
+
         public static implicit operator T(Result<T> result) => result.Value;
         public static implicit operator Result<T>(T value) => Success(value);
 
@@ -42,7 +48,7 @@ namespace Ardalis.Result
 
         public static IResult Error(params string[] errorMessages)
         {
-            return new Result(ResultStatus.Error) { Errors = errorMessages };
+            return new Result<T>(ResultStatus.Error) { Errors = errorMessages };
         }
 
         public static IResult Invalid(List<ValidationError> validationErrors)
