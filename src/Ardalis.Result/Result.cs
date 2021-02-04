@@ -80,5 +80,10 @@ namespace Ardalis.Result
         {
             return new Result<T>(ResultStatus.Forbidden);
         }
+
+        public static Result<T> Unauthorized()
+        {
+            return new Result<T>(ResultStatus.Unauthorized);
+        }
     }
 }
