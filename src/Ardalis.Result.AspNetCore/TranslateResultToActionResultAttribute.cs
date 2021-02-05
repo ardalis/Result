@@ -25,6 +25,12 @@ namespace Ardalis.Result.AspNetCore
                 context.Result = controller.BadRequest(controller.ModelState);
             }
 
+            if (result.Status == ResultStatus.Unauthorized)
+                context.Result = controller.Unauthorized();
+
+            if (result.Status == ResultStatus.Forbidden)
+                context.Result = controller.Forbid();
+
             if (result.Status == ResultStatus.Ok)
             {
                 context.Result = new OkObjectResult(result.GetValue());
