@@ -12,7 +12,6 @@ namespace Ardalis.Result
             {
                 ValueType = Value.GetType();
             }
-            
         }
 
         private Result(ResultStatus status)

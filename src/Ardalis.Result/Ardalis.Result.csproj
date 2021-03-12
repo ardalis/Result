@@ -13,8 +13,8 @@
     <RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
     <PackageTags>result pattern web api aspnetcore mvc</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Adding PagedResult and PagedInfo.</PackageReleaseNotes>
-    <Version>3.1.0</Version>
+    <PackageReleaseNotes>Updated dependencies. Added IsSuccess property.</PackageReleaseNotes>
+    <Version>3.1.1</Version>
     <AssemblyName>Ardalis.Result</AssemblyName>
     <PackageIcon>icon.png</PackageIcon>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>

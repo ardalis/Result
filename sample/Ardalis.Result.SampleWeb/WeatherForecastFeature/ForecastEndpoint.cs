@@ -8,7 +8,9 @@ using System.Collections.Generic;
 
 namespace Ardalis.Result.SampleWeb.WeatherForecastFeature
 {
-    public class ForecastEndpoint : BaseEndpoint<ForecastRequestDto, IEnumerable<WeatherForecast>>
+    public class ForecastEndpoint : BaseEndpoint
+        .WithRequest<ForecastRequestDto>
+        .WithResponse<IEnumerable<WeatherForecast>>
     {
         private readonly WeatherService _weatherService;
 
@@ -26,6 +28,9 @@ namespace Ardalis.Result.SampleWeb.WeatherForecastFeature
         public override ActionResult<IEnumerable<WeatherForecast>> Handle(ForecastRequestDto request)
         {
             return this.ToActionResult(_weatherService.GetForecast(request));
+
+            // alternately
+            // return _weatherService.GetForecast(request).ToActionResult(this);
         }
     }
 }
