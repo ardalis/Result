@@ -128,5 +128,45 @@ namespace Ardalis.Result.UnitTests
 
             Assert.Equal(ResultStatus.Forbidden, result.Status);
         }
+
+        [Fact]
+        public void InitializedIsSuccessTrueForSuccessFactoryCall()
+        {
+            var result = Result<object>.Success(new object());
+
+            Assert.True(result.IsSuccess);
+        }
+
+        [Fact]
+        public void InitializedIsSuccessFalseForErrorFactoryCall()
+        {
+            var result = Result<object>.Error(null);
+
+            Assert.False(result.IsSuccess);
+        }
+
+        [Fact]
+        public void InitializedIsSuccessFalseForForbiddenFactoryCall()
+        {
+            var result = Result<object>.Forbidden();
+
+            Assert.False(result.IsSuccess);
+        }
+
+        [Fact]
+        public void InitializedIsSuccessFalseForInvalidFactoryCall()
+        {
+            var result = Result<object>.Invalid(null);
+
+            Assert.False(result.IsSuccess);
+        }
+
+        [Fact]
+        public void InitializedIsSuccessFalseForNotFoundFactoryCall()
+        {
+            var result = Result<object>.NotFound();
+
+            Assert.False(result.IsSuccess);
+        }
     }
 }
