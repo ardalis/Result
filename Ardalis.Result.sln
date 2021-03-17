@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.Sample.UnitT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.Sample.Core", "sample\Ardalis.Result.Sample.Core\Ardalis.Result.Sample.Core.csproj", "{8E6018B8-0549-4290-A1C4-44CF7B4CEC5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Result.FluentValidation", "src\Ardalis.Result.FluentValidation\Ardalis.Result.FluentValidation.csproj", "{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.FluentValidation", "src\Ardalis.Result.FluentValidation\Ardalis.Result.FluentValidation.csproj", "{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Result.AspNetCore.UnitTests", "Ardalis.Result.AspNetCore\Ardalis.Result.AspNetCore.UnitTests.csproj", "{E714C4B3-CC8D-4FDC-B426-D0AC3A747ECD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E714C4B3-CC8D-4FDC-B426-D0AC3A747ECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E714C4B3-CC8D-4FDC-B426-D0AC3A747ECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E714C4B3-CC8D-4FDC-B426-D0AC3A747ECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E714C4B3-CC8D-4FDC-B426-D0AC3A747ECD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{84E62AF8-95DA-43BC-95FD-A19103C50949} = {FA061DC6-61B7-401F-87A4-D338B396CCD9}
 		{8E6018B8-0549-4290-A1C4-44CF7B4CEC5D} = {FA061DC6-61B7-401F-87A4-D338B396CCD9}
 		{43443B4B-2305-4CDF-A7A4-32A80ED1D19B} = {865A74CD-F478-4AA5-AFA5-6C26FB38B849}
+		{E714C4B3-CC8D-4FDC-B426-D0AC3A747ECD} = {42693FB1-04E1-4635-B249-E1847609E801}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7CD0ED8C-3B1C-4F16-8B8D-3D8F1A8F1A5A}
