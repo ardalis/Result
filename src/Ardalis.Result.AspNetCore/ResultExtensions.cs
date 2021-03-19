@@ -30,5 +30,7 @@ namespace Ardalis.Result.AspNetCore
 
             return controller.Ok(result.Value);
         }
+
+        public static ActionResult<T> ToActionResult<T>(this Result<T> result, ControllerBase controller) => controller.ToActionResult(result);
     }
 }
