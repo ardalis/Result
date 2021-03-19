@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Ardalis.Result.AspNetCore.UnitTests
 {
-    public class ToActionResultResultExtention
+    public class ToActionResultResultExtension
     {
         [Fact]
         public void ReturnsOkObjectResult()
