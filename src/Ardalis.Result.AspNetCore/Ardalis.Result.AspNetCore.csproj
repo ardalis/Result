@@ -12,6 +12,7 @@
     <Summary>Adds ASP.NET Core filters that translate from Result to ActionResult.</Summary>
     <RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
     <PackageTags>result pattern web api aspnetcore mvc</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>Updating icon to remove deprecated PackageIconUrl</PackageReleaseNotes>
     <Version>3.0.1</Version>
     <AssemblyName>Ardalis.Result.AspNetCore</AssemblyName>
@@ -24,11 +25,10 @@
     <PackageReference Include="Ardalis.Result" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <None Include="icon.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\Ardalis.Result\Ardalis.Result.csproj" />
   </ItemGroup>

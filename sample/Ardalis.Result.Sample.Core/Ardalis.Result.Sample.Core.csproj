@@ -7,13 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ardalis.Result" Version="3.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="5.0.1" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="5.0.4" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Ardalis.Result.FluentValidation\Ardalis.Result.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\src\Ardalis.Result\Ardalis.Result.csproj" />
   </ItemGroup>
 
 </Project>
