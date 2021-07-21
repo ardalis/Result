@@ -5,6 +5,7 @@
         Ok,
         Error,
         Forbidden,
+        Unauthorized,
         Invalid,
         NotFound
     }
