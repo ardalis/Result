@@ -40,6 +40,7 @@ namespace Ardalis.Result.AspNetCore
             {
                 case ResultStatus.Ok: return controller.Ok(result.GetValue());
                 case ResultStatus.NotFound: return controller.NotFound();
+                case ResultStatus.Unauthorized: return controller.Unauthorized();
                 case ResultStatus.Forbidden: return controller.Forbid();
                 case ResultStatus.Invalid: return BadRequest(controller, result);
                 case ResultStatus.Error: return UnprocessableEntity(controller, result);
