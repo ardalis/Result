@@ -18,7 +18,7 @@ namespace Ardalis.Result.AspNetCore
         /// <returns></returns>
         public static ActionResult<T> ToActionResult<T>(this Result<T> result, ControllerBase controller)
         {
-            return controller.ToActionResult(result);
+            return controller.ToActionResult((IResult)result);
         }
 
         /// <summary>
@@ -31,9 +31,14 @@ namespace Ardalis.Result.AspNetCore
         public static ActionResult<T> ToActionResult<T>(this ControllerBase controller,
             Result<T> result)
         {
+            return controller.ToActionResult((IResult)result);
+        }
+
+        internal static ActionResult ToActionResult(this ControllerBase controller, IResult result)
+        {
             switch (result.Status)
             {
-                case ResultStatus.Ok: return controller.Ok(result.Value);
+                case ResultStatus.Ok: return controller.Ok(result.GetValue());
                 case ResultStatus.NotFound: return controller.NotFound();
                 case ResultStatus.Unauthorized: return controller.Unauthorized();
                 case ResultStatus.Forbidden: return controller.Forbid();
@@ -44,7 +49,7 @@ namespace Ardalis.Result.AspNetCore
             }
         }
 
-        private static ActionResult<T> BadRequest<T>(ControllerBase controller, Result<T> result)
+        private static ActionResult BadRequest(ControllerBase controller, IResult result)
         {
             foreach (var error in result.ValidationErrors)
             {
@@ -55,7 +60,7 @@ namespace Ardalis.Result.AspNetCore
             return controller.BadRequest(controller.ModelState);
         }
 
-        private static ActionResult<T> UnprocessableEntity<T>(ControllerBase controller, Result<T> result)
+        private static ActionResult UnprocessableEntity(ControllerBase controller, IResult result)
         {
             var details = new StringBuilder("Next error(s) occured:");
 
