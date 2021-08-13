@@ -13,8 +13,8 @@
     <RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
     <PackageTags>result pattern web api aspnetcore mvc</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Updated dependencies. Added IsSuccess property.</PackageReleaseNotes>
-    <Version>3.1.1</Version>
+    <PackageReleaseNotes>Added Unauthorized result and updated XML comments.</PackageReleaseNotes>
+    <Version>3.1.2</Version>
     <AssemblyName>Ardalis.Result</AssemblyName>
     <PackageIcon>icon.png</PackageIcon>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
