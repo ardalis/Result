@@ -40,6 +40,79 @@ Another approach is to return a `Tuple` of the expected result along with other 
 
 The result pattern provides a standard, reusable way to return both success as well as multiple kinds of non-success responses from .NET services in a way that can easily be mapped to API response types. Although the [Ardalis.Result](https://www.nuget.org/packages/Ardalis.Result/) package has no dependencies on ASP.NET Core and can be used from any .NET Core application, the [Ardalis.Result.AspNetCore](https://www.nuget.org/packages/Ardalis.Result.AspNetCore/) companion package includes resources to enhance the use of this pattern within ASP.NET Core web API applications.
 
+## Sample Usage
+
+The [sample folder](https://github.com/ardalis/Result/tree/main/sample/Ardalis.Result.SampleWeb) includes some examples of how to use the project. Here are a couple of simple uses.
+
+You can apply the `[TranslateResultToActionResult]` attribute to an [API Endpoint](https://github.com/ardalis/ApiEndpoints) (or controller action if you still use those things) and it will automatically translate the `Result<T>` return type of the method to an `ActionResult<T>` appropriately based on the Result type.
+
+```csharp
+[TranslateResultToActionResult]
+[HttpPost("Create")]
+public Result<IEnumerable<WeatherForecast>> CreateForecast([FromBody]ForecastRequestDto model)
+{
+    return _weatherService.GetForecast(model);
+}
+```
+
+Alternately, you can use the `ToActionResult` helper method within an endpoint to achieve the same thing:
+
+```csharp
+[HttpPost("/Forecast/New")]
+public override ActionResult<IEnumerable<WeatherForecast>> Handle(ForecastRequestDto request)
+{
+    return this.ToActionResult(_weatherService.GetForecast(request));
+
+    // alternately
+    // return _weatherService.GetForecast(request).ToActionResult(this);
+}
+```
+
+So, what does the `_weatherService.GetForecast` method look like? Well, it's typically not defined in the same project as the web project, so it doesn't know anything about `ActionResult` or other MVC/etc types. But since it is using a `Result<T>` abstraction, it can return results that are easily mapped to HTTP status codes. Note that in the service below it returns a `Result<IEnumerable<WeatherForecast>` but in some cases it might need to return an `Invalid` result, or a `NotFound` result. Otherwise it returns a `Success` result with the actual returned value (just like an API would return an HTTP 200 and the actual result of the API call). 
+
+```csharp
+public Result<IEnumerable<WeatherForecast>> GetForecast(ForecastRequestDto model)
+{
+    if (model.PostalCode == "NotFound") return Result<IEnumerable<WeatherForecast>>.NotFound();
+
+    // validate model
+    if (model.PostalCode.Length > 10)
+    {
+        return Result<IEnumerable<WeatherForecast>>.Invalid(new List<ValidationError> {
+            new ValidationError
+            {
+                Identifier = nameof(model.PostalCode),
+                ErrorMessage = _stringLocalizer["PostalCode cannot exceed 10 characters."].Value }
+        });
+    }
+
+    // test value
+    if (model.PostalCode == "55555")
+    {
+        return new Result<IEnumerable<WeatherForecast>>(Enumerable.Range(1, 1)
+            .Select(index =>
+            new WeatherForecast
+            {
+                Date = DateTime.Now,
+                TemperatureC = 0,
+                Summary = Summaries[0]
+            }));
+    }
+
+    var rng = new Random();
+    return new Result<IEnumerable<WeatherForecast>>(Enumerable.Range(1, 5)
+        .Select(index => new WeatherForecast
+        {
+            Date = DateTime.Now.AddDays(index),
+            TemperatureC = rng.Next(-20, 55),
+            Summary = Summaries[rng.Next(Summaries.Length)]
+        })
+    .ToArray());
+}
+```
+
+## FluentValidation
+
 We can use Ardalis.Result.FluentValidation on a service with FluentValidation like that:
 
 ```csharp
