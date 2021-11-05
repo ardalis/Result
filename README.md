@@ -36,7 +36,28 @@ This works great as long as we're only concerned with the happy path. But what h
 - What happens if required `lastName` is not provided?
 - What happens if the current user doesn't have permission to create new customers?
 
-The standard way to address these concerns is with exceptions. Maybe you throw a different exception for each different failure mode, and the calling code is then required to have multiple catch blocks designed for each type of failure. This makes life painful for the consumer, and results in a lot of exceptions for things that aren't necessarily *exceptional*.
+The standard way to address these concerns is with exceptions. Maybe you throw a different exception for each different failure mode, and the calling code is then required to have multiple catch blocks designed for each type of failure. This makes life painful for the consumer, and results in a lot of exceptions for things that aren't necessarily *exceptional*. Like this:
+
+```csharp
+[HttpGet]
+public async Task<ActionResult<CustomerDTO>>(int customerId)
+{
+  try
+  {
+    var customer = _repository.GetById(customerId);
+    
+    var customerDTO = CustomerDTO.MapFrom(customer);
+  }
+  catch (NullReferenceException ex)
+  {
+    return NotFound();
+  }
+  catch (Exception ex)
+  {
+    return return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+  }
+}
+```
 
 Another approach is to return a `Tuple` of the expected result along with other things, like a status code and additional failure mode metadata. While tuples can be great for individual, flexible responses, they're not as good for having a single, standard, reusable approach to a problem.
 
