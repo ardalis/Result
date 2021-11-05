@@ -47,6 +47,8 @@ public async Task<ActionResult<CustomerDTO>>(int customerId)
     var customer = _repository.GetById(customerId);
     
     var customerDTO = CustomerDTO.MapFrom(customer);
+    
+    return Ok(customerDTO);
   }
   catch (NullReferenceException ex)
   {
