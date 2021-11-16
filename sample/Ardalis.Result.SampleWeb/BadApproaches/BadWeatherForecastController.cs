@@ -18,10 +18,10 @@ public class BadWeatherForecastController : ControllerBase
     private readonly ILogger<BadWeatherForecastController> _logger;
 
     public BadWeatherForecastController(
-        WeatherServiceWithExceptions _weatherService,
+        WeatherServiceWithExceptions weatherService,
         ILogger<BadWeatherForecastController> logger)
     {
-        _weatherService = _weatherService;
+        _weatherService = weatherService;
         _logger = logger;
     }
 
