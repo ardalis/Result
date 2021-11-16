@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 namespace Ardalis.Result.SampleWeb.WeatherForecastFeature
 {
-    public class ForecastEndpoint : BaseEndpoint
+    public class ForecastEndpoint : EndpointBaseSync
         .WithRequest<ForecastRequestDto>
-        .WithResponse<IEnumerable<WeatherForecast>>
+        .WithActionResult<IEnumerable<WeatherForecast>>
     {
         private readonly WeatherService _weatherService;
 
