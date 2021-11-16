@@ -2,6 +2,8 @@ namespace Ardalis.Result.SampleWeb
 {
     // This is left here in case you want to implement your own custom filter
     // Otherwise just use the Ardalis.Result.AspNetCore Nuget package
+
+
     //public class MapResultToActionResultAttribute : ActionFilterAttribute
     //{
     //    public override void OnActionExecuted(ActionExecutedContext context)
