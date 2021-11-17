@@ -10,6 +10,14 @@ using System.Threading.Tasks;
 
 namespace Ardalis.Result.SampleWeb.BadApproaches;
 
+/// <summary>
+/// Why is this "bad"? Because expected negative conditions are not exceptional - they're expected.
+/// It's the same reason why Controllers return ActionResults with different options instead of just returning 
+/// your object with Ok and otherwise throwing exceptions. MVC is meant to work with different result types, not exceptions.
+/// 
+/// Can you make this work using an ExceptionFilter? Absolutely. I still prefer using a proper result type in the service itself,
+/// rather than using exceptions for control flow.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class BadWeatherForecastController : ControllerBase
@@ -28,6 +36,7 @@ public class BadWeatherForecastController : ControllerBase
     /// <summary>
     /// Wrap logging around service call in every action method
     /// Use try-catch and exceptions to handle different return types
+    /// See: https://ardalis.com/avoid-using-exceptions-determine-api-status/
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>

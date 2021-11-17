@@ -4,73 +4,72 @@ using FluentAssertions;
 using System.Linq;
 using Xunit;
 
-namespace Ardalis.Result.Sample.UnitTests.ValidatorTests
+namespace Ardalis.Result.Sample.UnitTests.ValidatorTests;
+
+public class PersonValidatorValidate
 {
-    public class PersonValidatorValidate
+    [Fact]
+    public void ReturnsTrueGivenValidPerson()
     {
-        [Fact]
-        public void ReturnsTrueGivenValidPerson()
+        var person = new Person()
         {
-            var person = new Person()
-            {
-                Surname = "Testname",
-                Forename = "Testname2"
-            };
+            Surname = "Testname",
+            Forename = "Testname2"
+        };
 
-            var validator = new PersonValidator();
+        var validator = new PersonValidator();
 
-            var result = validator.Validate(person);
+        var result = validator.Validate(person);
 
-            Assert.True(result.IsValid);
-        }
+        Assert.True(result.IsValid);
+    }
 
-        [Fact]
-        public void ReturnsFalseGivenPersonWithNoSurname()
+    [Fact]
+    public void ReturnsFalseGivenPersonWithNoSurname()
+    {
+        var person = new Person()
         {
-            var person = new Person()
-            {
-                Forename = "TestForename"
-            };
+            Forename = "TestForename"
+        };
 
-            var validator = new PersonValidator();
+        var validator = new PersonValidator();
 
-            var result = validator.Validate(person);
+        var result = validator.Validate(person);
 
-            Assert.False(result.IsValid);
-            Assert.True(result.Errors.Any());
-        }
+        Assert.False(result.IsValid);
+        Assert.True(result.Errors.Any());
+    }
 
-        [Fact]
-        public void ReturnsFalseGivenPersonWithNoForename()
+    [Fact]
+    public void ReturnsFalseGivenPersonWithNoForename()
+    {
+        var person = new Person()
         {
-            var person = new Person()
-            {
-                Surname = "TestSurname",
-            };
+            Surname = "TestSurname",
+        };
 
-            var validator = new PersonValidator();
+        var validator = new PersonValidator();
 
-            var result = validator.Validate(person);
+        var result = validator.Validate(person);
 
-            Assert.False(result.IsValid);
-            Assert.True(result.Errors.Any());
-        }
+        Assert.False(result.IsValid);
+        Assert.True(result.Errors.Any());
+    }
 
-        [Fact]
-        public void ReturnsFalseGivenPersonWithSomeLongNameForSurname()
+    [Fact]
+    public void ReturnsFalseGivenPersonWithSomeLongNameForSurname()
+    {
+        var person = new Person()
         {
-            var person = new Person()
-            {
-                Surname = "SomeLongName",
-                Forename = "Steve"
-            };
+            Surname = "SomeLongName",
+            Forename = "Steve"
+        };
 
-            var validator = new PersonValidator();
+        var validator = new PersonValidator();
 
-            var result = validator.Validate(person);
+        var result = validator.Validate(person);
 
-            result.IsValid.Should().BeFalse();
-            result.Errors.Should().HaveCount(2);
-        }
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().HaveCount(2);
     }
 }

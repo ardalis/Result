@@ -2,31 +2,30 @@ using Ardalis.Result.Sample.Core.Services;
 using FluentAssertions;
 using Xunit;
 
-namespace Ardalis.Result.Sample.UnitTests.ServiceTests
+namespace Ardalis.Result.Sample.UnitTests.ServiceTests;
+
+public class PersonServiceCreate
 {
-    public class PersonServiceCreate
+    [Fact]
+    public void ReturnsInvalidResultGivenEmptyNames()
     {
-        [Fact]
-        public void ReturnsInvalidResultGivenEmptyNames()
-        {
-            var service = new PersonService();
+        var service = new PersonService();
 
-            var result = service.Create("", "");
+        var result = service.Create("", "");
 
-            result.Status.Should().Be(ResultStatus.Invalid);
-            result.ValidationErrors.Count.Should().Be(2);
-        }
-
-        [Fact]
-        public void ReturnsInvalidResultWith2ErrorsGivenSomeLongNameSurname()
-        {
-            var service = new PersonService();
-
-            var result = service.Create("Steve", "SomeLongName");
-
-            result.Status.Should().Be(ResultStatus.Invalid);
-            result.ValidationErrors.Count.Should().Be(2);
-        }
-
+        result.Status.Should().Be(ResultStatus.Invalid);
+        result.ValidationErrors.Count.Should().Be(2);
     }
+
+    [Fact]
+    public void ReturnsInvalidResultWith2ErrorsGivenSomeLongNameSurname()
+    {
+        var service = new PersonService();
+
+        var result = service.Create("Steve", "SomeLongName");
+
+        result.Status.Should().Be(ResultStatus.Invalid);
+        result.ValidationErrors.Count.Should().Be(2);
+    }
+
 }

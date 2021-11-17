@@ -10,74 +10,73 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Ardalis.Result.SampleWeb.FunctionalTests
+namespace Ardalis.Result.SampleWeb.FunctionalTests;
+
+public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory<Startup>>
 {
-    public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory<Startup>>
+    private const string CONTROLLER_POST_ROUTE = "/weatherforecast/create";
+    private const string ENDPOINT_POST_ROUTE = "/forecast/new";
+    private readonly HttpClient _client;
+
+    public WeatherForecastControllerPost(WebApplicationFactory<Startup> factory)
     {
-        private const string CONTROLLER_POST_ROUTE = "/weatherforecast/create";
-        private const string ENDPOINT_POST_ROUTE = "/forecast/new";
-        private readonly HttpClient _client;
+        _client = factory.CreateClient();
+    }
 
-        public WeatherForecastControllerPost(WebApplicationFactory<Startup> factory)
-        {
-            _client = factory.CreateClient();
-        }
+    [Theory]
+    [InlineData(CONTROLLER_POST_ROUTE)]
+    [InlineData(ENDPOINT_POST_ROUTE)]
+    public async Task ReturnsOkWithValueGivenValidPostalCode(string route)
+    {
+        var requestDto = new ForecastRequestDto() { PostalCode = "55555" };
+        var response = await PostDTOAndGetResponse(requestDto, route);
+        response.EnsureSuccessStatusCode();
 
-        [Theory]
-        [InlineData(CONTROLLER_POST_ROUTE)]
-        [InlineData(ENDPOINT_POST_ROUTE)]
-        public async Task ReturnsOkWithValueGivenValidPostalCode(string route)
-        {
-            var requestDto = new ForecastRequestDto() { PostalCode = "55555" };
-            var response = await PostDTOAndGetResponse(requestDto, route);
-            response.EnsureSuccessStatusCode();
+        var stringResponse = await response.Content.ReadAsStringAsync();
+        var forecasts = JsonConvert.DeserializeObject<List<WeatherForecast>>(stringResponse);
 
-            var stringResponse = await response.Content.ReadAsStringAsync();
-            var forecasts = JsonConvert.DeserializeObject<List<WeatherForecast>>(stringResponse);
+        Assert.Equal("Freezing", forecasts.First().Summary);
+    }
 
-            Assert.Equal("Freezing", forecasts.First().Summary);
-        }
+    [Theory]
+    [InlineData(CONTROLLER_POST_ROUTE)]
+    [InlineData(ENDPOINT_POST_ROUTE)]
+    public async Task ReturnsBadRequestGivenNoPostalCode(string route)
+    {
+        var requestDto = new ForecastRequestDto() { PostalCode = "" };
+        var response = await PostDTOAndGetResponse(requestDto, route);
 
-        [Theory]
-        [InlineData(CONTROLLER_POST_ROUTE)]
-        [InlineData(ENDPOINT_POST_ROUTE)]
-        public async Task ReturnsBadRequestGivenNoPostalCode(string route)
-        {
-            var requestDto = new ForecastRequestDto() { PostalCode = "" };
-            var response = await PostDTOAndGetResponse(requestDto, route);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
 
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        }
+    [Theory]
+    [InlineData(CONTROLLER_POST_ROUTE)]
+    [InlineData(ENDPOINT_POST_ROUTE)]
+    public async Task ReturnsNotFoundGivenNonExistentPostalCode(string route)
+    {
+        var requestDto = new ForecastRequestDto() { PostalCode = "NotFound" };
+        var response = await PostDTOAndGetResponse(requestDto, route);
 
-        [Theory]
-        [InlineData(CONTROLLER_POST_ROUTE)]
-        [InlineData(ENDPOINT_POST_ROUTE)]
-        public async Task ReturnsNotFoundGivenNonExistentPostalCode(string route)
-        {
-            var requestDto = new ForecastRequestDto() { PostalCode = "NotFound" };
-            var response = await PostDTOAndGetResponse(requestDto, route);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
 
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        }
+    [Theory]
+    [InlineData(CONTROLLER_POST_ROUTE)]
+    [InlineData(ENDPOINT_POST_ROUTE)]
+    public async Task ReturnsBadRequestGivenPostalCodeTooLong(string route)
+    {
+        var requestDto = new ForecastRequestDto() { PostalCode = "01234567890" };
+        var response = await PostDTOAndGetResponse(requestDto, route);
 
-        [Theory]
-        [InlineData(CONTROLLER_POST_ROUTE)]
-        [InlineData(ENDPOINT_POST_ROUTE)]
-        public async Task ReturnsBadRequestGivenPostalCodeTooLong(string route)
-        {
-            var requestDto = new ForecastRequestDto() { PostalCode = "01234567890" };
-            var response = await PostDTOAndGetResponse(requestDto, route);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var stringResponse = await response.Content.ReadAsStringAsync();
+        Assert.Contains("PostalCode cannot exceed 10 characters.", stringResponse);
+    }
 
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-            var stringResponse = await response.Content.ReadAsStringAsync();
-            Assert.Contains("PostalCode cannot exceed 10 characters.", stringResponse);
-        }
-
-        private async Task<HttpResponseMessage> PostDTOAndGetResponse(ForecastRequestDto dto, string route)
-        {
-            var jsonContent = new StringContent(JsonConvert.SerializeObject(dto), 
-                Encoding.Default, "application/json");
-            return await _client.PostAsync(route, jsonContent);
-        }
+    private async Task<HttpResponseMessage> PostDTOAndGetResponse(ForecastRequestDto dto, string route)
+    {
+        var jsonContent = new StringContent(JsonConvert.SerializeObject(dto),
+            Encoding.Default, "application/json");
+        return await _client.PostAsync(route, jsonContent);
     }
 }
