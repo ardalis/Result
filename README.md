@@ -56,7 +56,7 @@ public async Task<ActionResult<CustomerDTO>>(int customerId)
   }
   catch (Exception ex)
   {
-    return return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+    return new StatusCodeResult(StatusCodes.Status500InternalServerError);
   }
 }
 ```
