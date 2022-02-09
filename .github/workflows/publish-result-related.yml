@@ -1,4 +1,4 @@
-name: Publish to Nuget.org
+name: Publish Ardalis.Result to Nuget.org
 
 on:
   push:
@@ -18,12 +18,6 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-
-    - name: Publish Ardalis.Result to NuGet
-      uses: brandedoutcast/publish-nuget@v2.5.0
-      with:
-        PROJECT_FILE_PATH: src/Ardalis.Result/Ardalis.Result.csproj
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
     - name: Publish Ardalis.Result.AspNetCore to NuGet
       uses: brandedoutcast/publish-nuget@v2.5.0
