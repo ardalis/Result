@@ -4,6 +4,7 @@ using Ardalis.Result.Sample.Core.DTOs;
 using Ardalis.Result.Sample.Core.Model;
 using Ardalis.Result.Sample.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace Ardalis.Result.SampleWeb.WeatherForecastFeature;
@@ -27,9 +28,15 @@ public class ForecastEndpoint : EndpointBaseSync
     [HttpPost("/Forecast/New")]
     public override ActionResult<IEnumerable<WeatherForecast>> Handle(ForecastRequestDto request)
     {
-        return this.ToActionResult(_weatherService.GetForecast(request));
+        if (DateTime.Now.Second % 2 == 0) // just so we can show both versions
+        {
+            // Extension method on ControllerBase
+            return this.ToActionResult(_weatherService.GetForecast(request));
+        }
 
-        // alternately
-        // return _weatherService.GetForecast(request).ToActionResult(this);
+        Result<IEnumerable<WeatherForecast>> result = _weatherService.GetForecast(request);
+
+        // Extension method on a Result instance (passing in ControllerBase instance)
+        return result.ToActionResult(this);
     }
 }
