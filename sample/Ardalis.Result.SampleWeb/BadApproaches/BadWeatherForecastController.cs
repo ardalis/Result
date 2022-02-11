@@ -64,7 +64,7 @@ public class BadWeatherForecastController : ControllerBase
         }
         finally
         {
-            _logger.LogInformation($"Starting {nameof(CreateForecast)}");
+            _logger.LogInformation($"Finished {nameof(CreateForecast)}");
         }
     }
 }
