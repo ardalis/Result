@@ -18,6 +18,7 @@ public class ResultImplicitOperators
         Assert.Equal(expectedString, result.Value);
         Assert.Equal(ResultStatus.Ok, result.Status);
     }
+    
     [Fact]
     public void ConvertToStringValue()
     {
@@ -43,6 +44,7 @@ public class ResultImplicitOperators
         Assert.Equal(expectedInt, result.Value);
         Assert.Equal(ResultStatus.Ok, result.Status);
     }
+    
     [Fact]
     public void ConvertToIntValue()
     {
@@ -59,6 +61,7 @@ public class ResultImplicitOperators
         Assert.Equal(expectedObject, result.Value);
         Assert.Equal(ResultStatus.Ok, result.Status);
     }
+    
     [Fact]
     public void ConvertToObjectValue()
     {
@@ -75,6 +78,7 @@ public class ResultImplicitOperators
         Assert.Equal(expectedNullObject, result.Value);
         Assert.Equal(ResultStatus.Ok, result.Status);
     }
+    
     [Fact]
     public void ConvertToNullObjectValue()
     {
