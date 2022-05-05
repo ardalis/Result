@@ -8,7 +8,7 @@ namespace Ardalis.Result.SampleWeb
     //{
     //    public override void OnActionExecuted(ActionExecutedContext context)
     //    {
-    //        if (!((context.Result as ObjectResult).Value is IResult result)) return;
+    //        if (!((context.Result as ObjectResult).Value is IRequestResult result)) return;
 
     //        if (!(context.Controller is ControllerBase controller)) return;
 
