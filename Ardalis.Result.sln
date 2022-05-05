@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29512.175
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result", "src\Ardalis.Result\Ardalis.Result.csproj", "{21F67195-9A44-4937-AD13-62D086BAFB3E}"
 EndProject
@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.Sample.UnitT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.Sample.Core", "sample\Ardalis.Result.Sample.Core\Ardalis.Result.Sample.Core.csproj", "{8E6018B8-0549-4290-A1C4-44CF7B4CEC5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Result.FluentValidation", "src\Ardalis.Result.FluentValidation\Ardalis.Result.FluentValidation.csproj", "{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.FluentValidation", "src\Ardalis.Result.FluentValidation\Ardalis.Result.FluentValidation.csproj", "{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Result.Net6", "Ardalis.Result.Net6\Ardalis.Result.Net6.csproj", "{EA007311-C774-4658-BC17-F0FE866522E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA007311-C774-4658-BC17-F0FE866522E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA007311-C774-4658-BC17-F0FE866522E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA007311-C774-4658-BC17-F0FE866522E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA007311-C774-4658-BC17-F0FE866522E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{84E62AF8-95DA-43BC-95FD-A19103C50949} = {FA061DC6-61B7-401F-87A4-D338B396CCD9}
 		{8E6018B8-0549-4290-A1C4-44CF7B4CEC5D} = {FA061DC6-61B7-401F-87A4-D338B396CCD9}
 		{43443B4B-2305-4CDF-A7A4-32A80ED1D19B} = {865A74CD-F478-4AA5-AFA5-6C26FB38B849}
+		{EA007311-C774-4658-BC17-F0FE866522E4} = {865A74CD-F478-4AA5-AFA5-6C26FB38B849}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7CD0ED8C-3B1C-4F16-8B8D-3D8F1A8F1A5A}
