@@ -18,7 +18,7 @@ namespace Ardalis.Result.AspNetCore
         /// <returns></returns>
         public static ActionResult<T> ToActionResult<T>(this Result<T> result, ControllerBase controller)
         {
-            return controller.ToActionResult((IResult)result);
+            return controller.ToActionResult((IRequestResult)result);
         }
 
         /// <summary>
@@ -31,10 +31,10 @@ namespace Ardalis.Result.AspNetCore
         public static ActionResult<T> ToActionResult<T>(this ControllerBase controller,
             Result<T> result)
         {
-            return controller.ToActionResult((IResult)result);
+            return controller.ToActionResult((IRequestResult)result);
         }
 
-        internal static ActionResult ToActionResult(this ControllerBase controller, IResult result)
+        internal static ActionResult ToActionResult(this ControllerBase controller, IRequestResult result)
         {
             switch (result.Status)
             {
@@ -49,7 +49,7 @@ namespace Ardalis.Result.AspNetCore
             }
         }
 
-        private static ActionResult BadRequest(ControllerBase controller, IResult result)
+        private static ActionResult BadRequest(ControllerBase controller, IRequestResult result)
         {
             foreach (var error in result.ValidationErrors)
             {
@@ -59,7 +59,7 @@ namespace Ardalis.Result.AspNetCore
             return controller.BadRequest(controller.ModelState);
         }
 
-        private static ActionResult UnprocessableEntity(ControllerBase controller, IResult result)
+        private static ActionResult UnprocessableEntity(ControllerBase controller, IRequestResult result)
         {
             var details = new StringBuilder("Next error(s) occured:");
 

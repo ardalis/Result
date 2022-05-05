@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ardalis.Result
 {
-    public interface IResult
+    public interface IRequestResult
     {
         ResultStatus Status { get; }
         IEnumerable<string> Errors { get; }
