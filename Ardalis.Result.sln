@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.Sample.Core"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.FluentValidation", "src\Ardalis.Result.FluentValidation\Ardalis.Result.FluentValidation.csproj", "{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Result.Net6", "Ardalis.Result.Net6\Ardalis.Result.Net6.csproj", "{EA007311-C774-4658-BC17-F0FE866522E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardalis.Result.Net6", "src\Ardalis.Result.Net6\Ardalis.Result.Net6.csproj", "{EA007311-C774-4658-BC17-F0FE866522E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
