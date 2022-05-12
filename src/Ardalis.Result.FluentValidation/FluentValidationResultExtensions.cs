@@ -17,6 +17,7 @@ namespace Ardalis.Result.FluentValidation
                 {
                     Severity = FromSeverity(valFailure.Severity),
                     ErrorMessage = valFailure.ErrorMessage,
+                    ErrorCode = valFailure.ErrorCode,
                     Identifier = valFailure.PropertyName
                 });
             }
