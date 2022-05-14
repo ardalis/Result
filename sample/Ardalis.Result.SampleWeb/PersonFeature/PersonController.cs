@@ -22,7 +22,7 @@ public class PersonController : ControllerBase
     /// <param name="model"></param>
     /// <returns></returns>
     [TranslateResultToActionResult]
-    [HttpPost("Remove/{id}")]
+    [HttpDelete("Remove/{id}")]
     public Result CreateForecast(int id)
     {
         return _personService.Remove(id);

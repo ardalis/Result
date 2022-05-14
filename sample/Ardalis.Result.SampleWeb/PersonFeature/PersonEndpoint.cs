@@ -22,7 +22,7 @@ public class PersonEndpoint : EndpointBaseSync
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HttpPost("/Person/Remove/{id}")]
+    [HttpDelete("/Person/Delete/{id}")]
     public override ActionResult Handle(int id)
     {
         if (DateTime.Now.Second % 2 == 0) // just so we can show both versions
