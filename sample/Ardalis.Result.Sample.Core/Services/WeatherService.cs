@@ -15,7 +15,7 @@ namespace Ardalis.Result.Sample.Core.Services
             _stringLocalizer = stringLocalizer;
         }
         private static readonly string[] Summaries = new[]
-{
+        {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
@@ -28,12 +28,12 @@ namespace Ardalis.Result.Sample.Core.Services
 
         public Result<IEnumerable<WeatherForecast>> GetForecast(ForecastRequestDto model)
         {
-            if (model.PostalCode == "NotFound") return Result<IEnumerable<WeatherForecast>>.NotFound();
+            if (model.PostalCode == "NotFound") return Result.NotFound();
 
             // validate model
             if (model.PostalCode.Length > 10)
             {
-                return Result<IEnumerable<WeatherForecast>>.Invalid(new List<ValidationError> {
+                return Result.Invalid(new List<ValidationError> {
                     new ValidationError
                     {
                         Identifier = nameof(model.PostalCode),
@@ -44,7 +44,7 @@ namespace Ardalis.Result.Sample.Core.Services
             // test value
             if (model.PostalCode == "55555")
             {
-                return new Result<IEnumerable<WeatherForecast>>(Enumerable.Range(1, 1)
+                return Result.Success(Enumerable.Range(1, 1)
                     .Select(index =>
                     new WeatherForecast
                     {
@@ -55,7 +55,7 @@ namespace Ardalis.Result.Sample.Core.Services
             }
 
             var rng = new Random();
-            return new Result<IEnumerable<WeatherForecast>>(Enumerable.Range(1, 5)
+            return Result.Success<IEnumerable<WeatherForecast>>(Enumerable.Range(1, 5)
                 .Select(index => new WeatherForecast
                 {
                     Date = DateTime.Now.AddDays(index),

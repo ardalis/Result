@@ -5,6 +5,8 @@ namespace Ardalis.Result
 {
     public class Result<T> : IResult
     {
+        protected Result() { }
+
         public Result(T value)
         {
             Value = value;
@@ -14,22 +16,35 @@ namespace Ardalis.Result
             }
         }
 
-        private Result(ResultStatus status)
+        protected internal Result(T value, string successMessage) : this(value)
+        {
+            SuccessMessage = successMessage;
+        }
+
+        protected Result(ResultStatus status)
         {
             Status = status;
         }
 
         public static implicit operator T(Result<T> result) => result.Value;
-        public static implicit operator Result<T>(T value) => Success(value);
+        public static implicit operator Result<T>(T value) => new Result<T>(value);
+
+        public static implicit operator Result<T>(Result result) => new Result<T>(default(T))
+        {
+            Status = result.Status,
+            Errors = result.Errors,
+            SuccessMessage = result.SuccessMessage,
+            ValidationErrors = result.ValidationErrors,
+        };
 
         public T Value { get; }
 
         public Type ValueType { get; private set; }
-        public ResultStatus Status { get; private set; } = ResultStatus.Ok;
+        public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
         public bool IsSuccess => Status == ResultStatus.Ok;
-        public string SuccessMessage { get; private set; } = string.Empty;
-        public IEnumerable<string> Errors { get; private set; } = new List<string>();
-        public List<ValidationError> ValidationErrors { get; private set; } = new List<ValidationError>();
+        public string SuccessMessage { get; protected set; } = string.Empty;
+        public IEnumerable<string> Errors { get; protected set; } = new List<string>();
+        public List<ValidationError> ValidationErrors { get; protected set; } = new List<ValidationError>();
 
         public void ClearValueType() => ValueType = null;
 
@@ -51,7 +66,7 @@ namespace Ardalis.Result
         {
             var pagedResult = new PagedResult<T>(pagedInfo, Value)
             {
-                Status = Status, 
+                Status = Status,
                 SuccessMessage = SuccessMessage,
                 Errors = Errors,
                 ValidationErrors = ValidationErrors
@@ -79,7 +94,7 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> Success(T value, string successMessage)
         {
-            return new Result<T>(value) {SuccessMessage = successMessage};
+            return new Result<T>(value, successMessage);
         }
 
         /// <summary>
