@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Ardalis.Result.UnitTests;
 
-public class ResultOfUnitToResultOfT
+public class ResultVoidToResultOfT
 {
     [Theory]
     [InlineData("test1")]

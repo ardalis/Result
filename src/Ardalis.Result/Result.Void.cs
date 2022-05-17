@@ -2,7 +2,7 @@
 
 namespace Ardalis.Result
 {
-    public class Result : Result<Result>, IResult
+    public class Result : Result<Result>
     {
         public Result() : base() { }
 

@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Ardalis.Result.UnitTests;
 
-public class ResultOfUnitConstructor
+public class ResultVoidConstructor
 {
     [Fact]
     public void InitializesSuccessResultWithConstructor()
