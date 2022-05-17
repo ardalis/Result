@@ -12,7 +12,7 @@ public class ResultOfUnitConstructor
     {
         var result = new Result();
 
-        Assert.Equal(Result.Unit.Value, result.Value);
+        Assert.Null(result.Value);
         Assert.Equal(ResultStatus.Ok, result.Status);
     }
 
@@ -21,7 +21,7 @@ public class ResultOfUnitConstructor
     {
         var result = Result.Success();
 
-        Assert.Equal(Result.Unit.Value, result.Value);
+        Assert.Null(result.Value);
         Assert.Equal(ResultStatus.Ok, result.Status);
     }
 
@@ -31,7 +31,7 @@ public class ResultOfUnitConstructor
         var message = "success";
         var result = Result.SuccessWithMessage(message);
 
-        Assert.Equal(Result.Unit.Value, result.Value);
+        Assert.Null(result.Value);
         Assert.Equal(ResultStatus.Ok, result.Status);
         Assert.Equal(message, result.SuccessMessage);
     }
@@ -43,7 +43,7 @@ public class ResultOfUnitConstructor
     {
         var result = Result.Error(errors);
 
-        Assert.Equal(Result.Unit.Value, result.Value);
+        Assert.Null(result.Value);
         Assert.Equal(ResultStatus.Error, result.Status);
 
         if (errors == null) return;
@@ -73,7 +73,7 @@ public class ResultOfUnitConstructor
 
         var result = Result.Invalid(validationErrors);
 
-        Assert.Equal(Result.Unit.Value, result.Value);
+        Assert.Null(result.Value);
         Assert.Equal(ResultStatus.Invalid, result.Status);
 
         result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "Name is required", Identifier = "name" });
@@ -85,7 +85,7 @@ public class ResultOfUnitConstructor
     {
         var result = Result.NotFound();
 
-        Assert.Equal(Result.Unit.Value, result.Value);
+        Assert.Null(result.Value);
         Assert.Equal(ResultStatus.NotFound, result.Status);
     }
 
@@ -94,7 +94,7 @@ public class ResultOfUnitConstructor
     {
         var result = Result.Forbidden();
 
-        Assert.Equal(Result.Unit.Value, result.Value);
+        Assert.Null(result.Value);
         Assert.Equal(ResultStatus.Forbidden, result.Status);
     }
 
@@ -103,7 +103,7 @@ public class ResultOfUnitConstructor
     {
         var result = Result.Unauthorized();
 
-        Assert.Equal(Result.Unit.Value, result.Value);
+        Assert.Null(result.Value);
         Assert.Equal(ResultStatus.Unauthorized, result.Status);
     }
 }

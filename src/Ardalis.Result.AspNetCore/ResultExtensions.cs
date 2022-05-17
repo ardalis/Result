@@ -61,7 +61,7 @@ namespace Ardalis.Result.AspNetCore
         {
             switch (result.Status)
             {
-                case ResultStatus.Ok: return result.ValueType == typeof(Result.Unit) 
+                case ResultStatus.Ok: return typeof(Result).IsInstanceOfType(result)
                         ? (ActionResult)controller.Ok() 
                         : controller.Ok(result.GetValue());
                 case ResultStatus.NotFound: return controller.NotFound();

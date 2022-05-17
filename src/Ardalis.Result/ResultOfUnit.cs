@@ -2,7 +2,7 @@
 
 namespace Ardalis.Result
 {
-    public class Result : Result<Result.Unit>, IResult
+    public class Result : Result<Result>, IResult
     {
         public Result() : base() { }
 
@@ -97,16 +97,6 @@ namespace Ardalis.Result
         public static new Result Unauthorized()
         {
             return new Result(ResultStatus.Unauthorized);
-        }
-
-        public readonly struct Unit
-        {
-            private static readonly Unit _value = new Unit();
-
-            /// <summary>
-            /// Default and only value of the <see cref="Unit"/> type.
-            /// </summary>
-            public static ref readonly Unit Value => ref _value;
         }
     }
 }

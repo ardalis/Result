@@ -1,12 +1,6 @@
-﻿using Ardalis.Result.Sample.Core.DTOs;
-using Ardalis.Result.Sample.Core.Model;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -36,7 +30,7 @@ public class PersonControllerDelete : IClassFixture<WebApplicationFactory<Startu
 
         var stringResponse = await response.Content.ReadAsStringAsync();
 
-        Assert.Equal("{}", stringResponse);
+        Assert.Equal(string.Empty, stringResponse);
     }
 
     [Theory]
@@ -46,8 +40,6 @@ public class PersonControllerDelete : IClassFixture<WebApplicationFactory<Startu
     public async Task ReturnsNotFoundGivenUnknownId(string route)
     {
         var response = await SendDeleteRequest(route, 2);
-
-        var stringResponse = await response.Content.ReadAsStringAsync();
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
