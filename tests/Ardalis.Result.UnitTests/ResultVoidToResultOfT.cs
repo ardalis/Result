@@ -1,0 +1,80 @@
+﻿using FluentAssertions;
+using System.Collections.Generic;
+using Xunit;
+
+namespace Ardalis.Result.UnitTests;
+
+public class ResultVoidToResultOfT
+{
+    [Theory]
+    [InlineData("test1")]
+    [InlineData("test1", "test2")]
+    public void ConvertFromErrorResultOfUnit(params string[] errors)
+    {
+        var result = DoBusinessOperationExample<object>(Result.Error(errors));
+
+        Assert.Null(result.Value);
+        Assert.Equal(ResultStatus.Error, result.Status);
+
+        foreach (var error in errors)
+        {
+            result.Errors.Should().ContainEquivalentOf(error);
+        }
+    }
+
+    [Fact]
+    public void ConvertFromInvalidResultOfUnit()
+    {
+        var validationErrors = new List<ValidationError>
+            {
+                new ValidationError
+                {
+                    Identifier = "name",
+                    ErrorMessage = "Name is required"
+                },
+                new ValidationError
+                {
+                    Identifier = "postalCode",
+                    ErrorMessage = "PostalCode cannot exceed 10 characters"
+                }
+            };
+
+        var result = DoBusinessOperationExample<object>(Result.Invalid(validationErrors));
+
+        Assert.Null(result.Value);
+        Assert.Equal(ResultStatus.Invalid, result.Status);
+
+        result.Status.Should().Be(ResultStatus.Invalid);
+        result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "Name is required", Identifier = "name" });
+        result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "PostalCode cannot exceed 10 characters", Identifier = "postalCode" });
+    }
+
+    [Fact]
+    public void ConvertFromNotFoundResultOfUnit()
+    {
+        var result = DoBusinessOperationExample<object>(Result.NotFound());
+
+        Assert.Null(result.Value);
+        Assert.Equal(ResultStatus.NotFound, result.Status);
+    }
+
+    [Fact]
+    public void ConvertFromForbiddenResultOfUnit()
+    {
+        var result = DoBusinessOperationExample<object>(Result.Forbidden());
+
+        Assert.Null(result.Value);
+        Assert.Equal(ResultStatus.Forbidden, result.Status);
+    }
+
+    [Fact]
+    public void ConvertFromUnauthorizedResultOfUnit()
+    {
+        var result = DoBusinessOperationExample<object>(Result.Unauthorized());
+
+        Assert.Null(result.Value);
+        Assert.Equal(ResultStatus.Unauthorized, result.Status);
+    }
+
+    public Result<T> DoBusinessOperationExample<T>(Result testValue) => testValue;
+}

@@ -69,6 +69,32 @@ public class ResultConstructor
         Assert.Equal(value, result.Value);
     }
 
+    [Theory]
+    [InlineData(null)]
+    [InlineData(123)]
+    [InlineData("test value")]
+    public void InitializesValueUsingGenericFactoryMethodAndSetsStatusToOk(object value)
+    {
+        var result = Result.Success(value);
+
+        Assert.Equal(ResultStatus.Ok, result.Status);
+        Assert.Equal(value, result.Value);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData(123)]
+    [InlineData("test value")]
+    public void InitializesValueUsingGenericFactoryMethodAndSetsStatusToOkWithMessage(object value)
+    {
+        var message = "success";
+        var result = Result.Success(value, message);
+
+        Assert.Equal(ResultStatus.Ok, result.Status);
+        Assert.Equal(value, result.Value);
+        Assert.Equal(message, result.SuccessMessage);
+    }
+
     [Fact]
     public void InitializesStatusToErrorGivenErrorFactoryCall()
     {

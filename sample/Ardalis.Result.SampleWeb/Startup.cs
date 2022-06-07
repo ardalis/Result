@@ -43,6 +43,7 @@ public class Startup
         });
         services.AddSwaggerGen();
 
+        services.AddTransient<PersonService>();
         services.AddTransient<WeatherService>();
         services.AddTransient<WeatherServiceWithExceptions>();
     }

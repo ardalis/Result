@@ -10,7 +10,7 @@ namespace Ardalis.Result.AspNetCore
     public static class ResultExtensions
     {
         /// <summary>
-        /// Convert an Ardalis.Result to a Microsoft.AspNetCore.Mvc.ActionResult
+        /// Convert a <see cref="Result{T}"/> to a <see cref="ActionResult"/>
         /// </summary>
         /// <typeparam name="T">The value being returned</typeparam>
         /// <param name="controller">The controller this is called from</param>
@@ -22,7 +22,18 @@ namespace Ardalis.Result.AspNetCore
         }
 
         /// <summary>
-        /// Convert an Ardalis.Result to a Microsoft.AspNetCore.Mvc.ActionResult
+        /// Convert a <see cref="Result"/> to a <see cref="ActionResult"/>
+        /// </summary>
+        /// <param name="controller">The controller this is called from</param>
+        /// <param name="result">The Result to convert to an ActionResult</param>
+        /// <returns></returns>
+        public static ActionResult ToActionResult(this Result result, ControllerBase controller)
+        {
+            return controller.ToActionResult((IResult)result);
+        }
+
+        /// <summary>
+        /// Convert a <see cref="Result{T}"/> to a <see cref="ActionResult"/>
         /// </summary>
         /// <typeparam name="T">The value being returned</typeparam>
         /// <param name="controller">The controller this is called from</param>
@@ -34,11 +45,25 @@ namespace Ardalis.Result.AspNetCore
             return controller.ToActionResult((IResult)result);
         }
 
+        /// <summary>
+        /// Convert a <see cref="Result"/> to a <see cref="ActionResult"/>
+        /// </summary>
+        /// <param name="controller">The controller this is called from</param>
+        /// <param name="result">The Result to convert to an ActionResult</param>
+        /// <returns></returns>
+        public static ActionResult ToActionResult(this ControllerBase controller,
+            Result result)
+        {
+            return controller.ToActionResult((IResult)result);
+        }
+
         internal static ActionResult ToActionResult(this ControllerBase controller, IResult result)
         {
             switch (result.Status)
             {
-                case ResultStatus.Ok: return controller.Ok(result.GetValue());
+                case ResultStatus.Ok: return typeof(Result).IsInstanceOfType(result)
+                        ? (ActionResult)controller.Ok() 
+                        : controller.Ok(result.GetValue());
                 case ResultStatus.NotFound: return controller.NotFound();
                 case ResultStatus.Unauthorized: return controller.Unauthorized();
                 case ResultStatus.Forbidden: return controller.Forbid();

@@ -49,7 +49,7 @@ public class BadWeatherForecastController : ControllerBase
             var result = await _weatherService.GetForecastAsync(model);
             return Ok(result);
         }
-        catch (ForecastNotFoundException ex) // avoid using exceptions for control flow
+        catch (ForecastNotFoundException) // avoid using exceptions for control flow
         {
             return NotFound();
         }
