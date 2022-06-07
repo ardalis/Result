@@ -30,7 +30,7 @@ jobs:
       
     - name: Copy Coverage To Predictable Location
       # run: cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
-      run: find coverage -type f -name coverage.cobertura.xml -exec cp -p {} coverage/coverage.cobertura.xml
+      run: find coverage -type f -name coverage.cobertura.xml -exec cp -p {} coverage/coverage.cobertura.xml \;
       
     - name: Code Coverage Summary Report
       uses: irongut/CodeCoverageSummary@v1.0.2
