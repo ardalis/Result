@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Ardalis.Result.AspNetCore
 {
@@ -59,42 +57,23 @@ namespace Ardalis.Result.AspNetCore
 
         internal static ActionResult ToActionResult(this ControllerBase controller, IResult result)
         {
+            var resultStatusMap = (controller.ControllerContext.ActionDescriptor.Properties[ResultConvention.RESULT_STATUS_MAP] as ResultStatusMap)
+                ?? new ResultStatusMap().AddDefaultMap();
+
+            var resultStatusOptions = resultStatusMap[result.Status];
+            var statusCode = (int)resultStatusOptions.GetStatusCode(controller.HttpContext.Request.Method);
+
             switch (result.Status)
             {
-                case ResultStatus.Ok: return typeof(Result).IsInstanceOfType(result)
-                        ? (ActionResult)controller.Ok() 
-                        : controller.Ok(result.GetValue());
-                case ResultStatus.NotFound: return controller.NotFound();
-                case ResultStatus.Unauthorized: return controller.Unauthorized();
-                case ResultStatus.Forbidden: return controller.Forbid();
-                case ResultStatus.Invalid: return BadRequest(controller, result);
-                case ResultStatus.Error: return UnprocessableEntity(controller, result);
+                case ResultStatus.Ok:
+                    return typeof(Result).IsInstanceOfType(result)
+                        ? (ActionResult)controller.StatusCode(statusCode)
+                        : controller.StatusCode(statusCode, result.GetValue());
                 default:
-                    throw new NotSupportedException($"Result {result.Status} conversion is not supported.");
+                    return resultStatusOptions.ResponseType == null
+                        ? (ActionResult)controller.StatusCode(statusCode)
+                        : controller.StatusCode(statusCode, resultStatusOptions.GetResponseObject(result));
             }
-        }
-
-        private static ActionResult BadRequest(ControllerBase controller, IResult result)
-        {
-            foreach (var error in result.ValidationErrors)
-            {
-                controller.ModelState.AddModelError(error.Identifier, error.ErrorMessage);
-            }
-
-            return controller.BadRequest(controller.ModelState);
-        }
-
-        private static ActionResult UnprocessableEntity(ControllerBase controller, IResult result)
-        {
-            var details = new StringBuilder("Next error(s) occured:");
-
-            foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
-
-            return controller.UnprocessableEntity(new ProblemDetails
-            {
-                Title = "Something went wrong.",
-                Detail = details.ToString()
-            });
         }
     }
 }
