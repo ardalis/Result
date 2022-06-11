@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace Ardalis.Result.AspNetCore
 {
-    public class ResultConvention : IActionModelConvention
+    internal class ResultConvention : IActionModelConvention
     {
         public const string RESULT_STATUS_MAP_PROP = "ResultStatusMap";
 
         private readonly ResultStatusMap _map;
 
-        public ResultConvention(ResultStatusMap map)
+        internal ResultConvention(ResultStatusMap map)
         {
             _map = map;
         }

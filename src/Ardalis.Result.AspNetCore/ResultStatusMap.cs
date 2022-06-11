@@ -6,8 +6,16 @@ using System.Text;
 
 namespace Ardalis.Result.AspNetCore
 {
-    public class ResultStatusMap : Dictionary<ResultStatus, ResultStatusOptions>
+    public class ResultStatusMap
     {
+        private Dictionary<ResultStatus, ResultStatusOptions> _map = new Dictionary<ResultStatus, ResultStatusOptions>();
+
+        internal ResultStatusMap()
+        {
+        }
+
+        public IEnumerable<ResultStatus> Keys => _map.Keys;
+
         public ResultStatusMap AddDefaultMap()
         {
             return For(ResultStatus.Ok, HttpStatusCode.OK)
@@ -62,10 +70,21 @@ namespace Ardalis.Result.AspNetCore
             return this;
         }
 
-        public new ResultStatusMap Remove(ResultStatus status)
+        public ResultStatusMap Remove(ResultStatus status)
         {
-            base.Remove(status);
+            _map.Remove(status);
             return this;
+        }
+
+        public bool ContainsKey(ResultStatus status)
+        {
+            return _map.ContainsKey(status);
+        }
+
+        public ResultStatusOptions this[ResultStatus status]
+        {
+            get { return _map[status]; }
+            set { _map[status] = value; }
         }
     }
 
@@ -74,14 +93,14 @@ namespace Ardalis.Result.AspNetCore
         private Dictionary<string, HttpStatusCode> _methodToStatusMap = new Dictionary<string, HttpStatusCode>();
         private HttpStatusCode _defaultStatusCode;
 
-        public ResultStatusOptions(ResultStatus status, HttpStatusCode defaultStatusCode)
+        internal ResultStatusOptions(ResultStatus status, HttpStatusCode defaultStatusCode)
         {
             _defaultStatusCode = defaultStatusCode;
 
             Status = status;
         }
 
-        public ResultStatusOptions(ResultStatus status, HttpStatusCode defaultStatusCode, Type responseType, Func<ControllerBase, IResult, object> getResponseObject)
+        internal ResultStatusOptions(ResultStatus status, HttpStatusCode defaultStatusCode, Type responseType, Func<ControllerBase, IResult, object> getResponseObject)
         {
             _defaultStatusCode = defaultStatusCode;
 
