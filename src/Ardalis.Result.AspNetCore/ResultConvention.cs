@@ -13,9 +13,8 @@ namespace Ardalis.Result.AspNetCore
 {
     public class ResultConvention : IActionModelConvention
     {
-        public const string RESULT_STATUS_MAP = "ResultStatusMap";
+        public const string RESULT_STATUS_MAP_PROP = "ResultStatusMap";
 
-        private readonly List<ResultStatus> _resultStatuses = new List<ResultStatus>();
         private readonly ResultStatusMap _map;
 
         public ResultConvention(ResultStatusMap map)
@@ -25,7 +24,10 @@ namespace Ardalis.Result.AspNetCore
 
         public void Apply(ActionModel action)
         {
-            action.Properties[RESULT_STATUS_MAP] = _map;
+            if (!action.Filters.Any(f => f is TranslateResultToActionResultAttribute tr)
+                && !action.Controller.Filters.Any(f => f is TranslateResultToActionResultAttribute tr)) return;
+
+            action.Properties[RESULT_STATUS_MAP_PROP] = _map;
 
             var returnType = action.ActionMethod.ReturnType;
 

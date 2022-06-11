@@ -57,8 +57,11 @@ namespace Ardalis.Result.AspNetCore
 
         internal static ActionResult ToActionResult(this ControllerBase controller, IResult result)
         {
-            var resultStatusMap = (controller.ControllerContext.ActionDescriptor.Properties[ResultConvention.RESULT_STATUS_MAP] as ResultStatusMap)
-                ?? new ResultStatusMap().AddDefaultMap();
+            var actionProps = controller.ControllerContext.ActionDescriptor.Properties;
+
+            var resultStatusMap = actionProps.ContainsKey(ResultConvention.RESULT_STATUS_MAP_PROP) 
+                ?(actionProps[ResultConvention.RESULT_STATUS_MAP_PROP] as ResultStatusMap)
+                : new ResultStatusMap().AddDefaultMap();
 
             var resultStatusOptions = resultStatusMap[result.Status];
             var statusCode = (int)resultStatusOptions.GetStatusCode(controller.HttpContext.Request.Method);
