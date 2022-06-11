@@ -35,7 +35,6 @@ public class Startup
                 .For(ResultStatus.Ok, HttpStatusCode.OK, resultStatusOptions => resultStatusOptions
                     .Override("POST", HttpStatusCode.Created)
                     .Override("DELETE", HttpStatusCode.NoContent))
-                .For(ResultStatus.Error, HttpStatusCode.InternalServerError)
                 .Remove(ResultStatus.Forbidden)
                 .Remove(ResultStatus.Unauthorized)
             ));

@@ -72,7 +72,7 @@ namespace Ardalis.Result.AspNetCore
                 default:
                     return resultStatusOptions.ResponseType == null
                         ? (ActionResult)controller.StatusCode(statusCode)
-                        : controller.StatusCode(statusCode, resultStatusOptions.GetResponseObject(result));
+                        : controller.StatusCode(statusCode, resultStatusOptions.GetResponseObject(controller, result));
             }
         }
     }

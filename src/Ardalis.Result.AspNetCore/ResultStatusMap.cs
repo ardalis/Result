@@ -11,7 +11,7 @@ namespace Ardalis.Result.AspNetCore
         public ResultStatusMap AddDefaultMap()
         {
             return For(ResultStatus.Ok, HttpStatusCode.OK)
-                .For(ResultStatus.Error, (HttpStatusCode)422, result => {
+                .For(ResultStatus.Error, (HttpStatusCode)422, (_, result) => {
                     var details = new StringBuilder("Next error(s) occured:");
 
                     foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
@@ -24,12 +24,13 @@ namespace Ardalis.Result.AspNetCore
                 })
                 .For(ResultStatus.Forbidden, HttpStatusCode.Forbidden)
                 .For(ResultStatus.Unauthorized, HttpStatusCode.Unauthorized)
-                .For(ResultStatus.Invalid, HttpStatusCode.BadRequest, typeof(IEnumerable<string>), result => {
-                    var errors = new List<string>();
+                .For(ResultStatus.Invalid, HttpStatusCode.BadRequest, typeof(IDictionary<string, string[]>), (ctrlr, result) => {
+                    foreach (var error in result.ValidationErrors)
+                    {
+                        ctrlr.ModelState.AddModelError(error.Identifier, error.ErrorMessage);
+                    }
 
-                    foreach (var error in result.ValidationErrors) errors.Add(error.ErrorMessage);
-
-                    return errors;
+                    return ctrlr.ModelState;
                 })
                 .For(ResultStatus.NotFound, HttpStatusCode.NotFound);
         }
@@ -49,13 +50,13 @@ namespace Ardalis.Result.AspNetCore
             return this;
         }
 
-        public ResultStatusMap For<T>(ResultStatus status, HttpStatusCode statusCode, Func<IResult, T> getResponseObject)
+        public ResultStatusMap For<T>(ResultStatus status, HttpStatusCode statusCode, Func<ControllerBase, IResult, T> getResponseObject)
         {
-            this[status] = new ResultStatusOptions(status, statusCode, typeof(T), result => getResponseObject(result));
+            this[status] = new ResultStatusOptions(status, statusCode, typeof(T), (ctrlr, result) => getResponseObject(ctrlr, result));
             return this;
         }
 
-        public ResultStatusMap For(ResultStatus status, HttpStatusCode statusCode, Type responseType, Func<IResult, object> getResponseObject)
+        public ResultStatusMap For(ResultStatus status, HttpStatusCode statusCode, Type responseType, Func<ControllerBase, IResult, object> getResponseObject)
         {
             this[status] = new ResultStatusOptions(status, statusCode, responseType, getResponseObject);
             return this;
@@ -80,7 +81,7 @@ namespace Ardalis.Result.AspNetCore
             Status = status;
         }
 
-        public ResultStatusOptions(ResultStatus status, HttpStatusCode defaultStatusCode, Type responseType, Func<IResult, object> getResponseObject)
+        public ResultStatusOptions(ResultStatus status, HttpStatusCode defaultStatusCode, Type responseType, Func<ControllerBase, IResult, object> getResponseObject)
         {
             _defaultStatusCode = defaultStatusCode;
 
@@ -91,7 +92,7 @@ namespace Ardalis.Result.AspNetCore
 
         public ResultStatus Status { get; }
         public Type ResponseType { get; private set; }
-        public Func<IResult, object> GetResponseObject { get; }
+        public Func<ControllerBase, IResult, object> GetResponseObject { get; }
 
         public HttpStatusCode GetStatusCode(string method)
         {
