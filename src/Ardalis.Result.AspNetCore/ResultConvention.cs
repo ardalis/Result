@@ -9,6 +9,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Ardalis.Result.AspNetCore.UnitTests")]
+
 namespace Ardalis.Result.AspNetCore
 {
     internal class ResultConvention : IActionModelConvention

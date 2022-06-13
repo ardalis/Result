@@ -115,9 +115,9 @@ namespace Ardalis.Result.AspNetCore
 
         public HttpStatusCode GetStatusCode(string method)
         {
-            method = method.ToLower();
+            method = method?.ToLower();
 
-            if (!_methodToStatusMap.ContainsKey(method)) return _defaultStatusCode;
+            if (string.IsNullOrEmpty(method) || !_methodToStatusMap.ContainsKey(method)) return _defaultStatusCode;
 
             return _methodToStatusMap[method];
         }
