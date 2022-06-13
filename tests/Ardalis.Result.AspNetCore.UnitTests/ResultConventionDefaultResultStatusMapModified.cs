@@ -23,7 +23,7 @@ public class ResultConventionDefaultResultStatusMapModified : BaseResultConventi
 
         Assert.Equal(4, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
 
-        Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 200, typeof(void)));
+        Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 204, typeof(void)));
         Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 404, typeof(void)));
         Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 400, typeof(IDictionary<string, string[]>)));
         Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 422, typeof(ProblemDetails)));
@@ -45,7 +45,7 @@ public class ResultConventionDefaultResultStatusMapModified : BaseResultConventi
 
         Assert.Equal(6, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
 
-        Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 200, typeof(void)));
+        Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 204, typeof(void)));
         Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 404, typeof(void)));
         Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 400, typeof(IDictionary<string, string[]>)));
         Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 401, typeof(void)));
@@ -54,9 +54,9 @@ public class ResultConventionDefaultResultStatusMapModified : BaseResultConventi
     }
 
     [Theory]
-    [InlineData("Index", typeof(void), typeof(HttpPostAttribute), 201)]
+    [InlineData("Index", typeof(void), typeof(HttpPostAttribute), 204)]
     [InlineData("Index", typeof(void), typeof(HttpDeleteAttribute), 204)]
-    [InlineData("Index", typeof(void), typeof(HttpGetAttribute), 200)]
+    [InlineData("Index", typeof(void), typeof(HttpGetAttribute), 204)]
     [InlineData(nameof(TestController.ResultString), typeof(string), typeof(HttpPostAttribute), 201)]
     [InlineData(nameof(TestController.ResultString), typeof(string), typeof(HttpDeleteAttribute), 204)]
     [InlineData(nameof(TestController.ResultString), typeof(string), typeof(HttpGetAttribute), 200)]
@@ -68,8 +68,8 @@ public class ResultConventionDefaultResultStatusMapModified : BaseResultConventi
         var convention = new ResultConvention(new ResultStatusMap()
             .AddDefaultMap()
             .For(ResultStatus.Ok, HttpStatusCode.OK, opts => opts
-                .Override("POST", HttpStatusCode.Created)
-                .Override("DELETE", HttpStatusCode.NoContent)));
+                .For("POST", HttpStatusCode.Created)
+                .For("DELETE", HttpStatusCode.NoContent)));
 
         var actionModelBuilder = new ActionModelBuilder()
             .AddActionFilter(new TranslateResultToActionResultAttribute())

@@ -47,10 +47,24 @@ namespace Ardalis.Result.AspNetCore
             {
                 var method = (action.Attributes.FirstOrDefault(a => a is HttpMethodAttribute) as HttpMethodAttribute)?.HttpMethods.FirstOrDefault();
 
-                var successStatusCode = !string.IsNullOrEmpty(method) && _map.ContainsKey(ResultStatus.Ok)
+                var successStatusCode = _map.ContainsKey(ResultStatus.Ok)
                     ? _map[ResultStatus.Ok].GetStatusCode(method)
                     : HttpStatusCode.OK;
-                var successType = isVoidResult ? typeof(void) : returnType.GetGenericArguments()[0];
+
+                /*
+                    Following If statement is added to play along with Api Explorer behavior:
+                    https://github.com/dotnet/aspnetcore/blob/e5f183b656a0e8bc087108130a5a9b54ae94494e/src/Mvc/Mvc.ApiExplorer/src/ApiResponseTypeProvider.cs#L159
+
+                    In simple terms, if controller action return type is anything but void (suppose in our case it returns 'void' Result), 
+                    and [ProducesResponseType] attribute has response type System.Void (even if deliberately set by developer),
+                    it will be overwriten by Api Explorer to match action return type if Status Code is 200 or 201.
+
+                    So we should avoid pairing 'void' Result with OK or Created
+                */
+                if (isVoidResult && (successStatusCode == HttpStatusCode.OK || successStatusCode == HttpStatusCode.Created))
+                    successStatusCode = HttpStatusCode.NoContent;
+
+                var successType = isVoidResult ? null : returnType.GetGenericArguments()[0];
 
                 AddProducesResponseTypeAttribute(action.Filters, (int)successStatusCode, successType);
 
@@ -59,7 +73,7 @@ namespace Ardalis.Result.AspNetCore
                 if (attr?.ResultStatuses != null)
                 {
                     var unexpectedResults = attr.ResultStatuses.Where(s => !_map.Keys.Contains(s));
-                    if (unexpectedResults.Count() > 0)
+                    if (unexpectedResults.Any())
                     {
                         throw new UnexpectedFailureResultsException(unexpectedResults);
                     }
@@ -67,7 +81,7 @@ namespace Ardalis.Result.AspNetCore
 
                 var resultStatuses = attr?.ResultStatuses ?? _map.Keys;
 
-                foreach (var status in resultStatuses)
+                foreach (var status in resultStatuses.Where(s => s != ResultStatus.Ok))
                 {
                     var info = _map[status];
                     AddProducesResponseTypeAttribute(action.Filters, (int)info.GetStatusCode(method), info.ResponseType);
@@ -75,7 +89,7 @@ namespace Ardalis.Result.AspNetCore
             }
         }
 
-        private void AddProducesResponseTypeAttribute(IList<IFilterMetadata> filters, int statusCode, Type responseType)
+        private static void AddProducesResponseTypeAttribute(IList<IFilterMetadata> filters, int statusCode, Type responseType)
         {
             if (!filters.Any(f => f is IApiResponseMetadataProvider rmp && rmp.StatusCode == statusCode))
             {

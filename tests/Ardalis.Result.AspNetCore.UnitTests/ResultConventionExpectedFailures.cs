@@ -22,7 +22,7 @@ namespace Ardalis.Result.AspNetCore.UnitTests
 
             Assert.Equal(3, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
 
-            Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 200, typeof(void)));
+            Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 204, typeof(void)));
             Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 404, typeof(void)));
             Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 400, typeof(IDictionary<string, string[]>)));
         }

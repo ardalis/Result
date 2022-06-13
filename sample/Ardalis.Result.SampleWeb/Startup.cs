@@ -33,8 +33,8 @@ public class Startup
             .AddResultConvention(resultStatusMap => resultStatusMap
                 .AddDefaultMap()
                 .For(ResultStatus.Ok, HttpStatusCode.OK, resultStatusOptions => resultStatusOptions
-                    .Override("POST", HttpStatusCode.Created)
-                    .Override("DELETE", HttpStatusCode.NoContent))
+                    .For("POST", HttpStatusCode.Created)
+                    .For("DELETE", HttpStatusCode.NoContent))
                 .Remove(ResultStatus.Forbidden)
                 .Remove(ResultStatus.Unauthorized)
             ));

@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Ardalis.Result.AspNetCore
 {
+    /// <summary>
+    /// A map of <see cref="ResultStatus"/>es to <see cref="HttpStatusCode"/>s combined with other configuration
+    /// </summary>
     public class ResultStatusMap
     {
         private readonly Dictionary<ResultStatus, ResultStatusOptions> _map = new Dictionary<ResultStatus, ResultStatusOptions>();
@@ -16,6 +19,9 @@ namespace Ardalis.Result.AspNetCore
 
         public IEnumerable<ResultStatus> Keys => _map.Keys;
 
+        /// <summary>
+        /// Adds default mapping for all known <see cref="ResultStatus"/>es to <see cref="HttpStatusCode"/>s
+        /// </summary>
         public ResultStatusMap AddDefaultMap()
         {
             return For(ResultStatus.Ok, HttpStatusCode.OK)
@@ -43,6 +49,13 @@ namespace Ardalis.Result.AspNetCore
                 .For(ResultStatus.NotFound, HttpStatusCode.NotFound);
         }
 
+        /// <summary>
+        /// Maps <paramref name="status"/> to <paramref name="defaultStatusCode"/>.
+        /// Allows to override default status code for specific Http Methods
+        /// </summary>
+        /// <param name="status">Result Status to map.</param>
+        /// <param name="defaultStatusCode">Default Status Code.<param>
+        /// <param name="configure">A <see cref="Action"/> to configure Status Codes for specific Http Methods.</param>
         public ResultStatusMap For(ResultStatus status, HttpStatusCode defaultStatusCode, Action<ResultStatusOptions> configure)
         {
             var info = new ResultStatusOptions(status, defaultStatusCode);
@@ -52,36 +65,66 @@ namespace Ardalis.Result.AspNetCore
             return this;
         }
 
+        /// <summary>
+        /// Maps <paramref name="status"/> to <paramref name="statusCode"/>.
+        /// </summary>
+        /// <param name="status">Result Status to map.</param>
+        /// <param name="statusCode">Status Code.</param>
         public ResultStatusMap For(ResultStatus status, HttpStatusCode statusCode)
         {
             this[status] = new ResultStatusOptions(status, statusCode);
             return this;
         }
 
+        /// <summary>
+        /// Maps <paramref name="status"/> to <paramref name="statusCode"/>.
+        /// </summary>
+        /// <param name="status">Result Status to map.</param>
+        /// <param name="statusCode">Status Code.</param>
+        /// <param name="getResponseObject">A <see cref="Func"/> to extract response object for specific Result Status from Result object.</param>
         public ResultStatusMap For<T>(ResultStatus status, HttpStatusCode statusCode, Func<ControllerBase, IResult, T> getResponseObject)
         {
             this[status] = new ResultStatusOptions(status, statusCode, typeof(T), (ctrlr, result) => getResponseObject(ctrlr, result));
             return this;
         }
 
+        /// <summary>
+        /// Maps <paramref name="status"/> to <paramref name="statusCode"/>.
+        /// May be useful when response object type is converted to different type before serialization.
+        /// For example, when returning <see cref="Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary"/>, <see cref="IDictionary{string, string[]}"/> is actually serialized.
+        /// </summary>  
+        /// <param name="status">Result Status to map.</param>
+        /// <param name="statusCode">Status Code.</param>
+        /// <param name="responseType">Response Type.</param>
+        /// <param name="getResponseObject">A <see cref="Func"/> to extract response object for specific Result Status from Result object.</param>
+        /// <returns></returns>
         public ResultStatusMap For(ResultStatus status, HttpStatusCode statusCode, Type responseType, Func<ControllerBase, IResult, object> getResponseObject)
         {
             this[status] = new ResultStatusOptions(status, statusCode, responseType, getResponseObject);
             return this;
         }
 
+        /// <summary>
+        /// Remove mapping for <paramref name="status"/>
+        /// </summary>
+        /// <param name="status"></param>
         public ResultStatusMap Remove(ResultStatus status)
         {
             _map.Remove(status);
             return this;
         }
 
+        /// <summary>
+        /// Determines whether there is a mapping for given <paramref name="status"/>
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
         public bool ContainsKey(ResultStatus status)
         {
             return _map.ContainsKey(status);
         }
 
-        public ResultStatusOptions this[ResultStatus status]
+        internal ResultStatusOptions this[ResultStatus status]
         {
             get { return _map[status]; }
             set { _map[status] = value; }
@@ -109,10 +152,15 @@ namespace Ardalis.Result.AspNetCore
             GetResponseObject = getResponseObject;
         }
 
-        public ResultStatus Status { get; }
-        public Type ResponseType { get; private set; }
-        public Func<ControllerBase, IResult, object> GetResponseObject { get; }
+        internal ResultStatus Status { get; }
+        internal Type ResponseType { get; private set; }
+        internal Func<ControllerBase, IResult, object> GetResponseObject { get; }
 
+        /// <summary>
+        /// Gets Http Status Code for specific Http Method.
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns>Http Status Code for specific Http Method if configured, otherwise default Http Status Code.</returns>
         public HttpStatusCode GetStatusCode(string method)
         {
             method = method?.ToLower();
@@ -122,7 +170,12 @@ namespace Ardalis.Result.AspNetCore
             return _methodToStatusMap[method];
         }
 
-        public ResultStatusOptions Override(string method, HttpStatusCode statusCode)
+        /// <summary>
+        /// Maps <paramref name="method"/> to a <paramref name="statusCode"/>
+        /// </summary>
+        /// <param name="method">Http Method.</param>
+        /// <param name="statusCode">Http Status Code.</param>
+        public ResultStatusOptions For(string method, HttpStatusCode statusCode)
         {
             _methodToStatusMap[method.ToLower()] = statusCode;
             return this;
