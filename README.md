@@ -197,6 +197,17 @@ public Result RemovePerson(int id)
 
 `!!!` If you list certain result status in `ExpectedFailures`, it must be configured in `ResultConvention` on startup.
 
+Another configurability feature is what part of Result object is returned in case of specific failure:
+
+```csharp
+services.AddControllers(mvcOptions => mvcOptions
+    .AddResultConvention(resultStatusMap => resultStatusMap
+        .AddDefaultMap()
+        .For(ResultStatus.Error, HttpStatusCode.BadRequest, resultStatusOptions => resultStatusOptions
+            .With((ctrlr, result) => string.Join("\r\n", result.ValidationErrors)))
+    ));
+```
+
 ## FluentValidation
 
 We can use Ardalis.Result.FluentValidation on a service with FluentValidation like that:
