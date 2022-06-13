@@ -15,10 +15,19 @@ public class BaseResultConventionTest
 
     public class TestController : ControllerBase
     {
-        [TranslateResultToActionResult]
         public Result Index()
         {
-            return Result.Success();
+            throw new NotImplementedException();
+        }
+
+        public Result<string> ResultString()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Result<IEnumerable<string>> ResultEnumerableString()
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -46,9 +55,9 @@ public class BaseResultConventionTest
             return this;
         }
 
-        public ActionModel GetActionModel()
+        public ActionModel GetActionModel(string actionName = "Index")
         {
-            var actionModel = new ActionModel(typeof(TestController).GetMethod("Index"), _actionAttributes);
+            var actionModel = new ActionModel(typeof(TestController).GetMethod(actionName), _actionAttributes);
             actionModel.Controller = new ControllerModel(typeof(TestController).GetTypeInfo(), new List<object>().AsReadOnly());
 
             foreach (var filter in _actionFilters)

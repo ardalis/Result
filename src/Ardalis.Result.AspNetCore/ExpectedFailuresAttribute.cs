@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Ardalis.Result.AspNetCore
 {
-    public class ExpectedFailureResultStatusesAttribute : Attribute
+    public class ExpectedFailuresAttribute : Attribute
     {
-        public ExpectedFailureResultStatusesAttribute(params ResultStatus[] resultStatuses)
+        public ExpectedFailuresAttribute(params ResultStatus[] resultStatuses)
         {
             ResultStatuses = resultStatuses;
         }

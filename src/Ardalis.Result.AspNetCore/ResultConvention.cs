@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Ardalis.Result.AspNetCore.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -53,10 +54,20 @@ namespace Ardalis.Result.AspNetCore
 
                 AddProducesResponseTypeAttribute(action.Filters, (int)successStatusCode, successType);
 
-                var attr = action.Filters.SingleOrDefault(f => f is ExpectedFailureResultStatusesAttribute) as ExpectedFailureResultStatusesAttribute;
+                var attr = action.Attributes.SingleOrDefault(f => f is ExpectedFailuresAttribute) as ExpectedFailuresAttribute;
+
+                if (attr?.ResultStatuses != null)
+                {
+                    var unexpectedResults = attr.ResultStatuses.Where(s => !_map.Keys.Contains(s));
+                    if (unexpectedResults.Count() > 0)
+                    {
+                        throw new UnexpectedFailureResultsException(unexpectedResults);
+                    }
+                }
+
                 var resultStatuses = attr?.ResultStatuses ?? _map.Keys;
 
-                foreach (var status in resultStatuses.Where(s => _map.ContainsKey(s)))
+                foreach (var status in resultStatuses)
                 {
                     var info = _map[status];
                     AddProducesResponseTypeAttribute(action.Filters, (int)info.GetStatusCode(method), info.ResponseType);

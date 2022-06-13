@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Ardalis.Result.AspNetCore.UnitTests;
 
-public class ResultConventionWithDefaultResultStatusMapModified : BaseResultConventionTest
+public class ResultConventionDefaultResultStatusMapModified : BaseResultConventionTest
 {
     [Fact]
     public void RemoveResultStatus()
@@ -34,7 +34,7 @@ public class ResultConventionWithDefaultResultStatusMapModified : BaseResultConv
     {
         var convention = new ResultConvention(new ResultStatusMap()
             .AddDefaultMap()
-            .For(ResultStatus.Error, System.Net.HttpStatusCode.InternalServerError));
+            .For(ResultStatus.Error, HttpStatusCode.InternalServerError));
 
         var actionModelBuilder = new ActionModelBuilder()
             .AddActionFilter(new TranslateResultToActionResultAttribute());
@@ -54,10 +54,16 @@ public class ResultConventionWithDefaultResultStatusMapModified : BaseResultConv
     }
 
     [Theory]
-    [InlineData(typeof(HttpPostAttribute), 201)]
-    [InlineData(typeof(HttpDeleteAttribute), 204)]
-    [InlineData(typeof(HttpGetAttribute), 200)]
-    public void ChangeResultStatus_ForSpecificMethods(Type type, int expectedStatusCode)
+    [InlineData("Index", typeof(void), typeof(HttpPostAttribute), 201)]
+    [InlineData("Index", typeof(void), typeof(HttpDeleteAttribute), 204)]
+    [InlineData("Index", typeof(void), typeof(HttpGetAttribute), 200)]
+    [InlineData(nameof(TestController.ResultString), typeof(string), typeof(HttpPostAttribute), 201)]
+    [InlineData(nameof(TestController.ResultString), typeof(string), typeof(HttpDeleteAttribute), 204)]
+    [InlineData(nameof(TestController.ResultString), typeof(string), typeof(HttpGetAttribute), 200)]
+    [InlineData(nameof(TestController.ResultEnumerableString), typeof(IEnumerable<string>), typeof(HttpPostAttribute), 201)]
+    [InlineData(nameof(TestController.ResultEnumerableString), typeof(IEnumerable<string>), typeof(HttpDeleteAttribute), 204)]
+    [InlineData(nameof(TestController.ResultEnumerableString), typeof(IEnumerable<string>), typeof(HttpGetAttribute), 200)]
+    public void ChangeResultStatus_ForSpecificMethods(string actionName, Type expectedType, Type attributeType, int expectedStatusCode)
     {
         var convention = new ResultConvention(new ResultStatusMap()
             .AddDefaultMap()
@@ -67,15 +73,15 @@ public class ResultConventionWithDefaultResultStatusMapModified : BaseResultConv
 
         var actionModelBuilder = new ActionModelBuilder()
             .AddActionFilter(new TranslateResultToActionResultAttribute())
-            .AddActionAttribute((Attribute)Activator.CreateInstance(type)!);
+            .AddActionAttribute((Attribute)Activator.CreateInstance(attributeType)!);
 
-        var actionModel = actionModelBuilder.GetActionModel();
+        var actionModel = actionModelBuilder.GetActionModel(actionName);
 
         convention.Apply(actionModel);
 
         Assert.Equal(6, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
 
-        Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, expectedStatusCode, typeof(void)));
+        Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, expectedStatusCode, expectedType));
         Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 404, typeof(void)));
         Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 400, typeof(IDictionary<string, string[]>)));
         Assert.Contains(actionModel.Filters, f => IsProducesResponseTypeAttribute(f, 401, typeof(void)));

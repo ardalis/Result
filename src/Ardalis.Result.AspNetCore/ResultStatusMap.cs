@@ -8,7 +8,7 @@ namespace Ardalis.Result.AspNetCore
 {
     public class ResultStatusMap
     {
-        private Dictionary<ResultStatus, ResultStatusOptions> _map = new Dictionary<ResultStatus, ResultStatusOptions>();
+        private readonly Dictionary<ResultStatus, ResultStatusOptions> _map = new Dictionary<ResultStatus, ResultStatusOptions>();
 
         internal ResultStatusMap()
         {
@@ -90,8 +90,8 @@ namespace Ardalis.Result.AspNetCore
 
     public class ResultStatusOptions
     {
-        private Dictionary<string, HttpStatusCode> _methodToStatusMap = new Dictionary<string, HttpStatusCode>();
-        private HttpStatusCode _defaultStatusCode;
+        private readonly Dictionary<string, HttpStatusCode> _methodToStatusMap = new Dictionary<string, HttpStatusCode>();
+        private readonly HttpStatusCode _defaultStatusCode;
 
         internal ResultStatusOptions(ResultStatus status, HttpStatusCode defaultStatusCode)
         {
