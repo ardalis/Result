@@ -25,27 +25,29 @@ namespace Ardalis.Result.AspNetCore
         public ResultStatusMap AddDefaultMap()
         {
             return For(ResultStatus.Ok, HttpStatusCode.OK)
-                .For(ResultStatus.Error, (HttpStatusCode)422, (_, result) => {
-                    var details = new StringBuilder("Next error(s) occured:");
+                .For(ResultStatus.Error, (HttpStatusCode)422, resultStatusOptions => resultStatusOptions
+                    .With((_, result) => {
+                        var details = new StringBuilder("Next error(s) occured:");
 
-                    foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+                        foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
-                    return new ProblemDetails
-                    {
-                        Title = "Something went wrong.",
-                        Detail = details.ToString()
-                    };
-                })
+                        return new ProblemDetails
+                        {
+                            Title = "Something went wrong.",
+                            Detail = details.ToString()
+                        };
+                    }))
                 .For(ResultStatus.Forbidden, HttpStatusCode.Forbidden)
                 .For(ResultStatus.Unauthorized, HttpStatusCode.Unauthorized)
-                .For(ResultStatus.Invalid, HttpStatusCode.BadRequest, typeof(IDictionary<string, string[]>), (ctrlr, result) => {
-                    foreach (var error in result.ValidationErrors)
-                    {
-                        ctrlr.ModelState.AddModelError(error.Identifier, error.ErrorMessage);
-                    }
+                .For(ResultStatus.Invalid, HttpStatusCode.BadRequest, resultStatusOptions => resultStatusOptions
+                    .With(typeof(IDictionary<string, string[]>), (ctrlr, result) => {
+                        foreach (var error in result.ValidationErrors)
+                        {
+                            ctrlr.ModelState.AddModelError(error.Identifier, error.ErrorMessage);
+                        }
 
-                    return ctrlr.ModelState;
-                })
+                        return ctrlr.ModelState;
+                    }))
                 .For(ResultStatus.NotFound, HttpStatusCode.NotFound);
         }
 
@@ -73,34 +75,6 @@ namespace Ardalis.Result.AspNetCore
         public ResultStatusMap For(ResultStatus status, HttpStatusCode statusCode)
         {
             this[status] = new ResultStatusOptions(status, statusCode);
-            return this;
-        }
-
-        /// <summary>
-        /// Maps <paramref name="status"/> to <paramref name="statusCode"/>.
-        /// </summary>
-        /// <param name="status">Result Status to map.</param>
-        /// <param name="statusCode">Status Code.</param>
-        /// <param name="getResponseObject">A <see cref="Func"/> to extract response object for specific Result Status from Result object.</param>
-        public ResultStatusMap For<T>(ResultStatus status, HttpStatusCode statusCode, Func<ControllerBase, IResult, T> getResponseObject)
-        {
-            this[status] = new ResultStatusOptions(status, statusCode, typeof(T), (ctrlr, result) => getResponseObject(ctrlr, result));
-            return this;
-        }
-
-        /// <summary>
-        /// Maps <paramref name="status"/> to <paramref name="statusCode"/>.
-        /// May be useful when response object type is converted to different type before serialization.
-        /// For example, when returning <see cref="Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary"/>, <see cref="IDictionary{string, string[]}"/> is actually serialized.
-        /// </summary>  
-        /// <param name="status">Result Status to map.</param>
-        /// <param name="statusCode">Status Code.</param>
-        /// <param name="responseType">Response Type.</param>
-        /// <param name="getResponseObject">A <see cref="Func"/> to extract response object for specific Result Status from Result object.</param>
-        /// <returns></returns>
-        public ResultStatusMap For(ResultStatus status, HttpStatusCode statusCode, Type responseType, Func<ControllerBase, IResult, object> getResponseObject)
-        {
-            this[status] = new ResultStatusOptions(status, statusCode, responseType, getResponseObject);
             return this;
         }
 
@@ -154,7 +128,7 @@ namespace Ardalis.Result.AspNetCore
 
         internal ResultStatus Status { get; }
         internal Type ResponseType { get; private set; }
-        internal Func<ControllerBase, IResult, object> GetResponseObject { get; }
+        internal Func<ControllerBase, IResult, object> GetResponseObject { get; private set; }
 
         /// <summary>
         /// Gets Http Status Code for specific Http Method.
@@ -178,6 +152,32 @@ namespace Ardalis.Result.AspNetCore
         public ResultStatusOptions For(string method, HttpStatusCode statusCode)
         {
             _methodToStatusMap[method.ToLower()] = statusCode;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets GetResponseObject callback.
+        /// </summary>
+        /// <param name="getResponseObject">A <see cref="Func"/> to extract response object from Result object for specific Result Status.</param>
+        public ResultStatusOptions With<T>(Func<ControllerBase, IResult, T> getResponseObject)
+        {
+            ResponseType = typeof(T);
+            GetResponseObject = (ctrlr, result) => getResponseObject(ctrlr, result);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets GetResponseObject callback.
+        /// This overload may be useful when response object type is converted to different type before serialization.
+        /// For example, when returning <see cref="Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary"/>, <see cref="IDictionary{string, string[]}"/> is actually serialized.
+        /// </summary>
+        /// <param name="responseType">Response Type.</param>
+        /// <param name="getResponseObject">A <see cref="Func"/> to extract response object from Result object for specific Result Status.</param>
+        /// <returns></returns>
+        public ResultStatusOptions With(Type responseType, Func<ControllerBase, IResult, object> getResponseObject)
+        {
+            ResponseType = responseType;
+            GetResponseObject = getResponseObject;
             return this;
         }
     }
