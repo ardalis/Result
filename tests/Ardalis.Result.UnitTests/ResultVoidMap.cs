@@ -40,7 +40,7 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void ShouldProduceForbidden()
         {
-            var result = Result<int>.Forbidden();
+            var result = Result.Forbidden();
 
             var actual = result.Map(_ => "This should be ignored");
 
@@ -51,7 +51,7 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void ShouldProduceInvalid()
         {
-            var result = Result<int>.Invalid(new());
+            var result = Result.Invalid(new());
 
             var actual = result.Map(_ => "This should be ignored");
 
@@ -62,7 +62,7 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void ShouldProduceError()
         {
-            var result = Result<int>.Error();
+            var result = Result.Error();
 
             var actual = result.Map(_ => "This should be ignored");
 
