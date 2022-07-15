@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 
@@ -64,7 +65,7 @@ namespace Ardalis.Result.AspNetCore
                 case ResultStatus.Ok: return typeof(Result).IsInstanceOfType(result)
                         ? (ActionResult)controller.Ok() 
                         : controller.Ok(result.GetValue());
-                case ResultStatus.NotFound: return controller.NotFound();
+                case ResultStatus.NotFound: return NotFoundEntity(controller, result);
                 case ResultStatus.Unauthorized: return controller.Unauthorized();
                 case ResultStatus.Forbidden: return controller.Forbid();
                 case ResultStatus.Invalid: return BadRequest(controller, result);
@@ -95,6 +96,26 @@ namespace Ardalis.Result.AspNetCore
                 Title = "Something went wrong.",
                 Detail = details.ToString()
             });
+        }
+
+        private static ActionResult NotFoundEntity(ControllerBase controller, IResult result)
+        {
+            var details = new StringBuilder("Next error(s) occured:");
+
+            if (result.Errors.Any())
+            {
+                foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+
+                return controller.NotFound(new ProblemDetails
+                {
+                    Title = "Resource not found.",
+                    Detail = details.ToString()
+                });
+            }
+            else
+            {
+                return controller.NotFound();
+            }
         }
     }
 }

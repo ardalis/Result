@@ -143,6 +143,17 @@ public class ResultConstructor
         var result = Result<object>.NotFound();
 
         Assert.Equal(ResultStatus.NotFound, result.Status);
+        result.Errors.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void InitializesStatusToNotFoundGivenNotFoundFactoryCallWithString()
+    {
+        var errorMessage = "User Not Found";
+        var result = Result<object>.NotFound(errorMessage);
+
+        Assert.Equal(ResultStatus.NotFound, result.Status);
+        Assert.Equal(errorMessage, result.Errors.First());
     }
 
     [Fact]
