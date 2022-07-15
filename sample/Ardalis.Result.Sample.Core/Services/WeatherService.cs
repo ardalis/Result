@@ -64,5 +64,41 @@ namespace Ardalis.Result.Sample.Core.Services
                 })
             .ToArray());
         }
+
+        public Result<WeatherForecast> GetSingleForecast(ForecastRequestDto model)
+        {
+            if (model.PostalCode == "NotFound") return Result.NotFound();
+
+            // validate model
+            if (model.PostalCode.Length > 10)
+            {
+                return Result.Invalid(new List<ValidationError> {
+                    new ValidationError
+                    {
+                        Identifier = nameof(model.PostalCode),
+                        ErrorMessage = _stringLocalizer["PostalCode cannot exceed 10 characters."].Value }
+                });
+            }
+
+            // test value
+            if (model.PostalCode == "55555")
+            {
+                return Result.Success(
+                    new WeatherForecast
+                    {
+                        Date = DateTime.Now,
+                        TemperatureC = 0,
+                        Summary = Summaries[0]
+                    });
+            }
+
+            var rng = new Random();
+            return Result.Success(new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(rng.Next(1, 5)),
+                TemperatureC = rng.Next(-20, 55),
+                Summary = Summaries[rng.Next(Summaries.Length)]
+            });
+        }
     }
 }
