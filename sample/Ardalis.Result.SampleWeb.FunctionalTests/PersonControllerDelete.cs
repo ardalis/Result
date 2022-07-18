@@ -42,6 +42,8 @@ public class PersonControllerDelete : IClassFixture<WebApplicationFactory<Startu
         var response = await SendDeleteRequest(route, 2);
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        var stringResponse = await response.Content.ReadAsStringAsync();
+        Assert.Contains("Person Not Found", stringResponse);
     }
 
     private async Task<HttpResponseMessage> SendDeleteRequest(string route, int id)
