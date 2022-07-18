@@ -30,7 +30,7 @@ namespace Ardalis.Result.Sample.Core.Services
         {
             if (!_knownIds.Any(knownId => knownId == id))
             {
-                return Result.NotFound();
+                return Result.NotFound("Person Not Found");
             }
 
             //Pretend removing person

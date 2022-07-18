@@ -80,6 +80,17 @@ namespace Ardalis.Result
         }
 
         /// <summary>
+        /// Represents the situation where a service was unable to find a requested resource.
+        /// Error messages may be provided and will be exposed via the Errors property.
+        /// </summary>
+        /// <param name="errorMessages">A list of string error messages.</param>
+        /// <returns>A Result</returns>
+        public static new Result NotFound(params string[] errorMessages)
+        {
+            return new Result(ResultStatus.NotFound) { Errors = errorMessages };
+        }
+
+        /// <summary>
         /// The parameters to the call were correct, but the user does not have permission to perform some action.
         /// See also HTTP 403 Forbidden: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
         /// </summary>
