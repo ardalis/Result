@@ -14,7 +14,7 @@ namespace Ardalis.Result.Sample.Core.DTOs
             Summary = summary;
         }
 
-        public static WeatherForecastSummaryDto CreateFromModel(WeatherForecast weatherForecast) =>
+        public static WeatherForecastSummaryDto MapFrom(WeatherForecast weatherForecast) =>
             new WeatherForecastSummaryDto(weatherForecast.Date, weatherForecast.Summary);
     }
 }

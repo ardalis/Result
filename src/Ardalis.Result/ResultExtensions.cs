@@ -5,16 +5,16 @@ namespace Ardalis.Result
 {
     public static class ResultExtensions
     {
-        public static Result<K> Map<T, K>(this Result<T> result, Func<T, K> func)
+        public static Result<TDestination> Map<TSource, TDestination>(this Result<TSource> result, Func<TSource, TDestination> func)
         {
             switch (result.Status)
             {
                 case ResultStatus.Ok: return func(result);
-                case ResultStatus.NotFound: return Result<K>.NotFound();
-                case ResultStatus.Unauthorized: return Result<K>.Unauthorized();
-                case ResultStatus.Forbidden: return Result<K>.Forbidden();
-                case ResultStatus.Invalid: return Result<K>.Invalid(result.ValidationErrors);
-                case ResultStatus.Error: return Result<K>.Error(result.Errors.ToArray());
+                case ResultStatus.NotFound: return Result<TDestination>.NotFound();
+                case ResultStatus.Unauthorized: return Result<TDestination>.Unauthorized();
+                case ResultStatus.Forbidden: return Result<TDestination>.Forbidden();
+                case ResultStatus.Invalid: return Result<TDestination>.Invalid(result.ValidationErrors);
+                case ResultStatus.Error: return Result<TDestination>.Error(result.Errors.ToArray());
                 default:
                     throw new NotSupportedException($"Result {result.Status} conversion is not supported.");
             }

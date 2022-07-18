@@ -42,12 +42,12 @@ public class WeatherForecastController : ControllerBase
     /// <param name="model"></param>
     /// <returns></returns>
     [HttpPost("Summary")]
-    public ActionResult<WeatherForecastSummaryDto> CreateMappedForecast([FromBody] ForecastRequestDto model)
+    public ActionResult<WeatherForecastSummaryDto> CreateSummaryForecast([FromBody] ForecastRequestDto model)
     {
         return _weatherService.GetSingleForecast(model)
             .Map(wf => new WeatherForecastSummaryDto(wf.Date, wf.Summary))
             // Alternatively, a "mapper" method could be used in place of the anonymous method above
-            // .Map(WeatherForecastSummaryDto.CreateFromModel)
+            // .Map(WeatherForecastSummaryDto.MapFrom)
             .ToActionResult(this);
     }
 }
