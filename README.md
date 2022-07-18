@@ -93,7 +93,7 @@ public override ActionResult<IEnumerable<WeatherForecast>> Handle(ForecastReques
 }
 ```
 
-A common use case is to map between domain entities to API response types usually represented as DTOs. You can map a Result containing a domain model to a Result containing a DTO by using the `Map` method. The following example calls the method `_weatherService.GetSingleForecast` which returns a `Result<WeatherForecast>` which is then converted to a `Result<WeatherForecastSummaryDto>` by the call to `Map`. Then, the Result is converted to an `ActionResult<WeatherForecastSummaryDto>` using the `ToActionResult` helper method.
+A common use case is to map between domain entities to API response types usually represented as DTOs. You can map a Result containing a domain entity to a Result containing a DTO by using the `Map` method. The following example calls the method `_weatherService.GetSingleForecast` which returns a `Result<WeatherForecast>` which is then converted to a `Result<WeatherForecastSummaryDto>` by the call to `Map`. Then, the Result is converted to an `ActionResult<WeatherForecastSummaryDto>` using the `ToActionResult` helper method.
 
 ```csharp
 [HttpPost("Summary")]
