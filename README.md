@@ -93,6 +93,18 @@ public override ActionResult<IEnumerable<WeatherForecast>> Handle(ForecastReques
 }
 ```
 
+A common use case is to map between domain entities to API response types usually represented as DTOs. You can map a Result containing a domain entity to a Result containing a DTO by using the `Map` method. The following example calls the method `_weatherService.GetSingleForecast` which returns a `Result<WeatherForecast>` which is then converted to a `Result<WeatherForecastSummaryDto>` by the call to `Map`. Then, the Result is converted to an `ActionResult<WeatherForecastSummaryDto>` using the `ToActionResult` helper method.
+
+```csharp
+[HttpPost("Summary")]
+public ActionResult<WeatherForecastSummaryDto> CreateSummaryForecast([FromBody] ForecastRequestDto model)
+{
+    return _weatherService.GetSingleForecast(model)
+        .Map(wf => new WeatherForecastSummaryDto(wf.Date, wf.Summary))
+        .ToActionResult(this);
+}
+```
+
 So, what does the `_weatherService.GetForecast` method look like? Well, it's typically not defined in the same project as the web project, so it doesn't know anything about `ActionResult` or other MVC/etc types. But since it is using a `Result<T>` abstraction, it can return results that are easily mapped to HTTP status codes. Note that in the service below it returns a `Result<IEnumerable<WeatherForecast>` but in some cases it might need to return an `Invalid` result, or a `NotFound` result. Otherwise it returns a `Success` result with the actual returned value (just like an API would return an HTTP 200 and the actual result of the API call). 
 
 ```csharp
