@@ -13,7 +13,7 @@ namespace Ardalis.Result
         /// <param name="result"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="NotSupportedException"></exception> 
         public static Result<TDestination> Map<TSource, TDestination>(this Result<TSource> result, Func<TSource, TDestination> func)
         {
             switch (result.Status)
