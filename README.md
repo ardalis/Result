@@ -12,6 +12,12 @@
 
 A result abstraction that can be mapped to HTTP response codes if needed.
 
+## Learn More
+
+* [Getting Started With Ardalis.Result](https://blog.nimblepros.com/blogs/getting-started-with-ardalis-result/)
+* [Transforming Results With the Map Method](https://blog.nimblepros.com/blogs/transforming-results-with-the-map-method/)
+* [Avoid Using Exceptions to Determine API Status Codes and Responses](https://ardalis.com/avoid-using-exceptions-determine-api-status/)
+
 ## What Problem Does This Address?
 
 Many methods on service need to return some kind of value. For instance, they may be looking up some data and returning a set of results or a single object. They might be creating something, persisting it, and then returning it. Typically, such methods are implemented like this:
@@ -176,8 +182,6 @@ public async Task<Result<BlogCategory>> UpdateAsync(BlogCategory blogCategory)
 }
 ```
 
-
 ## Getting Started
 
 If you're building an ASP.NET Core Web API you can simply install the [Ardalis.Result.AspNetCore](https://www.nuget.org/packages/Ardalis.Result.AspNetCore/) package to get started. Then, apply the `[TranslateResultToActionResult]` attribute to any actions or controllers that you want to automatically translate from Result types to ActionResult types.
-
