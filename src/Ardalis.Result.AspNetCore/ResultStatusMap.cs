@@ -31,7 +31,7 @@ namespace Ardalis.Result.AspNetCore
                 .For(ResultStatus.Forbidden, HttpStatusCode.Forbidden)
                 .For(ResultStatus.Unauthorized, HttpStatusCode.Unauthorized)
                 .For(ResultStatus.Invalid, HttpStatusCode.BadRequest, resultStatusOptions => resultStatusOptions
-                    .With(typeof(IDictionary<string, string[]>), BadRequest))
+                    .With(BadRequest))
                 .For(ResultStatus.NotFound, HttpStatusCode.NotFound, resultStatusOptions => resultStatusOptions
                     .With(NotFoundEntity));
         }
@@ -89,47 +89,40 @@ namespace Ardalis.Result.AspNetCore
             set { _map[status] = value; }
         }
 
-        private static ActionResult BadRequest(ControllerBase controller, IResult result)
+        private static ValidationProblemDetails BadRequest(ControllerBase controller, IResult result)
         {
             foreach (var error in result.ValidationErrors)
             {
                 controller.ModelState.AddModelError(error.Identifier, error.ErrorMessage);
             }
 
-            return controller.BadRequest(controller.ModelState);
+            return new ValidationProblemDetails(controller.ModelState);
         }
 
-        private static ActionResult UnprocessableEntity(ControllerBase controller, IResult result)
+        private static ProblemDetails UnprocessableEntity(ControllerBase controller, IResult result)
         {
             var details = new StringBuilder("Next error(s) occured:");
 
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
-            return controller.UnprocessableEntity(new ProblemDetails
+            return new ProblemDetails
             {
                 Title = "Something went wrong.",
-                Detail = details.ToString()
-            });
+                Detail = result.Errors.Any() ? details.ToString() : null
+            };
         }
 
-        private static ActionResult NotFoundEntity(ControllerBase controller, IResult result)
+        private static ProblemDetails NotFoundEntity(ControllerBase controller, IResult result)
         {
             var details = new StringBuilder("Next error(s) occured:");
 
-            if (result.Errors.Any())
-            {
-                foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+            foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
-                return controller.NotFound(new ProblemDetails
-                {
-                    Title = "Resource not found.",
-                    Detail = details.ToString()
-                });
-            }
-            else
+            return new ProblemDetails
             {
-                return controller.NotFound();
-            }
+                Title = "Resource not found.",
+                Detail = result.Errors.Any() ? details.ToString() : null
+            };
         }
     }
 
