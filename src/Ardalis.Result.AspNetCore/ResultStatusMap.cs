@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 
@@ -26,29 +27,13 @@ namespace Ardalis.Result.AspNetCore
         {
             return For(ResultStatus.Ok, HttpStatusCode.OK)
                 .For(ResultStatus.Error, (HttpStatusCode)422, resultStatusOptions => resultStatusOptions
-                    .With((_, result) => {
-                        var details = new StringBuilder("Next error(s) occured:");
-
-                        foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
-
-                        return new ProblemDetails
-                        {
-                            Title = "Something went wrong.",
-                            Detail = details.ToString()
-                        };
-                    }))
+                    .With(UnprocessableEntity))
                 .For(ResultStatus.Forbidden, HttpStatusCode.Forbidden)
                 .For(ResultStatus.Unauthorized, HttpStatusCode.Unauthorized)
                 .For(ResultStatus.Invalid, HttpStatusCode.BadRequest, resultStatusOptions => resultStatusOptions
-                    .With(typeof(IDictionary<string, string[]>), (ctrlr, result) => {
-                        foreach (var error in result.ValidationErrors)
-                        {
-                            ctrlr.ModelState.AddModelError(error.Identifier, error.ErrorMessage);
-                        }
-
-                        return ctrlr.ModelState;
-                    }))
-                .For(ResultStatus.NotFound, HttpStatusCode.NotFound);
+                    .With(typeof(IDictionary<string, string[]>), BadRequest))
+                .For(ResultStatus.NotFound, HttpStatusCode.NotFound, resultStatusOptions => resultStatusOptions
+                    .With(NotFoundEntity));
         }
 
         /// <summary>
@@ -102,6 +87,49 @@ namespace Ardalis.Result.AspNetCore
         {
             get { return _map[status]; }
             set { _map[status] = value; }
+        }
+
+        private static ActionResult BadRequest(ControllerBase controller, IResult result)
+        {
+            foreach (var error in result.ValidationErrors)
+            {
+                controller.ModelState.AddModelError(error.Identifier, error.ErrorMessage);
+            }
+
+            return controller.BadRequest(controller.ModelState);
+        }
+
+        private static ActionResult UnprocessableEntity(ControllerBase controller, IResult result)
+        {
+            var details = new StringBuilder("Next error(s) occured:");
+
+            foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+
+            return controller.UnprocessableEntity(new ProblemDetails
+            {
+                Title = "Something went wrong.",
+                Detail = details.ToString()
+            });
+        }
+
+        private static ActionResult NotFoundEntity(ControllerBase controller, IResult result)
+        {
+            var details = new StringBuilder("Next error(s) occured:");
+
+            if (result.Errors.Any())
+            {
+                foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+
+                return controller.NotFound(new ProblemDetails
+                {
+                    Title = "Resource not found.",
+                    Detail = details.ToString()
+                });
+            }
+            else
+            {
+                return controller.NotFound();
+            }
         }
     }
 

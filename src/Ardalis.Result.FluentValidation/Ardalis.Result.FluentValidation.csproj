@@ -14,7 +14,7 @@
     <PackageTags>result;pattern;web;api;aspnetcore;mvc;FluentValidation;Validation</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>Syncing with Ardalis.Result; updated to latest version of FluentValidation</PackageReleaseNotes>
-    <Version>4.0.0</Version>
+    <Version>4.1.0</Version>
     <AssemblyName>Ardalis.Result.FluentValidation</AssemblyName>
     <PackageIcon>icon.png</PackageIcon>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.0.2" />
+    <PackageReference Include="FluentValidation" Version="11.2.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -12,6 +12,12 @@
 
 A result abstraction that can be mapped to HTTP response codes if needed.
 
+## Learn More
+
+* [Getting Started With Ardalis.Result](https://blog.nimblepros.com/blogs/getting-started-with-ardalis-result/)
+* [Transforming Results With the Map Method](https://blog.nimblepros.com/blogs/transforming-results-with-the-map-method/)
+* [Avoid Using Exceptions to Determine API Status Codes and Responses](https://ardalis.com/avoid-using-exceptions-determine-api-status/)
+
 ## What Problem Does This Address?
 
 Many methods on service need to return some kind of value. For instance, they may be looking up some data and returning a set of results or a single object. They might be creating something, persisting it, and then returning it. Typically, such methods are implemented like this:
@@ -90,6 +96,18 @@ public override ActionResult<IEnumerable<WeatherForecast>> Handle(ForecastReques
 
     // alternately
     // return _weatherService.GetForecast(request).ToActionResult(this);
+}
+```
+
+A common use case is to map between domain entities to API response types usually represented as DTOs. You can map a Result containing a domain entity to a Result containing a DTO by using the `Map` method. The following example calls the method `_weatherService.GetSingleForecast` which returns a `Result<WeatherForecast>` which is then converted to a `Result<WeatherForecastSummaryDto>` by the call to `Map`. Then, the Result is converted to an `ActionResult<WeatherForecastSummaryDto>` using the `ToActionResult` helper method.
+
+```csharp
+[HttpPost("Summary")]
+public ActionResult<WeatherForecastSummaryDto> CreateSummaryForecast([FromBody] ForecastRequestDto model)
+{
+    return _weatherService.GetSingleForecast(model)
+        .Map(wf => new WeatherForecastSummaryDto(wf.Date, wf.Summary))
+        .ToActionResult(this);
 }
 ```
 
@@ -239,4 +257,3 @@ public async Task<Result<BlogCategory>> UpdateAsync(BlogCategory blogCategory)
 ## Getting Started
 
 If you're building an ASP.NET Core Web API you can simply install the [Ardalis.Result.AspNetCore](https://www.nuget.org/packages/Ardalis.Result.AspNetCore/) package to get started. Then, apply the `[TranslateResultToActionResult]` attribute to any actions or controllers that you want to automatically translate from Result types to ActionResult types.
-

@@ -35,4 +35,19 @@ public class WeatherForecastController : ControllerBase
     {
         return _weatherService.GetForecast(model);
     }
+
+    /// <summary>
+    /// This endpoint demonstrates the mapping of one Result type to another.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPost("Summary")]
+    public ActionResult<WeatherForecastSummaryDto> CreateSummaryForecast([FromBody] ForecastRequestDto model)
+    {
+        return _weatherService.GetSingleForecast(model)
+            .Map(wf => new WeatherForecastSummaryDto(wf.Date, wf.Summary))
+            // Alternatively, a "mapper" method could be used in place of the anonymous method above
+            // .Map(WeatherForecastSummaryDto.MapFrom)
+            .ToActionResult(this);
+    }
 }

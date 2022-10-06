@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ardalis.Result.AspNetCore
 {
