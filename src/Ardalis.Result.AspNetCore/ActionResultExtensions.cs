@@ -8,7 +8,7 @@ namespace Ardalis.Result.AspNetCore
     /// <summary>
     /// Extensions to support converting Result to an ActionResult
     /// </summary>
-    public static class ResultExtensions
+    public static partial class ResultExtensions
     {
         /// <summary>
         /// Convert a <see cref="Result{T}"/> to a <see cref="ActionResult"/>
