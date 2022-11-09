@@ -22,16 +22,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapPost("/Forecast/New", (ForecastRequestDto request, WeatherService weatherService) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapPost("/weatherforecast", (ForecastRequestDto request, WeatherService weatherService) =>
-{
-    Result<IEnumerable<WeatherForecast>> result = weatherService.GetForecast(request);
-
-    return result.ToHttpResult();
+    return weatherService.GetForecast(request).ToHttpResult();
 })
 .WithName("GetWeatherForecast");
 
