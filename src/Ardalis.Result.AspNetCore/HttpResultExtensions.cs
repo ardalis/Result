@@ -5,78 +5,75 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 #if NET6_0_OR_GREATER
-namespace Ardalis.Result.AspNetCore
+namespace Ardalis.Result.AspNetCore;
+public static partial class ResultExtensions
 {
-    public static partial class ResultExtensions
+    /// <summary>
+    /// Convert a <see cref="Result{T}"/> to an instance of <see cref="Microsoft.AspNetCore.Http.IResult"/>
+    /// </summary>
+    /// <typeparam name="T">The value being returned</typeparam>
+    /// <param name="result">The Ardalis.Result to convert to an Microsoft.AspNetCore.Http.IResult</param>
+    /// <returns></returns>
+    public static Microsoft.AspNetCore.Http.IResult ToHttpResult<T>(this Result<T> result)
     {
-        /// <summary>
-        /// Convert a <see cref="Result{T}"/> to an instance of <see cref="Microsoft.AspNetCore.Http.IResult"/>
-        /// </summary>
-        /// <typeparam name="T">The value being returned</typeparam>
-        /// <param name="result">The Ardalis.Result to convert to an Microsoft.AspNetCore.Http.IResult</param>
-        /// <returns></returns>
-        public static Microsoft.AspNetCore.Http.IResult ToHttpResult<T>(this Result<T> result)
+        return ToHttpResult((IResult)result);
+    }
+
+    /// <summary>
+    /// Convert a <see cref="Result"/> to an instance of <see cref="Microsoft.AspNetCore.Http.IResult"/>
+    /// </summary>
+    /// <param name="result">The Ardalis.Result to convert to an Microsoft.AspNetCore.Http.IResult</param>
+    /// <returns></returns>
+    public static Microsoft.AspNetCore.Http.IResult ToHttpResult(this Result result)
+    {
+        return ToHttpResult((IResult)result);
+    }
+
+    internal static Microsoft.AspNetCore.Http.IResult ToHttpResult(this IResult result) =>
+        result.Status switch
         {
-            return ToHttpResult((IResult)result);
-        }
+            ResultStatus.Ok => typeof(Result).IsInstanceOfType(result)
+                                    ? Results.Ok()
+                                    : Results.Ok(result.GetValue()),
+            ResultStatus.NotFound => NotFoundEntity(result),
+            ResultStatus.Unauthorized => Results.Unauthorized(),
+            ResultStatus.Forbidden => Results.Forbid(),
+            ResultStatus.Invalid => Results.BadRequest(result.ValidationErrors),
+            ResultStatus.Error => UnprocessableEntity(result),
+            _ => throw new NotSupportedException($"Result {result.Status} conversion is not supported."),
+        };
 
-        /// <summary>
-        /// Convert a <see cref="Result"/> to an instance of <see cref="Microsoft.AspNetCore.Http.IResult"/>
-        /// </summary>
-        /// <param name="result">The Ardalis.Result to convert to an Microsoft.AspNetCore.Http.IResult</param>
-        /// <returns></returns>
-        public static Microsoft.AspNetCore.Http.IResult ToHttpResult(this Result result)
+    private static Microsoft.AspNetCore.Http.IResult UnprocessableEntity(IResult result)
+    {
+        var details = new StringBuilder("Next error(s) occured:");
+
+        foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+
+        return Results.UnprocessableEntity(new ProblemDetails
         {
-            return ToHttpResult((IResult)result);
-        }
+            Title = "Something went wrong.",
+            Detail = details.ToString()
+        });
+    }
 
-        internal static Microsoft.AspNetCore.Http.IResult ToHttpResult(this IResult result) =>
-            result.Status switch
-            {
-                ResultStatus.Ok => typeof(Result).IsInstanceOfType(result)
-                                        ? Results.Ok()
-                                        : Results.Ok(result.GetValue()),
-                ResultStatus.NotFound => NotFoundEntity(result),
-                ResultStatus.Unauthorized => Results.Unauthorized(),
-                ResultStatus.Forbidden => Results.Forbid(),
-                ResultStatus.Invalid => Results.BadRequest(result.ValidationErrors),
-                ResultStatus.Error => UnprocessableEntity(result),
-                _ => throw new NotSupportedException($"Result {result.Status} conversion is not supported."),
-            };
+    private static Microsoft.AspNetCore.Http.IResult NotFoundEntity(IResult result)
+    {
+        var details = new StringBuilder("Next error(s) occured:");
 
-        private static Microsoft.AspNetCore.Http.IResult UnprocessableEntity(IResult result)
+        if (result.Errors.Any())
         {
-            var details = new StringBuilder("Next error(s) occured:");
-
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
-            return Results.UnprocessableEntity(new ProblemDetails
+            return Results.NotFound(new ProblemDetails
             {
-                Title = "Something went wrong.",
+                Title = "Resource not found.",
                 Detail = details.ToString()
             });
         }
-
-        private static Microsoft.AspNetCore.Http.IResult NotFoundEntity(IResult result)
+        else
         {
-            var details = new StringBuilder("Next error(s) occured:");
-
-            if (result.Errors.Any())
-            {
-                foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
-
-                return Results.NotFound(new ProblemDetails
-                {
-                    Title = "Resource not found.",
-                    Detail = details.ToString()
-                });
-            }
-            else
-            {
-                return Results.NotFound();
-            }
+            return Results.NotFound();
         }
     }
 }
-
 #endif

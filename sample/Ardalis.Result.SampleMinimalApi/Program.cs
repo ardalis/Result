@@ -1,8 +1,9 @@
-using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
 using Ardalis.Result.Sample.Core.DTOs;
-using Ardalis.Result.Sample.Core.Model;
 using Ardalis.Result.Sample.Core.Services;
+using Microsoft.AspNetCore.Localization;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<WeatherService>();
+builder.Services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new List<CultureInfo>
+        {
+            new CultureInfo("en-US"),
+            new CultureInfo("de-DE"),
+        };
+    options.DefaultRequestCulture = new RequestCulture("en-US");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
 
 var app = builder.Build();
 
@@ -22,10 +36,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/Forecast/New", (ForecastRequestDto request, WeatherService weatherService) =>
+app.MapPost("/Forecast/New", ([Required]ForecastRequestDto request, WeatherService weatherService) =>
 {
     return weatherService.GetForecast(request).ToHttpResult();
 })
-.WithName("GetWeatherForecast");
+.WithName("NewWeatherForecast");
 
 app.Run();
