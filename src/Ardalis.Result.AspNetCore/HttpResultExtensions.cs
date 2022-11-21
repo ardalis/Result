@@ -29,7 +29,7 @@ namespace Ardalis.Result.AspNetCore
         {
             return ToHttpResult((IResult)result);
         }
-        
+
         internal static Microsoft.AspNetCore.Http.IResult ToHttpResult(this IResult result) =>
             result.Status switch
             {
