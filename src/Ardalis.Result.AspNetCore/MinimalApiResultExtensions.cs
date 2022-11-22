@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 #if NET6_0_OR_GREATER
 namespace Ardalis.Result.AspNetCore;
-public static partial class ResultExtensions
+public static partial class MinimalApiResultExtensions
 {
     /// <summary>
     /// Convert a <see cref="Result{T}"/> to an instance of <see cref="Microsoft.AspNetCore.Http.IResult"/>
@@ -14,9 +14,9 @@ public static partial class ResultExtensions
     /// <typeparam name="T">The value being returned</typeparam>
     /// <param name="result">The Ardalis.Result to convert to an Microsoft.AspNetCore.Http.IResult</param>
     /// <returns></returns>
-    public static Microsoft.AspNetCore.Http.IResult ToHttpResult<T>(this Result<T> result)
+    public static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult<T>(this Result<T> result)
     {
-        return ToHttpResult((IResult)result);
+        return ToMinimalApiResult((IResult)result);
     }
 
     /// <summary>
@@ -24,12 +24,12 @@ public static partial class ResultExtensions
     /// </summary>
     /// <param name="result">The Ardalis.Result to convert to an Microsoft.AspNetCore.Http.IResult</param>
     /// <returns></returns>
-    public static Microsoft.AspNetCore.Http.IResult ToHttpResult(this Result result)
+    public static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult(this Result result)
     {
-        return ToHttpResult((IResult)result);
+        return ToMinimalApiResult((IResult)result);
     }
 
-    internal static Microsoft.AspNetCore.Http.IResult ToHttpResult(this IResult result) =>
+    internal static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult(this IResult result) =>
         result.Status switch
         {
             ResultStatus.Ok => typeof(Result).IsInstanceOfType(result)

@@ -38,7 +38,7 @@ app.UseHttpsRedirection();
 
 app.MapPost("/Forecast/New", (ForecastRequestDto request, WeatherService weatherService) =>
 {
-    return weatherService.GetForecast(request).ToHttpResult();
+    return weatherService.GetForecast(request).ToMinimalApiResult();
 })
 .WithName("NewWeatherForecast");
 
