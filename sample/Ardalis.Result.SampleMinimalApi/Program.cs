@@ -2,7 +2,6 @@ using Ardalis.Result.AspNetCore;
 using Ardalis.Result.Sample.Core.DTOs;
 using Ardalis.Result.Sample.Core.Services;
 using Microsoft.AspNetCore.Localization;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);

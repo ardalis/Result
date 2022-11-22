@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 #if NET6_0_OR_GREATER
 namespace Ardalis.Result.AspNetCore;
-public static partial class MinimalApiResultExtensions
+public static partial class ResultExtensions
 {
     /// <summary>
     /// Convert a <see cref="Result{T}"/> to an instance of <see cref="Microsoft.AspNetCore.Http.IResult"/>
