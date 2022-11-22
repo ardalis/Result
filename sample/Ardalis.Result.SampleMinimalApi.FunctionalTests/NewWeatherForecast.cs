@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 using Xunit;
 
 namespace Ardalis.Result.SampleMinimalApi.FunctionalTests;
-public class NewWeatherForecast : IClassFixture<WebApplicationFactory<WebMarker>>
+public class NewWeatherForecast : IClassFixture<WebApplicationFactory<IWebMarker>>
 {
     private const string ENDPOINT_POST_ROUTE = "/forecast/new";
     private readonly HttpClient _client;
 
-    public NewWeatherForecast(WebApplicationFactory<WebMarker> factory)
+    public NewWeatherForecast(WebApplicationFactory<IWebMarker> factory)
     {
         _client = factory.CreateClient();
     }
@@ -36,7 +36,7 @@ public class NewWeatherForecast : IClassFixture<WebApplicationFactory<WebMarker>
         Assert.Equal("Freezing", forecasts.First().Summary);
     }
 
-    [Fact(Skip = "TODO: Minimal APIs not respecting System.ComponentModel.DataAnnotations")]
+    [Fact]
     public async Task ReturnsBadRequestGivenNoPostalCode()
     {
         var requestDto = new ForecastRequestDto() { PostalCode = "" };

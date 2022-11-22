@@ -36,7 +36,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/Forecast/New", ([Required]ForecastRequestDto request, WeatherService weatherService) =>
+app.MapPost("/Forecast/New", (ForecastRequestDto request, WeatherService weatherService) =>
 {
     return weatherService.GetForecast(request).ToHttpResult();
 })
