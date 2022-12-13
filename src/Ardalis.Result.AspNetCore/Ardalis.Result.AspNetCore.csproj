@@ -13,8 +13,8 @@
     <RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
     <PackageTags>result pattern web api aspnetcore mvc</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Update to sync with Ardalis.Result</PackageReleaseNotes>
-    <Version>4.1.0</Version>
+    <PackageReleaseNotes>Added extensions to translate to IResult in minimal APIs</PackageReleaseNotes>
+    <Version>4.2.0</Version>
     <AssemblyName>Ardalis.Result.AspNetCore</AssemblyName>
     <PackageIcon>icon.png</PackageIcon>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
