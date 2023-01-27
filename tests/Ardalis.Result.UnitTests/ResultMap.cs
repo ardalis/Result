@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Ardalis.Result.UnitTests
@@ -49,6 +50,18 @@ namespace Ardalis.Result.UnitTests
             var actual = result.Map(val => val.ToString());
 
             actual.Status.Should().Be(ResultStatus.NotFound);
+        }
+
+        [Fact]
+        public void ShouldProduceNotFoundWithError()
+        {
+            string expectedMessage = "Some integer not found";
+            var result = Result<int>.NotFound(expectedMessage);
+
+            var actual = result.Map(val => val.ToString());
+
+            actual.Status.Should().Be(ResultStatus.NotFound);
+            actual.Errors.Single().Should().Be(expectedMessage);
         }
 
         [Fact]
