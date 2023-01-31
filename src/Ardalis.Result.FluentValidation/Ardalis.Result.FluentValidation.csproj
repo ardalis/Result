@@ -13,8 +13,8 @@
     <RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
     <PackageTags>result;pattern;web;api;aspnetcore;mvc;FluentValidation;Validation</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Syncing with Ardalis.Result; updated to latest version of FluentValidation</PackageReleaseNotes>
-    <Version>4.1.0</Version>
+    <PackageReleaseNotes>Updating dependencies.</PackageReleaseNotes>
+    <Version>4.2.0</Version>
     <AssemblyName>Ardalis.Result.FluentValidation</AssemblyName>
     <PackageIcon>icon.png</PackageIcon>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
