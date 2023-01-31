@@ -1,4 +1,4 @@
-name: Publish Ardalis.Result to Nuget.org
+name: Publish Ardalis.Result.AspNetCore and FluentValidation to Nuget.org
 
 on:
   push:
