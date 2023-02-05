@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Ardalis.Result.AspNetCore\Ardalis.Result.AspNetCore.csproj">
+      <SetTargetFramework>TargetFramework=net6.0</SetTargetFramework>
+    </ProjectReference>
+    <ProjectReference Include="..\Ardalis.Result.Sample.Core\Ardalis.Result.Sample.Core.csproj" />
+  </ItemGroup>
+
+</Project>

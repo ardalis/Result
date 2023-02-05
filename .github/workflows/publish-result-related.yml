@@ -1,6 +1,7 @@
-name: Publish Ardalis.Result to Nuget.org
+name: Publish Ardalis.Result.AspNetCore and FluentValidation to Nuget.org
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
 jobs:

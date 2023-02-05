@@ -41,6 +41,16 @@ namespace Ardalis.Result.Sample.Core.Services
                 });
             }
 
+            if (string.IsNullOrWhiteSpace(model.PostalCode))
+            {
+                return Result.Invalid(new List<ValidationError> {
+                    new ValidationError
+                    {
+                        Identifier = nameof(model.PostalCode),
+                        ErrorMessage = "PostalCode is required" }
+                    });
+            }
+
             // test value
             if (model.PostalCode == "55555")
             {

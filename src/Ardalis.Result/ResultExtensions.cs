@@ -19,7 +19,9 @@ namespace Ardalis.Result
             switch (result.Status)
             {
                 case ResultStatus.Ok: return func(result);
-                case ResultStatus.NotFound: return Result<TDestination>.NotFound();
+                case ResultStatus.NotFound: return result.Errors.Any()
+                        ? Result<TDestination>.NotFound(result.Errors.ToArray())
+                        : Result<TDestination>.NotFound();
                 case ResultStatus.Unauthorized: return Result<TDestination>.Unauthorized();
                 case ResultStatus.Forbidden: return Result<TDestination>.Forbidden();
                 case ResultStatus.Invalid: return Result<TDestination>.Invalid(result.ValidationErrors);
