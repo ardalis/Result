@@ -13,13 +13,13 @@ using Xunit;
 
 namespace Ardalis.Result.SampleWeb.FunctionalTests;
 
-public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory<Startup>>
+public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory<WebMarker>>
 {
     private const string CONTROLLER_POST_ROUTE = "/weatherforecast/create";
     private const string ENDPOINT_POST_ROUTE = "/forecast/new";
     private readonly HttpClient _client;
 
-    public WeatherForecastControllerPost(WebApplicationFactory<Startup> factory)
+    public WeatherForecastControllerPost(WebApplicationFactory<WebMarker> factory)
     {
         _client = factory.CreateClient();
     }
