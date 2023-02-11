@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -43,7 +45,12 @@ public class PersonControllerDelete : IClassFixture<WebApplicationFactory<Startu
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         var stringResponse = await response.Content.ReadAsStringAsync();
-        Assert.Contains("Person Not Found", stringResponse);
+
+        var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(stringResponse);
+
+        Assert.Contains("Resource not found.", problemDetails.Title);
+        Assert.Contains("Person Not Found", problemDetails.Detail);
+        Assert.Equal(404, problemDetails.Status);
     }
 
     private async Task<HttpResponseMessage> SendDeleteRequest(string route, int id)

@@ -1,3 +1,4 @@
+using Ardalis.Result.AspNetCore;
 using Ardalis.Result.Sample.Core.Services;
 using Ardalis.Result.SampleWeb.MediatrApi;
 using MediatR;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net;
 
 namespace Ardalis.Result.SampleWeb;
 
@@ -27,7 +29,15 @@ public class Startup
         var webAssembly = typeof(Startup).Assembly;
         services.AddMediatR(webAssembly);
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-        services.AddControllers();
+        services.AddControllers(mvcOptions => mvcOptions
+            .AddResultConvention(resultStatusMap => resultStatusMap
+                .AddDefaultMap()
+                .For(ResultStatus.Ok, HttpStatusCode.OK, resultStatusOptions => resultStatusOptions
+                    .For("POST", HttpStatusCode.Created)
+                    .For("DELETE", HttpStatusCode.NoContent))
+                .Remove(ResultStatus.Forbidden)
+                .Remove(ResultStatus.Unauthorized)
+            ));
         services.AddRazorPages();
         services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
         services.Configure<RequestLocalizationOptions>(options =>

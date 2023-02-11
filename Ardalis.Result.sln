@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.Sample.Core"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.FluentValidation", "src\Ardalis.Result.FluentValidation\Ardalis.Result.FluentValidation.csproj", "{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.AspNetCore.UnitTests", "tests\Ardalis.Result.AspNetCore.UnitTests\Ardalis.Result.AspNetCore.UnitTests.csproj", "{0BDA82F9-3602-4705-8DCD-A4724CAAF800}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.SampleMinimalApi", "sample\Ardalis.Result.SampleMinimalApi\Ardalis.Result.SampleMinimalApi.csproj", "{60860685-37BB-47D9-B0DC-6FE7F0DB2AE5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.SampleMinimalApi.FunctionalTests", "sample\Ardalis.Result.SampleMinimalApi.FunctionalTests\Ardalis.Result.SampleMinimalApi.FunctionalTests.csproj", "{A9769533-C9B2-4AD4-8B24-70C474D8EBB0}"
@@ -67,6 +69,10 @@ Global
 		{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43443B4B-2305-4CDF-A7A4-32A80ED1D19B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BDA82F9-3602-4705-8DCD-A4724CAAF800}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BDA82F9-3602-4705-8DCD-A4724CAAF800}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BDA82F9-3602-4705-8DCD-A4724CAAF800}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BDA82F9-3602-4705-8DCD-A4724CAAF800}.Release|Any CPU.Build.0 = Release|Any CPU
 		{60860685-37BB-47D9-B0DC-6FE7F0DB2AE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{60860685-37BB-47D9-B0DC-6FE7F0DB2AE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60860685-37BB-47D9-B0DC-6FE7F0DB2AE5}.Release|Any CPU.ActiveCfg = Release|Any CPU

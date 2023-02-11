@@ -22,6 +22,7 @@ public class PersonController : ControllerBase
     /// <param name="model"></param>
     /// <returns></returns>
     [TranslateResultToActionResult]
+    [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Invalid)]
     [HttpDelete("Remove/{id}")]
     public Result RemovePerson(int id)
     {

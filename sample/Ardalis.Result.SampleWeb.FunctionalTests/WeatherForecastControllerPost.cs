@@ -1,5 +1,6 @@
 using Ardalis.Result.Sample.Core.DTOs;
 using Ardalis.Result.Sample.Core.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -47,6 +48,12 @@ public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory
         var response = await PostDTOAndGetResponse(requestDto, route);
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var stringResponse = await response.Content.ReadAsStringAsync();
+
+        var validationProblemDetails = JsonConvert.DeserializeObject<ValidationProblemDetails>(stringResponse);
+
+        Assert.Contains(validationProblemDetails.Errors, d => d.Key == nameof(ForecastRequestDto.PostalCode));
+        Assert.Equal(400, validationProblemDetails.Status);
     }
 
     [Theory]
@@ -58,6 +65,12 @@ public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory
         var response = await PostDTOAndGetResponse(requestDto, route);
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        var stringResponse = await response.Content.ReadAsStringAsync();
+
+        var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(stringResponse);
+
+        Assert.Equal("Resource not found.", problemDetails.Title);
+        Assert.Equal(404, problemDetails.Status);
     }
 
     [Theory]
@@ -70,7 +83,12 @@ public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         var stringResponse = await response.Content.ReadAsStringAsync();
-        Assert.Contains("PostalCode cannot exceed 10 characters.", stringResponse);
+
+        var validationProblemDetails = JsonConvert.DeserializeObject<ValidationProblemDetails>(stringResponse);
+
+        Assert.Contains(validationProblemDetails.Errors, d => d.Key == nameof(ForecastRequestDto.PostalCode));
+        Assert.Contains(validationProblemDetails.Errors[nameof(ForecastRequestDto.PostalCode)], e => e.Equals("PostalCode cannot exceed 10 characters.", System.StringComparison.OrdinalIgnoreCase));
+        Assert.Equal(400, validationProblemDetails.Status);
     }
 
     private async Task<HttpResponseMessage> PostDTOAndGetResponse(ForecastRequestDto dto, string route)
