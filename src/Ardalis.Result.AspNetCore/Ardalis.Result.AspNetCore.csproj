@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net7.0</TargetFrameworks>
     <PackageId>Ardalis.Result.AspNetCore</PackageId>
     <Title>Ardalis.Result.AspNetCore</Title>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -13,8 +13,8 @@
     <RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
     <PackageTags>result pattern web api aspnetcore mvc</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Added extensions to translate to IResult in minimal APIs</PackageReleaseNotes>
-    <Version>4.2.0</Version>
+    <PackageReleaseNotes>PRs 92 and 112. Adding support for .NET 7 and ability to improve Swagger/OpenAPI specifications when using the TranslateResultToActionResult attribute.</PackageReleaseNotes>
+    <Version>7.0.0</Version>
     <AssemblyName>Ardalis.Result.AspNetCore</AssemblyName>
     <PackageIcon>icon.png</PackageIcon>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -25,7 +25,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework) == 'net6.0'">
+  <ItemGroup Condition="$(TargetFramework) == 'net7.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 

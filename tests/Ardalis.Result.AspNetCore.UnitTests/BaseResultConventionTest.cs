@@ -7,7 +7,7 @@ namespace Ardalis.Result.AspNetCore.UnitTests;
 
 public class BaseResultConventionTest
 {
-    protected bool IsProducesResponseTypeAttribute(IFilterMetadata filterMetadata, int statusCode, Type type)
+    protected bool ProducesResponseTypeAttribute(IFilterMetadata filterMetadata, int statusCode, Type type)
     {
         return filterMetadata is ProducesResponseTypeAttribute attr
             && attr.StatusCode == statusCode && attr.Type == type;

@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Ardalis.Result.SampleWeb.FunctionalTests;
 
-public class PersonControllerDelete : IClassFixture<WebApplicationFactory<Startup>>
+public class PersonControllerDelete : IClassFixture<WebApplicationFactory<WebMarker>>
 {
     private const string MEDIATR_CONTROLLER_POST_ROUTE = "/mediatr/person/remove/{0}";
     private const string CONTROLLER_POST_ROUTE = "/person/remove/{0}";
@@ -16,7 +16,7 @@ public class PersonControllerDelete : IClassFixture<WebApplicationFactory<Startu
 
     private readonly HttpClient _client;
 
-    public PersonControllerDelete(WebApplicationFactory<Startup> factory)
+    public PersonControllerDelete(WebApplicationFactory<WebMarker> factory)
     {
         _client = factory.CreateClient();
     }
