@@ -173,7 +173,7 @@ services.AddControllers(mvcOptions => mvcOptions.AddDefaultResultConvention());
 ```
 
 This will add `[ProducesResponseType]` for every known `ResultStatus` to every endpoint marked with `[TranslateResultToActionResult]`.
-To customize ResultConvention behavior, one may use `AddResultConvention` method:
+To customize ResultConvention behavior, one may use the `AddResultConvention` method:
 
 ```csharp
 services.AddControllers(mvcOptions => mvcOptions
