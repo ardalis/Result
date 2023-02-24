@@ -11,6 +11,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    
+    # Write permission needed to add PR comment
+    permissions:
+      pull-requests: write
 
     steps:
     - uses: actions/checkout@v2
