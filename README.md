@@ -46,7 +46,7 @@ The standard way to address these concerns is with exceptions. Maybe you throw a
 
 ```csharp
 [HttpGet]
-public async Task<ActionResult<CustomerDTO>>(int customerId)
+public async Task<ActionResult<CustomerDTO>> GetCustomer(int customerId)
 {
   try
   {
