@@ -61,6 +61,23 @@ namespace Ardalis.Result
         }
 
         /// <summary>
+        /// Represents an error that occurred during the execution of the service.
+        /// Sets the CorrelationId property to the provided value
+        /// Error messages may be provided and will be exposed via the Errors property.
+        /// </summary>
+        /// <param name="correlationId">Sets the CorrelationId property.</param>
+        /// <param name="errorMessages">A list of string error messages.</param>
+        /// <returns>A Result</returns>
+        public static Result ErrorWithCorrelationId(string correlationId, params string[] errorMessages)
+        {
+            return new Result(ResultStatus.Error)
+            {
+                CorrelationId = correlationId,
+                Errors = errorMessages
+            };
+        }
+
+        /// <summary>
         /// Represents validation errors that prevent the underlying service from completing.
         /// </summary>
         /// <param name="validationErrors">A list of validation errors encountered</param>

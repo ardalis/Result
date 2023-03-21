@@ -55,6 +55,23 @@ public class ResultVoidConstructor
     }
 
     [Fact]
+    public void InitializesErrorResultWithCorrelationIdWithFactoryMethod()
+    {
+        var correlationId = "testId";
+        var errors = new string[] { "Error 1", "Error 2" };
+        var result = Result.ErrorWithCorrelationId(correlationId, errors);
+
+        Assert.Null(result.Value);
+        Assert.Equal(ResultStatus.Error, result.Status);
+        Assert.Equal(correlationId, result.CorrelationId);
+        
+        foreach (var error in errors)
+        {
+            result.Errors.Should().ContainEquivalentOf(error);
+        }
+    }
+
+    [Fact]
     public void InitializesInvalidResultWithFactoryMethod()
     {
         var validationErrors = new List<ValidationError>

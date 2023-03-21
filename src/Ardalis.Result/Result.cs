@@ -34,6 +34,7 @@ namespace Ardalis.Result
             Status = result.Status,
             Errors = result.Errors,
             SuccessMessage = result.SuccessMessage,
+            CorrelationId = result.CorrelationId,
             ValidationErrors = result.ValidationErrors,
         };
 
@@ -43,6 +44,7 @@ namespace Ardalis.Result
         public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
         public bool IsSuccess => Status == ResultStatus.Ok;
         public string SuccessMessage { get; protected set; } = string.Empty;
+        public string CorrelationId { get; protected set; } = string.Empty;
         public IEnumerable<string> Errors { get; protected set; } = new List<string>();
         public List<ValidationError> ValidationErrors { get; protected set; } = new List<ValidationError>();
 
@@ -68,6 +70,7 @@ namespace Ardalis.Result
             {
                 Status = Status,
                 SuccessMessage = SuccessMessage,
+                CorrelationId = CorrelationId,
                 Errors = Errors,
                 ValidationErrors = ValidationErrors
             };
