@@ -1,24 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net7.0</TargetFrameworks>
     <PackageId>Ardalis.Result.AspNetCore</PackageId>
     <Title>Ardalis.Result.AspNetCore</Title>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Steve Smith (@ardalis); Shady Nagy (@ShadyNagy)</Authors>
-    <Company>Ardalis.com</Company>
-    <PackageProjectUrl>https://github.com/ardalis/result</PackageProjectUrl>
     <Description>Adds ASP.NET Core filters that translate from Result to ActionResult.</Description>
     <Summary>Adds ASP.NET Core filters that translate from Result to ActionResult.</Summary>
-    <RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
     <PackageTags>result pattern web api aspnetcore mvc</PackageTags>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>PRs 92 and 112. Adding support for .NET 7 and ability to improve Swagger/OpenAPI specifications when using the TranslateResultToActionResult attribute.</PackageReleaseNotes>
-    <Version>7.0.0</Version>
     <AssemblyName>Ardalis.Result.AspNetCore</AssemblyName>
-    <PackageIcon>icon.png</PackageIcon>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup>
