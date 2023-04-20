@@ -55,7 +55,7 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
         /// <returns>A Result</returns>
-        public static new Result Error(params string[] errorMessages)
+        public new static Result Error(params string[] errorMessages)
         {
             return new Result(ResultStatus.Error) { Errors = errorMessages };
         }
@@ -82,7 +82,7 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="validationErrors">A list of validation errors encountered</param>
         /// <returns>A Result</returns>
-        public static new Result Invalid(List<ValidationError> validationErrors)
+        public new static Result Invalid(List<ValidationError> validationErrors)
         {
             return new Result(ResultStatus.Invalid) { ValidationErrors = validationErrors };
         }
@@ -91,7 +91,7 @@ namespace Ardalis.Result
         /// Represents the situation where a service was unable to find a requested resource.
         /// </summary>
         /// <returns>A Result</returns>
-        public static new Result NotFound()
+        public new static Result NotFound()
         {
             return new Result(ResultStatus.NotFound);
         }
@@ -102,7 +102,7 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
         /// <returns>A Result</returns>
-        public static new Result NotFound(params string[] errorMessages)
+        public new static Result NotFound(params string[] errorMessages)
         {
             return new Result(ResultStatus.NotFound) { Errors = errorMessages };
         }
@@ -112,7 +112,7 @@ namespace Ardalis.Result
         /// See also HTTP 403 Forbidden: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
         /// </summary>
         /// <returns>A Result</returns>
-        public static new Result Forbidden()
+        public new static Result Forbidden()
         {
             return new Result(ResultStatus.Forbidden);
         }
@@ -122,9 +122,33 @@ namespace Ardalis.Result
         /// See also HTTP 401 Unauthorized: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
         /// </summary>
         /// <returns>A Result</returns>
-        public static new Result Unauthorized()
+        public new static Result Unauthorized()
         {
             return new Result(ResultStatus.Unauthorized);
+        }
+        
+        /// <summary>
+        /// Represents a situation where a service is in conflict due to the current state of a resource,
+        /// such as an edit conflict between multiple concurrent updates.
+        /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
+        /// </summary>
+        /// <returns>A Result<typeparamref name="T"/></returns>
+        public new static Result Conflict()
+        {
+            return new Result(ResultStatus.Conflict);
+        }
+
+        /// <summary>
+        /// Represents a situation where a service is in conflict due to the current state of a resource,
+        /// such as an edit conflict between multiple concurrent updates.
+        /// Error messages may be provided and will be exposed via the Errors property.
+        /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
+        /// </summary>
+        /// <param name="errorMessages">A list of string error messages.</param>
+        /// <returns>A Result<typeparamref name="T"/></returns>
+        public new static Result Conflict(params string[] errorMessages)
+        {
+            return new Result(ResultStatus.Conflict) { Errors = errorMessages };
         }
     }
 }

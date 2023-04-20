@@ -75,6 +75,15 @@ public class ResultVoidToResultOfT
         Assert.Null(result.Value);
         Assert.Equal(ResultStatus.Unauthorized, result.Status);
     }
+    
+    [Fact]
+    public void ConvertFromConflictResultOfUnit()
+    {
+        var result = DoBusinessOperationExample<object>(Result.Conflict());
+
+        result.Status.Should().Be(ResultStatus.Conflict);
+        result.Value.Should().BeNull();
+    }
 
     public Result<T> DoBusinessOperationExample<T>(Result testValue) => testValue;
 }

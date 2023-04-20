@@ -40,6 +40,7 @@ public static partial class ResultExtensions
             ResultStatus.Forbidden => Results.Forbid(),
             ResultStatus.Invalid => Results.BadRequest(result.ValidationErrors),
             ResultStatus.Error => UnprocessableEntity(result),
+            ResultStatus.Conflict => ConflictEntity(result),
             _ => throw new NotSupportedException($"Result {result.Status} conversion is not supported."),
         };
 
@@ -73,6 +74,26 @@ public static partial class ResultExtensions
         else
         {
             return Results.NotFound();
+        }
+    }
+    
+    private static Microsoft.AspNetCore.Http.IResult ConflictEntity(IResult result)
+    {
+        var details = new StringBuilder("Next error(s) occured:");
+
+        if (result.Errors.Any())
+        {
+            foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+
+            return Results.Conflict(new ProblemDetails
+            {
+                Title = "There was a conflict.",
+                Detail = details.ToString()
+            });
+        }
+        else
+        {
+            return Results.Conflict();
         }
     }
 }

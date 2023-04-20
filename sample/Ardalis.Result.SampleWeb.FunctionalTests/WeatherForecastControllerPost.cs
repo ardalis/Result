@@ -90,6 +90,23 @@ public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory
         Assert.Contains(validationProblemDetails.Errors[nameof(ForecastRequestDto.PostalCode)], e => e.Equals("PostalCode cannot exceed 10 characters.", System.StringComparison.OrdinalIgnoreCase));
         Assert.Equal(400, validationProblemDetails.Status);
     }
+    
+    [Theory]
+    [InlineData(CONTROLLER_POST_ROUTE)]
+    [InlineData(ENDPOINT_POST_ROUTE)]
+    public async Task ReturnsConflictGivenNonExistentPostalCode(string route)
+    {
+        var requestDto = new ForecastRequestDto() { PostalCode = "Conflict" };
+        var response = await PostDTOAndGetResponse(requestDto, route);
+
+        Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
+        var stringResponse = await response.Content.ReadAsStringAsync();
+
+        var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(stringResponse);
+
+        Assert.Equal("There was a conflict.", problemDetails.Title);
+        Assert.Equal(409, problemDetails.Status);
+    }
 
     private async Task<HttpResponseMessage> PostDTOAndGetResponse(ForecastRequestDto dto, string route)
     {

@@ -160,5 +160,29 @@ namespace Ardalis.Result
         {
             return new Result<T>(ResultStatus.Unauthorized);
         }
+        
+        /// <summary>
+        /// Represents a situation where a service is in conflict due to the current state of a resource,
+        /// such as an edit conflict between multiple concurrent updates.
+        /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
+        /// </summary>
+        /// <returns>A Result<typeparamref name="T"/></returns>
+        public static Result<T> Conflict()
+        {
+            return new Result<T>(ResultStatus.Conflict);
+        }
+        
+        /// <summary>
+        /// Represents a situation where a service is in conflict due to the current state of a resource,
+        /// such as an edit conflict between multiple concurrent updates.
+        /// Error messages may be provided and will be exposed via the Errors property.
+        /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
+        /// </summary>
+        /// <param name="errorMessages">A list of string error messages.</param>
+        /// <returns>A Result<typeparamref name="T"/></returns>
+        public static Result<T> Conflict(params string[] errorMessages)
+        {
+            return new Result<T>(ResultStatus.Conflict) { Errors = errorMessages };
+        }
     }
 }

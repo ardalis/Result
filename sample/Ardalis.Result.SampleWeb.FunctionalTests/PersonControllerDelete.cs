@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using Ardalis.Result.Sample.Core.DTOs;
 using Xunit;
 
 namespace Ardalis.Result.SampleWeb.FunctionalTests;

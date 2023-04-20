@@ -53,6 +53,10 @@ public class BadWeatherForecastController : ControllerBase
         {
             return NotFound();
         }
+        catch (ForecastConflictException) // avoid using exceptions for control flow
+        {
+            return Conflict();
+        }
         catch (ForecastRequestInvalidException ex) // avoid using exceptions for control flow
         {
             var dict = new ModelStateDictionary();

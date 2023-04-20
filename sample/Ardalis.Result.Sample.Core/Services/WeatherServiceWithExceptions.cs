@@ -30,7 +30,13 @@ namespace Ardalis.Result.Sample.Core.Services
 
         public IEnumerable<WeatherForecast> GetForecast(ForecastRequestDto model)
         {
-            if (model.PostalCode == "NotFound") throw new ForecastNotFoundException();
+            switch (model.PostalCode)
+            {
+                case "NotFound":
+                    throw new ForecastNotFoundException();
+                case "Conflict":
+                    throw new ForecastConflictException();
+            }
 
             // validate model
             if (model.PostalCode.Length > 10)

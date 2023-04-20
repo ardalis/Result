@@ -67,4 +67,14 @@ public class NewWeatherForecast : IClassFixture<WebApplicationFactory<IWebMarker
         var stringResponse = await response.Content.ReadAsStringAsync();
         Assert.Contains("PostalCode cannot exceed 10 characters.", stringResponse);
     }
+    
+    [Fact]
+    public async Task ReturnsConflictGivenNonExistentPostalCode()
+    {
+        var requestDto = new ForecastRequestDto() { PostalCode = "Conflict" };
+        var jsonContent = new StringContent(JsonConvert.SerializeObject(requestDto), Encoding.Default, "application/json");
+        var response = await _client.PostAsync(ENDPOINT_POST_ROUTE, jsonContent);
+
+        Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
+    }
 }

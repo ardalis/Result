@@ -28,7 +28,13 @@ namespace Ardalis.Result.Sample.Core.Services
 
         public Result<IEnumerable<WeatherForecast>> GetForecast(ForecastRequestDto model)
         {
-            if (model.PostalCode == "NotFound") return Result.NotFound();
+            switch (model.PostalCode)
+            {
+                case "NotFound":
+                    return Result.NotFound();
+                case "Conflict":
+                    return Result.Conflict();
+            }
 
             // validate model
             if (model.PostalCode.Length > 10)
@@ -77,7 +83,13 @@ namespace Ardalis.Result.Sample.Core.Services
 
         public Result<WeatherForecast> GetSingleForecast(ForecastRequestDto model)
         {
-            if (model.PostalCode == "NotFound") return Result.NotFound();
+            switch (model.PostalCode)
+            {
+                case "NotFound":
+                    return Result.NotFound();
+                case "Conflict":
+                    return Result.Conflict();
+            }
 
             // validate model
             if (model.PostalCode.Length > 10)
