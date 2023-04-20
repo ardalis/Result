@@ -22,5 +22,5 @@ jobs:
     - name: Publish Ardalis.Result to NuGet
       run: |
         rm -rf nuget/
-        dotnet pack --no-build src/Ardalis.Result/Ardalis.Result.csproj --output nuget
+        dotnet pack --no-build src/Ardalis.Result/Ardalis.Result.csproj --configuration Release --output nuget
         dotnet nuget push nuget/*.nupkg -k '${{ secrets.NUGET_API_KEY }}' --skip-duplicate -s https://api.nuget.org/v3/index.json
