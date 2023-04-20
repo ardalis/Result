@@ -7,7 +7,6 @@
     <PackageProjectUrl>https://github.com/ardalis/result</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>7.0.0</Version>
     <PackageIcon>icon.png</PackageIcon>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
