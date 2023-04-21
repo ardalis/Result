@@ -23,11 +23,11 @@ jobs:
     - name: Publish Ardalis.Result.AspNetCore to NuGet
       run: |
         rm -rf nuget/
-        dotnet pack --no-build src/Ardalis.Result.AspNetCore/Ardalis.Result.AspNetCore.csproj --output nuget
+        dotnet pack --no-build src/Ardalis.Result.AspNetCore/Ardalis.Result.AspNetCore.csproj --configuration Release --output nuget
         dotnet nuget push nuget/*.nupkg -k '${{ secrets.NUGET_API_KEY }}' --skip-duplicate -s https://api.nuget.org/v3/index.json
 
     - name: Publish Ardalis.Result.FluentValidation to NuGet
       run: |
         rm -rf nuget/
-        dotnet pack --no-build src/Ardalis.Result.FluentValidation/Ardalis.Result.FluentValidation.csproj --output nuget
+        dotnet pack --no-build src/Ardalis.Result.FluentValidation/Ardalis.Result.FluentValidation.csproj --configuration Release --output nuget
         dotnet nuget push nuget/*.nupkg -k '${{ secrets.NUGET_API_KEY }}' --skip-duplicate -s https://api.nuget.org/v3/index.json
