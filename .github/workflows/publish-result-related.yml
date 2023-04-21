@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
           dotnet-version: '7.x'
     - name: Install dependencies
@@ -21,13 +21,13 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Publish Ardalis.Result.AspNetCore to NuGet
-      uses: brandedoutcast/publish-nuget@v2.5.0
-      with:
-        PROJECT_FILE_PATH: src/Ardalis.Result.AspNetCore/Ardalis.Result.AspNetCore.csproj
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+      run: |
+        rm -rf nuget/
+        dotnet pack --no-build src/Ardalis.Result.AspNetCore/Ardalis.Result.AspNetCore.csproj --output nuget
+        dotnet nuget push nuget/*.nupkg -k '${{ secrets.NUGET_API_KEY }}' --skip-duplicate -s https://api.nuget.org/v3/index.json
 
     - name: Publish Ardalis.Result.FluentValidation to NuGet
-      uses: brandedoutcast/publish-nuget@v2.5.0
-      with:
-        PROJECT_FILE_PATH: src/Ardalis.Result.FluentValidation/Ardalis.Result.FluentValidation.csproj
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+      run: |
+        rm -rf nuget/
+        dotnet pack --no-build src/Ardalis.Result.FluentValidation/Ardalis.Result.FluentValidation.csproj --output nuget
+        dotnet nuget push nuget/*.nupkg -k '${{ secrets.NUGET_API_KEY }}' --skip-duplicate -s https://api.nuget.org/v3/index.json
