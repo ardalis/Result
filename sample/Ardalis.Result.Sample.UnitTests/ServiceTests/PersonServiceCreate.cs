@@ -1,3 +1,4 @@
+using System.Linq;
 using Ardalis.Result.Sample.Core.Services;
 using FluentAssertions;
 using Xunit;
@@ -28,4 +29,16 @@ public class PersonServiceCreate
         result.ValidationErrors.Count.Should().Be(2);
     }
 
+    [Fact]
+    public void ReturnsConflictResultGivenExistPerson()
+    {
+        var service = new PersonService();
+        string firstName = "John";
+        string lastName = "Smith";
+
+        var result = service.Create(firstName, lastName);
+
+        result.Status.Should().Be(ResultStatus.Conflict);
+        result.Errors.Single().Should().Be($"Person ({firstName} {lastName}) is exist");
+    }
 }

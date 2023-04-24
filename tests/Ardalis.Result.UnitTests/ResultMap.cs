@@ -141,6 +141,28 @@ namespace Ardalis.Result.UnitTests
             actual.Status.Should().Be(ResultStatus.Error);
             actual.Errors.Should().BeEquivalentTo(errors);
         }
+        
+        [Fact]
+        public void ShouldProduceConflict()
+        {
+            var result = Result<int>.Conflict();
+
+            var actual = result.Map(val => val.ToString());
+
+            actual.Status.Should().Be(ResultStatus.Conflict);
+        }
+
+        [Fact]
+        public void ShouldProduceConflictWithError()
+        {
+            string expectedMessage = "Some conflict";
+            var result = Result<int>.Conflict(expectedMessage);
+
+            var actual = result.Map(val => val.ToString());
+
+            actual.Status.Should().Be(ResultStatus.Conflict);
+            actual.Errors.Single().Should().Be(expectedMessage);
+        }
 
         private record Foo(string Bar);
 

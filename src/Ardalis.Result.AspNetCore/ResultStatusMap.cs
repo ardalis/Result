@@ -33,7 +33,9 @@ namespace Ardalis.Result.AspNetCore
                 .For(ResultStatus.Invalid, HttpStatusCode.BadRequest, resultStatusOptions => resultStatusOptions
                     .With(BadRequest))
                 .For(ResultStatus.NotFound, HttpStatusCode.NotFound, resultStatusOptions => resultStatusOptions
-                    .With(NotFoundEntity));
+                    .With(NotFoundEntity))
+                .For(ResultStatus.Conflict, HttpStatusCode.Conflict, resultStatusOptions => resultStatusOptions
+                    .With(ConflictEntity));
         }
 
         /// <summary>
@@ -121,6 +123,19 @@ namespace Ardalis.Result.AspNetCore
             return new ProblemDetails
             {
                 Title = "Resource not found.",
+                Detail = result.Errors.Any() ? details.ToString() : null
+            };
+        }
+        
+        private static ProblemDetails ConflictEntity(ControllerBase controller, IResult result)
+        {
+            var details = new StringBuilder("Next error(s) occured:");
+
+            foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+
+            return new ProblemDetails
+            {
+                Title = "There was a conflict.",
                 Detail = result.Errors.Any() ? details.ToString() : null
             };
         }

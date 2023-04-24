@@ -1,4 +1,6 @@
 ﻿using Ardalis.Result.AspNetCore;
+using Ardalis.Result.Sample.Core.DTOs;
+using Ardalis.Result.Sample.Core.Model;
 using Ardalis.Result.Sample.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +21,6 @@ public class PersonController : ControllerBase
     /// This uses a filter to convert an Ardalis.Result return type to an ActionResult.
     /// This filter could be used per controller or globally!
     /// </summary>
-    /// <param name="model"></param>
     /// <returns></returns>
     [TranslateResultToActionResult]
     [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Invalid)]
@@ -27,5 +28,18 @@ public class PersonController : ControllerBase
     public Result RemovePerson(int id)
     {
         return _personService.Remove(id);
+    }
+    
+    /// <summary>
+    /// This uses a filter to convert an Ardalis.Result return type to an ActionResult.
+    /// This filter could be used per controller or globally!
+    /// </summary>
+    /// <returns></returns>
+    [TranslateResultToActionResult]
+    [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Invalid)]
+    [HttpPost("New/")]
+    public Result<Person> CreatePerson(CreatePersonRequestDto request)
+    {
+        return _personService.Create(request.FirstName, request.LastName);
     }
 }

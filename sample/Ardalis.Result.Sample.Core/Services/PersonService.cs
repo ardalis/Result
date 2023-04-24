@@ -8,12 +8,15 @@ namespace Ardalis.Result.Sample.Core.Services
     public class PersonService
     {
         private readonly int[] _knownIds = new [] { 1 };
+        private readonly Person _existPerson = new() { Forename = "John", Surname = "Smith" };
 
         public Result<Person> Create(string firstName, string lastName)
         {
-            var person = new Person();
-            person.Forename = firstName;
-            person.Surname = lastName;
+            var person = new Person
+            {
+                Forename = firstName,
+                Surname = lastName
+            };
 
             var validator = new PersonValidator();
 
@@ -21,6 +24,11 @@ namespace Ardalis.Result.Sample.Core.Services
             if (!result.IsValid)
             {
                 return Result.Invalid(result.AsErrors());
+            }
+
+            if (person.Forename == _existPerson.Forename && person.Surname == _existPerson.Surname)
+            {
+                return Result.Conflict($"Person ({person.Forename} {person.Surname}) is exist");
             }
 
             return Result.Success(person);

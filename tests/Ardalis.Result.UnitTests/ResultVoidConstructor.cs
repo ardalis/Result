@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Ardalis.Result.UnitTests;
@@ -105,6 +106,17 @@ public class ResultVoidConstructor
         Assert.Null(result.Value);
         Assert.Equal(ResultStatus.NotFound, result.Status);
     }
+    
+    [Fact]
+    public void InitializesNotFoundResultWithFactoryMethodWithErrors()
+    {
+        var errorMessage = "User Not Found";
+        var result = Result.NotFound(errorMessage);
+
+        result.Value.Should().BeNull();
+        result.Status.Should().Be(ResultStatus.NotFound);
+        result.Errors.Single().Should().Be(errorMessage);
+    }
 
     [Fact]
     public void InitializesForbiddenResultWithFactoryMethod()
@@ -122,5 +134,25 @@ public class ResultVoidConstructor
 
         Assert.Null(result.Value);
         Assert.Equal(ResultStatus.Unauthorized, result.Status);
+    }
+    
+    [Fact]
+    public void InitializesConflictResultWithFactoryMethod()
+    {
+        var result = Result.Conflict();
+
+        result.Value.Should().BeNull();
+        result.Status.Should().Be(ResultStatus.Conflict);
+    }
+    
+    [Fact]
+    public void InitializesConflictResultWithFactoryMethodWithErrors()
+    {
+        var errorMessage = "Some conflict";
+        var result = Result.Conflict(errorMessage);
+
+        result.Value.Should().BeNull();
+        result.Status.Should().Be(ResultStatus.Conflict);
+        result.Errors.Single().Should().Be(errorMessage);
     }
 }

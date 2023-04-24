@@ -155,6 +155,25 @@ public class ResultConstructor
         Assert.Equal(ResultStatus.NotFound, result.Status);
         Assert.Equal(errorMessage, result.Errors.First());
     }
+    
+    [Fact]
+    public void InitializesStatusToConflictGivenConflictFactoryCall()
+    {
+        var result = Result<object>.Conflict();
+
+        result.Status.Should().Be(ResultStatus.Conflict);
+        result.Errors.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void InitializesStatusToConflictGivenConflictFactoryCallWithString()
+    {
+        var errorMessage = "Some conflict";
+        var result = Result<object>.Conflict(errorMessage);
+
+        result.Status.Should().Be(ResultStatus.Conflict);
+        result.Errors.Single().Should().Be(errorMessage);
+    }
 
     [Fact]
     public void InitializesStatusToForbiddenGivenForbiddenFactoryCall()
@@ -202,5 +221,13 @@ public class ResultConstructor
         var result = Result<object>.NotFound();
 
         Assert.False(result.IsSuccess);
+    }
+    
+    [Fact]
+    public void InitializedIsSuccessFalseForConflictFactoryCall()
+    {
+        var result = Result<object>.Conflict();
+
+        result.IsSuccess.Should().BeFalse();
     }
 }

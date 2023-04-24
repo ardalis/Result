@@ -69,5 +69,16 @@ namespace Ardalis.Result.UnitTests
             actual.Status.Should().Be(ResultStatus.Error);
             actual.Value.Should().BeNull();
         }
+        
+        [Fact]
+        public void ShouldProduceConflict()
+        {
+            var result = Result.Conflict();
+
+            var actual = result.Map(_ => "This should be ignored");
+
+            actual.Status.Should().Be(ResultStatus.Conflict);
+            actual.Value.Should().BeNull();
+        }
     }
 }
