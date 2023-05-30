@@ -29,9 +29,13 @@ public class PersonControllerCreate : IClassFixture<WebApplicationFactory<WebMar
     [InlineData(ENDPOINT_POST_ROUTE)]
     public async Task ReturnsConflictGivenExistPerson(string route)
     {
-        var firstName = "John";
-        var lastName = "Smith";
-        var response = await SendCreateRequest(route, firstName, lastName);
+        var createPersonRequestDto = new CreatePersonRequestDto 
+        { 
+            FirstName = "John",
+            LastName = "Smith"
+        };
+        var json = JsonConvert.SerializeObject(createPersonRequestDto);
+        var response = await _client.PostAsync(route, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
         var stringResponse = await response.Content.ReadAsStringAsync();
@@ -39,16 +43,7 @@ public class PersonControllerCreate : IClassFixture<WebApplicationFactory<WebMar
         var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(stringResponse);
 
         Assert.Contains("There was a conflict.", problemDetails.Title);
-        Assert.Contains("Next error(s) occured:* Person (John Smith) is exist\r\n", problemDetails.Detail);
+        Assert.Contains("Next error(s) occured:* Person (John Smith) is exist", problemDetails.Detail);
         Assert.Equal(409, problemDetails.Status);
-    }
-    
-    private async Task<HttpResponseMessage> SendCreateRequest(string route, string firstName, string lastName)
-    {
-        var createPersonRequestDto = new CreatePersonRequestDto{ FirstName = firstName, LastName = lastName };
-        var json = JsonConvert.SerializeObject(createPersonRequestDto);
-        var data = new StringContent(json, Encoding.UTF8, "application/json");
-        
-        return await _client.PostAsync(route, data);
     }
 }
