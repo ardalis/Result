@@ -78,7 +78,7 @@ namespace Ardalis.Result
         }
 
         /// <summary>
-        /// Represents the validation error that prevent the underlying service from completing.
+        /// Represents the validation error that prevents the underlying service from completing.
         /// </summary>
         /// <param name="validationError">The validation error encountered</param>
         /// <returns>A Result</returns>
