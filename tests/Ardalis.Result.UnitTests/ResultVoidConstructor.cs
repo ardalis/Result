@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -73,7 +72,7 @@ public class ResultVoidConstructor
     }
 
     [Fact]
-    public void InitializesInvalidResultWithFactoryMethod()
+    public void InitializesInvalidResultWithMultipleValidationErrorsWithFactoryMethod()
     {
         var validationErrors = new List<ValidationError>
             {
@@ -96,6 +95,23 @@ public class ResultVoidConstructor
 
         result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "Name is required", Identifier = "name" });
         result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "PostalCode cannot exceed 10 characters", Identifier = "postalCode" });
+    }
+
+    [Fact]
+    public void InitializesInvalidResultWithSingleValidationErrorWithFactoryMethod()
+    {
+        var validationError = new ValidationError
+        {
+            Identifier = "name",
+            ErrorMessage = "Name is required"
+        };
+
+        var result = Result.Invalid(validationError);
+
+        Assert.Null(result.Value);
+        Assert.Equal(ResultStatus.Invalid, result.Status);
+
+        result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "Name is required", Identifier = "name" });
     }
 
     [Fact]
