@@ -35,7 +35,10 @@ namespace Ardalis.Result.AspNetCore
                 .For(ResultStatus.NotFound, HttpStatusCode.NotFound, resultStatusOptions => resultStatusOptions
                     .With(NotFoundEntity))
                 .For(ResultStatus.Conflict, HttpStatusCode.Conflict, resultStatusOptions => resultStatusOptions
-                    .With(ConflictEntity));
+                    .With(ConflictEntity))
+                .For(ResultStatus.CriticalError, HttpStatusCode.InternalServerError, resultStatusOptions =>
+                    resultStatusOptions
+                        .With(CriticalEntity));
         }
 
         /// <summary>
@@ -136,6 +139,19 @@ namespace Ardalis.Result.AspNetCore
             return new ProblemDetails
             {
                 Title = "There was a conflict.",
+                Detail = result.Errors.Any() ? details.ToString() : null
+            };
+        }
+
+        private static ProblemDetails CriticalEntity(ControllerBase controller, IResult result)
+        {
+            var details = new StringBuilder("Next error(s) occured:");
+
+            foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+
+            return new ProblemDetails
+            {
+                Title = "Something went wrong.",
                 Detail = result.Errors.Any() ? details.ToString() : null
             };
         }

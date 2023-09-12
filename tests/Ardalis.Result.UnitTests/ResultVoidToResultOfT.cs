@@ -23,7 +23,7 @@ public class ResultVoidToResultOfT
     }
 
     [Fact]
-    public void ConvertFromInvalidResultOfUnit()
+    public void ConvertFromInvalidResultOfUnitWithValidationErrorList()
     {
         var validationErrors = new List<ValidationError>
             {
@@ -47,6 +47,24 @@ public class ResultVoidToResultOfT
         result.Status.Should().Be(ResultStatus.Invalid);
         result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "Name is required", Identifier = "name" });
         result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "PostalCode cannot exceed 10 characters", Identifier = "postalCode" });
+    }
+
+    [Fact]
+    public void ConvertFromInvalidResultOfUnitWithValidationError()
+    {
+        var validationError = new ValidationError
+        {
+            Identifier = "name",
+            ErrorMessage = "Name is required"
+        };
+
+        var result = DoBusinessOperationExample<object>(Result.Invalid(validationError));
+
+        Assert.Null(result.Value);
+        Assert.Equal(ResultStatus.Invalid, result.Status);
+
+        result.Status.Should().Be(ResultStatus.Invalid);
+        result.ValidationErrors.Should().ContainEquivalentOf(new ValidationError { ErrorMessage = "Name is required", Identifier = "name" });
     }
 
     [Fact]

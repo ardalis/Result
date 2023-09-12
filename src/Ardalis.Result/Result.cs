@@ -112,6 +112,16 @@ namespace Ardalis.Result
         }
 
         /// <summary>
+        /// Represents a validation error that prevents the underlying service from completing.
+        /// </summary>
+        /// <param name="validationError">The validation error encountered</param>
+        /// <returns>A Result<typeparamref name="T"/></returns>
+        public static Result<T> Invalid(ValidationError validationError)
+        {
+            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = { validationError } };
+        }
+
+        /// <summary>
         /// Represents validation errors that prevent the underlying service from completing.
         /// </summary>
         /// <param name="validationErrors">A list of validation errors encountered</param>
@@ -183,6 +193,18 @@ namespace Ardalis.Result
         public static Result<T> Conflict(params string[] errorMessages)
         {
             return new Result<T>(ResultStatus.Conflict) { Errors = errorMessages };
+        }
+        
+        /// <summary>
+        /// Represents a critical error that occurred during the execution of the service.
+        /// Everything provided by the user was valid, but the service was unable to complete due to an exception.
+        /// See also HTTP 500 Internal Server Error: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#5xx_server_errors
+        /// </summary>
+        /// <param name="errorMessages">A list of string error messages.</param>
+        /// <returns>A Result<typeparamref name="T"/></returns>
+        public static Result<T> CriticalError(params string[] errorMessages)
+        {
+            return new Result<T>(ResultStatus.CriticalError) { Errors = errorMessages };
         }
     }
 }
