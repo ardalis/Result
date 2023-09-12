@@ -9,6 +9,7 @@
     <PackageReleaseNotes>PR 132. Add Result.Conflict</PackageReleaseNotes>
     <AssemblyName>Ardalis.Result</AssemblyName>
     <Version>7.1.0</Version>
+    <TargetFrameworks>net7.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <None Include="icon.png" Pack="true" Visible="false" PackagePath="" />

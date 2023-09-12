@@ -112,6 +112,16 @@ namespace Ardalis.Result
         }
 
         /// <summary>
+        /// Represents a validation error that prevents the underlying service from completing.
+        /// </summary>
+        /// <param name="validationError">The validation error encountered</param>
+        /// <returns>A Result<typeparamref name="T"/></returns>
+        public static Result<T> Invalid(ValidationError validationError)
+        {
+            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = { validationError } };
+        }
+
+        /// <summary>
         /// Represents validation errors that prevent the underlying service from completing.
         /// </summary>
         /// <param name="validationErrors">A list of validation errors encountered</param>

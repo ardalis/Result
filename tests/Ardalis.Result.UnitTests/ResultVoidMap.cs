@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Ardalis.Result.UnitTests
@@ -49,9 +50,20 @@ namespace Ardalis.Result.UnitTests
         }
 
         [Fact]
+        public void ShouldProduceInvalidWithEmptyList()
+        {
+            var result = Result.Invalid(new List<ValidationError>());
+
+            var actual = result.Map(_ => "This should be ignored");
+
+            actual.Status.Should().Be(ResultStatus.Invalid);
+            actual.Value.Should().BeNull();
+        }
+
+        [Fact]
         public void ShouldProduceInvalid()
         {
-            var result = Result.Invalid(new());
+            var result = Result.Invalid(new ValidationError());
 
             var actual = result.Map(_ => "This should be ignored");
 
