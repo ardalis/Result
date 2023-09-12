@@ -9,13 +9,10 @@
     <PackageReleaseNotes>PR 132. Add Result.Conflict</PackageReleaseNotes>
     <AssemblyName>Ardalis.Result.AspNetCore</AssemblyName>
     <Version>7.1.0</Version>
+    <TargetFrameworks>net7.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework) == 'net7.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
