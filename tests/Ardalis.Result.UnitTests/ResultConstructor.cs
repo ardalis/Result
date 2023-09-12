@@ -208,9 +208,17 @@ public class ResultConstructor
     }
 
     [Fact]
+    public void InitializedIsSuccessFalseForInvalidListFactoryCall()
+    {
+        var result = Result<object>.Invalid(new List<ValidationError>());
+
+        Assert.False(result.IsSuccess);
+    }
+
+    [Fact]
     public void InitializedIsSuccessFalseForInvalidFactoryCall()
     {
-        var result = Result<object>.Invalid(null);
+        var result = Result<object>.Invalid(new ValidationError());
 
         Assert.False(result.IsSuccess);
     }
