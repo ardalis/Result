@@ -151,4 +151,15 @@ public class PagedResultConstructor
         Assert.Equal(ResultStatus.Forbidden, result.Status);
         Assert.Equal(_pagedInfo, result.PagedInfo);
     }
+
+    [Fact]
+    public void InitializesStatusToUnavailableGivenUnavailableFactoryCall()
+    {
+        var result = Result<object>
+            .Unavailable()
+            .ToPagedResult(_pagedInfo);
+
+        Assert.Equal(ResultStatus.Unavailable, result.Status);
+        Assert.Equal(_pagedInfo, result.PagedInfo);
+    }
 }

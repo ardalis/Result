@@ -160,5 +160,17 @@ namespace Ardalis.Result
         {
             return new Result(ResultStatus.Conflict) { Errors = errorMessages };
         }
+
+        /// <summary>
+        /// Represents a situation where a service is unavailable, such as when the underlying data store is unavailable.
+        /// Errors may be transient, so the caller may wish to retry the operation.
+        /// See also HTTP 503 Service Unavailable: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#5xx_server_errors
+        /// </summary>
+        /// <param name="errorMessages">A list of string error messages</param>
+        /// <returns></returns>
+        public new static Result Unavailable(params string[] errorMessages)
+        {
+            return new Result(ResultStatus.Unavailable) { Errors = errorMessages };
+        }
     }
 }

@@ -164,6 +164,18 @@ namespace Ardalis.Result.UnitTests
             actual.Errors.Single().Should().Be(expectedMessage);
         }
 
+        [Fact]
+        public void ShouldProduceUnavailableWithError()
+        {
+            string expectedMessage = "Something unavailable";
+            var result = Result<int>.Unavailable(expectedMessage);
+
+            var actual = result.Map(val => val.ToString());
+
+            actual.Status.Should().Be(ResultStatus.Unavailable);
+            actual.Errors.Single().Should().Be(expectedMessage);
+        }
+
         private record Foo(string Bar);
 
         private class FooDto

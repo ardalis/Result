@@ -184,6 +184,17 @@ public class ResultConstructor
     }
 
     [Fact]
+    public void InitializesStatusToUnavailableGivenUnavailableFactoryCallWithString()
+    {
+        var errorMessage = "Service Unavailable";
+        var result = Result<object>.Unavailable(errorMessage);
+
+        Assert.Equal(ResultStatus.Unavailable, result.Status);
+        Assert.Equal(errorMessage, result.Errors.First());
+    }
+    
+
+    [Fact]
     public void InitializedIsSuccessTrueForSuccessFactoryCall()
     {
         var result = Result<object>.Success(new object());

@@ -9,6 +9,7 @@
         Invalid,
         NotFound,
         Conflict,
-        CriticalError
+        CriticalError,
+        Unavailable
     }
 }

@@ -30,6 +30,7 @@ namespace Ardalis.Result
                                         ? Result<TDestination>.Conflict(result.Errors.ToArray())
                                         : Result<TDestination>.Conflict();
                 case ResultStatus.CriticalError: return Result<TDestination>.CriticalError(result.Errors.ToArray());
+                case ResultStatus.Unavailable: return Result<TDestination>.Unavailable(result.Errors.ToArray());
                 default:
                     throw new NotSupportedException($"Result {result.Status} conversion is not supported.");
             }

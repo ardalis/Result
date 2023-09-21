@@ -41,6 +41,7 @@ public static partial class ResultExtensions
             ResultStatus.Invalid => Results.BadRequest(result.ValidationErrors),
             ResultStatus.Error => UnprocessableEntity(result),
             ResultStatus.Conflict => ConflictEntity(result),
+            ResultStatus.Unavailable => UnavailableEntity(result),
             _ => throw new NotSupportedException($"Result {result.Status} conversion is not supported."),
         };
 
@@ -95,6 +96,28 @@ public static partial class ResultExtensions
         {
             return Results.Conflict();
         }
+    }
+
+    private static Microsoft.AspNetCore.Http.IResult UnavailableEntity(IResult result)
+    {
+        var details = new StringBuilder("Next error(s) occured:");
+
+        if (result.Errors.Any())
+        {
+            foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+
+            return Results.Problem(new ProblemDetails
+            {
+                Title = "Service unavailable.",
+                Detail = details.ToString(),
+                Status = StatusCodes.Status503ServiceUnavailable
+            });
+        }
+        else
+        {
+            return Results.StatusCode(StatusCodes.Status503ServiceUnavailable);
+        }
+
     }
 }
 #endif

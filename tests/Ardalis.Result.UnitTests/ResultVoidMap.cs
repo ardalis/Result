@@ -92,5 +92,16 @@ namespace Ardalis.Result.UnitTests
             actual.Status.Should().Be(ResultStatus.Conflict);
             actual.Value.Should().BeNull();
         }
+
+        [Fact]
+        public void ShouldProduceUnavailable()
+        {
+            var result = Result.Unavailable();
+
+            var actual = result.Map(_ => "This should be ignored");
+
+            actual.Status.Should().Be(ResultStatus.Unavailable);
+            actual.Value.Should().BeNull();
+        }
     }
 }

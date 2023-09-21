@@ -103,5 +103,14 @@ public class ResultVoidToResultOfT
         result.Value.Should().BeNull();
     }
 
+    [Fact]
+    public void ConvertFromUnavailableResultOfUnit()
+    {
+        var result = DoBusinessOperationExample<object>(Result.Unavailable());
+
+        result.Status.Should().Be(ResultStatus.Unavailable);
+        result.Value.Should().BeNull();
+    }
+
     public Result<T> DoBusinessOperationExample<T>(Result testValue) => testValue;
 }

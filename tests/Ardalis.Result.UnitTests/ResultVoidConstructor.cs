@@ -171,4 +171,16 @@ public class ResultVoidConstructor
         result.Status.Should().Be(ResultStatus.Conflict);
         result.Errors.Single().Should().Be(errorMessage);
     }
+
+    [Fact]
+    public void InitializeUnavailableResultWithFactoryMethodWithErrors()
+    {
+        var errorMessage = "Something unavailable";
+        var result = Result.Unavailable(errorMessage);
+
+        result.Value.Should().BeNull();
+        result.Status.Should().Be(ResultStatus.Unavailable);
+        result.Errors.Single().Should().Be(errorMessage);
+    }
+    
 }
