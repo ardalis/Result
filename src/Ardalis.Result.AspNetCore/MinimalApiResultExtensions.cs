@@ -134,7 +134,6 @@ public static partial class ResultExtensions
                 Title = "Service unavailable.",
                 Detail = details.ToString(),
                 Status = StatusCodes.Status503ServiceUnavailable
-                ream/main
             });
         }
         else
