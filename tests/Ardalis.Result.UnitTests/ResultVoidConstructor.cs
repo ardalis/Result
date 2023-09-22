@@ -183,4 +183,14 @@ public class ResultVoidConstructor
         result.Errors.Single().Should().Be(errorMessage);
     }
     
+    [Fact]
+    public void InitializesCriticalErrorResultWithFactoryMethodWithErrors()
+    {
+        var errorMessage = "Some critical error";
+        var result = Result.CriticalError(errorMessage);
+
+        result.Value.Should().BeNull();
+        result.Status.Should().Be(ResultStatus.CriticalError);
+        result.Errors.Single().Should().Be(errorMessage);
+    }
 }

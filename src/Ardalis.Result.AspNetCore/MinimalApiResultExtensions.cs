@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 #if NET7_0_OR_GREATER
 namespace Ardalis.Result.AspNetCore;
+
 public static partial class ResultExtensions
 {
     /// <summary>
@@ -33,8 +34,8 @@ public static partial class ResultExtensions
         result.Status switch
         {
             ResultStatus.Ok => typeof(Result).IsInstanceOfType(result)
-                                    ? Results.Ok()
-                                    : Results.Ok(result.GetValue()),
+                ? Results.Ok()
+                : Results.Ok(result.GetValue()),
             ResultStatus.NotFound => NotFoundEntity(result),
             ResultStatus.Unauthorized => Results.Unauthorized(),
             ResultStatus.Forbidden => Results.Forbid(),
@@ -42,6 +43,7 @@ public static partial class ResultExtensions
             ResultStatus.Error => UnprocessableEntity(result),
             ResultStatus.Conflict => ConflictEntity(result),
             ResultStatus.Unavailable => UnavailableEntity(result),
+            ResultStatus.CriticalError => CriticalEntity(result),
             _ => throw new NotSupportedException($"Result {result.Status} conversion is not supported."),
         };
 
@@ -77,7 +79,7 @@ public static partial class ResultExtensions
             return Results.NotFound();
         }
     }
-    
+
     private static Microsoft.AspNetCore.Http.IResult ConflictEntity(IResult result)
     {
         var details = new StringBuilder("Next error(s) occured:");
@@ -98,7 +100,7 @@ public static partial class ResultExtensions
         }
     }
 
-    private static Microsoft.AspNetCore.Http.IResult UnavailableEntity(IResult result)
+    private static Microsoft.AspNetCore.Http.IResult CriticalEntity(IResult result)
     {
         var details = new StringBuilder("Next error(s) occured:");
 
@@ -106,18 +108,39 @@ public static partial class ResultExtensions
         {
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
+            return Results.Problem(new ProblemDetails()
+            {
+                Title = "Something went wrong.",
+                Detail = details.ToString(),
+                Status = StatusCodes.Status500InternalServerError
+            });
+        }
+        else
+        {
+            return Results.StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+
+    private static Microsoft.AspNetCore.Http.IResult UnavailableEntity(IResult result)
+    {
+        var details = new StringBuilder("Next error(s) occured:");
+
+        if (result.Errors.Any())
+        {
+            foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+            
             return Results.Problem(new ProblemDetails
             {
                 Title = "Service unavailable.",
                 Detail = details.ToString(),
                 Status = StatusCodes.Status503ServiceUnavailable
+                ream/main
             });
         }
         else
         {
             return Results.StatusCode(StatusCodes.Status503ServiceUnavailable);
         }
-
     }
 }
 #endif
