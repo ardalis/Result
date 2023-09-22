@@ -103,5 +103,14 @@ public class ResultVoidToResultOfT
         result.Value.Should().BeNull();
     }
 
+    [Fact]
+    public void ConvertFromCriticalErrorResultOfUnit()
+    {
+        var result = DoBusinessOperationExample<object>(Result.CriticalError());
+
+        result.Status.Should().Be(ResultStatus.CriticalError);
+        result.Value.Should().BeNull();
+    }
+
     public Result<T> DoBusinessOperationExample<T>(Result testValue) => testValue;
 }

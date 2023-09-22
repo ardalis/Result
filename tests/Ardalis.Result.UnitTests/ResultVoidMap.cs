@@ -92,5 +92,16 @@ namespace Ardalis.Result.UnitTests
             actual.Status.Should().Be(ResultStatus.Conflict);
             actual.Value.Should().BeNull();
         }
+
+        [Fact]
+        public void ShouldProduceCriticalError()
+        {
+            var result = Result.CriticalError();
+
+            var actual = result.Map(_ => "This should be ignored");
+
+            actual.Status.Should().Be(ResultStatus.CriticalError);
+            actual.Value.Should().BeNull();
+        }
     }
 }

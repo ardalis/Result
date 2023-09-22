@@ -238,4 +238,12 @@ public class ResultConstructor
 
         result.IsSuccess.Should().BeFalse();
     }
+
+    [Fact]
+    public void InitializedIsSuccessFalseForCriticalErrorFactoryCall()
+    {
+        var result = Result<object>.CriticalError();
+
+        Assert.False(result.IsSuccess);
+    }
 }
