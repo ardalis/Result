@@ -104,6 +104,15 @@ public class ResultVoidToResultOfT
     }
 
     [Fact]
+    public void ConvertFromUnavailableResultOfUnit()
+    {
+        var result = DoBusinessOperationExample<object>(Result.Unavailable());
+
+        result.Status.Should().Be(ResultStatus.Unavailable);
+        result.Value.Should().BeNull();
+    }
+
+    [Fact]
     public void ConvertFromCriticalErrorResultOfUnit()
     {
         var result = DoBusinessOperationExample<object>(Result.CriticalError());

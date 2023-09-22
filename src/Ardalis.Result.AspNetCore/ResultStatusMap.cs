@@ -38,7 +38,10 @@ namespace Ardalis.Result.AspNetCore
                     .With(ConflictEntity))
                 .For(ResultStatus.CriticalError, HttpStatusCode.InternalServerError, resultStatusOptions =>
                     resultStatusOptions
-                        .With(CriticalEntity));
+                        .With(CriticalEntity))
+                .For(ResultStatus.Unavailable, HttpStatusCode.ServiceUnavailable, resultStatusOptions =>
+                    resultStatusOptions
+                        .With(UnavailableEntity));
         }
 
         /// <summary>
@@ -152,6 +155,19 @@ namespace Ardalis.Result.AspNetCore
             return new ProblemDetails
             {
                 Title = "Something went wrong.",
+                Detail = result.Errors.Any() ? details.ToString() : null
+            };
+        }
+
+        private static ProblemDetails UnavailableEntity(ControllerBase controller, IResult result)
+        {
+            var details = new StringBuilder("Next error(s) occured:");
+
+            foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+
+            return new ProblemDetails
+            {
+                Title = "Service is unavailable.",
                 Detail = result.Errors.Any() ? details.ToString() : null
             };
         }

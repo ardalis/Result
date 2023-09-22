@@ -94,6 +94,16 @@ namespace Ardalis.Result.UnitTests
         }
 
         [Fact]
+        public void ShouldProduceUnavailable()
+        {
+            var result = Result.Unavailable();
+
+            var actual = result.Map(_ => "This should be ignored");
+
+            actual.Status.Should().Be(ResultStatus.Unavailable);
+        }
+
+        [Fact]
         public void ShouldProduceCriticalError()
         {
             var result = Result.CriticalError();
