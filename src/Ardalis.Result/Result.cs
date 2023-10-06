@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Ardalis.Result
 {
@@ -10,10 +11,6 @@ namespace Ardalis.Result
         public Result(T value)
         {
             Value = value;
-            if (Value != null)
-            {
-                ValueType = Value.GetType();
-            }
         }
 
         protected internal Result(T value, string successMessage) : this(value)
@@ -40,15 +37,14 @@ namespace Ardalis.Result
 
         public T Value { get; }
 
-        public Type ValueType { get; private set; }
+        [JsonIgnore]
+        public Type ValueType => typeof(T);
         public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
         public bool IsSuccess => Status == ResultStatus.Ok;
         public string SuccessMessage { get; protected set; } = string.Empty;
         public string CorrelationId { get; protected set; } = string.Empty;
         public IEnumerable<string> Errors { get; protected set; } = new List<string>();
         public List<ValidationError> ValidationErrors { get; protected set; } = new List<ValidationError>();
-
-        public void ClearValueType() => ValueType = null;
 
         /// <summary>
         /// Returns the current value.
