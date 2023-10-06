@@ -6,16 +6,13 @@
     <Description>Adds ASP.NET Core filters that translate from Result to ActionResult.</Description>
     <Summary>Adds ASP.NET Core filters that translate from Result to ActionResult.</Summary>
     <PackageTags>result pattern web api aspnetcore mvc</PackageTags>
-    <PackageReleaseNotes>PRs 92 and 112. Adding support for .NET 7 and ability to improve Swagger/OpenAPI specifications when using the TranslateResultToActionResult attribute.</PackageReleaseNotes>
+    <PackageReleaseNotes>PR 132. Add Result.Conflict</PackageReleaseNotes>
     <AssemblyName>Ardalis.Result.AspNetCore</AssemblyName>
-    <Version>7.0.0</Version>
+    <Version>7.1.0</Version>
+    <TargetFrameworks>net7.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework) == 'net7.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 

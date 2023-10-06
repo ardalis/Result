@@ -184,6 +184,17 @@ public class ResultConstructor
     }
 
     [Fact]
+    public void InitializesStatusToUnavailableGivenUnavailableFactoryCallWithString()
+    {
+        var errorMessage = "Service Unavailable";
+        var result = Result<object>.Unavailable(errorMessage);
+
+        Assert.Equal(ResultStatus.Unavailable, result.Status);
+        Assert.Equal(errorMessage, result.Errors.First());
+    }
+    
+
+    [Fact]
     public void InitializedIsSuccessTrueForSuccessFactoryCall()
     {
         var result = Result<object>.Success(new object());
@@ -208,9 +219,17 @@ public class ResultConstructor
     }
 
     [Fact]
+    public void InitializedIsSuccessFalseForInvalidListFactoryCall()
+    {
+        var result = Result<object>.Invalid(new List<ValidationError>());
+
+        Assert.False(result.IsSuccess);
+    }
+
+    [Fact]
     public void InitializedIsSuccessFalseForInvalidFactoryCall()
     {
-        var result = Result<object>.Invalid(null);
+        var result = Result<object>.Invalid(new ValidationError());
 
         Assert.False(result.IsSuccess);
     }
@@ -229,5 +248,13 @@ public class ResultConstructor
         var result = Result<object>.Conflict();
 
         result.IsSuccess.Should().BeFalse();
+    }
+
+    [Fact]
+    public void InitializedIsSuccessFalseForCriticalErrorFactoryCall()
+    {
+        var result = Result<object>.CriticalError();
+
+        Assert.False(result.IsSuccess);
     }
 }
