@@ -21,4 +21,11 @@
     <PackageVersion Include="xunit" Version="2.4.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
   </ItemGroup>
+
+  <ItemGroup Condition="'$(IsPackable)' == 'true'">
+    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))"/>
+  </ItemGroup>
+  <ItemGroup>
+    <GlobalPackageReference Include="PolySharp" Version="1.13.2"/>
+  </ItemGroup>
 </Project>
