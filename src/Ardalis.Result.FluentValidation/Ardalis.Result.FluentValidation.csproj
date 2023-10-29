@@ -6,7 +6,7 @@
     <Description>A simple package to implement the FluentValidation in Result package.</Description>
     <Summary>A simple package to implement the FluentValidation in Result package.</Summary>
     <PackageTags>result;pattern;web;api;aspnetcore;mvc;FluentValidation;Validation</PackageTags>
-    <PackageReleaseNotes>PRs 92 and 112. Adding support for .NET 7.</PackageReleaseNotes>
+    <PackageReleaseNotes>PR 132. Add Result.Conflict</PackageReleaseNotes>
     <AssemblyName>Ardalis.Result.FluentValidation</AssemblyName>
     <Version>7.2.0</Version>
   </PropertyGroup>
