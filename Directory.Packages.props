@@ -12,6 +12,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.3" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+    <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="17.5.0" />
     <PackageVersion Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.4" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
@@ -20,5 +21,11 @@
     <PackageVersion Include="System.Text.Json" Version="7.0.3" />
     <PackageVersion Include="xunit" Version="2.4.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(IsPackable)' == 'true'">
+    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))" />
+  </ItemGroup>
+  <ItemGroup>
+    <GlobalPackageReference Include="PolySharp" Version="1.13.2" />
   </ItemGroup>
 </Project>
