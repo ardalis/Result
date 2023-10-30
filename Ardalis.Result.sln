@@ -6,12 +6,21 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result", "src\Ardalis.Result\Ardalis.Result.csproj", "{21F67195-9A44-4937-AD13-62D086BAFB3E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{865A74CD-F478-4AA5-AFA5-6C26FB38B849}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{42693FB1-04E1-4635-B249-E1847609E801}"
+	ProjectSection(SolutionItems) = preProject
+		tests\Directory.Build.props = tests\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.UnitTests", "tests\Ardalis.Result.UnitTests\Ardalis.Result.UnitTests.csproj", "{C7CA62F0-7954-42E3-9CF2-2A46311AC717}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{FA061DC6-61B7-401F-87A4-D338B396CCD9}"
+	ProjectSection(SolutionItems) = preProject
+		sample\Directory.Build.props = sample\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.SampleWeb", "sample\Ardalis.Result.SampleWeb\Ardalis.Result.SampleWeb.csproj", "{4878A214-84B4-4689-BDF1-D2E586883E23}"
 EndProject
@@ -30,6 +39,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.SampleMinimalApi.FunctionalTests", "sample\Ardalis.Result.SampleMinimalApi.FunctionalTests\Ardalis.Result.SampleMinimalApi.FunctionalTests.csproj", "{A9769533-C9B2-4AD4-8B24-70C474D8EBB0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardalis.Result.AspNetCore.UnitTests", "tests\Ardalis.Result.AspNetCore.UnitTests\Ardalis.Result.AspNetCore.UnitTests.csproj", "{C522FE42-BBEF-46A7-9E3E-44EA8339AF2E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{56E62AF3-7C64-42C4-B47E-EAB8EE60962B}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

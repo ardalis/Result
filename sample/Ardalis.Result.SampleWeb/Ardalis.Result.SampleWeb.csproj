@@ -1,9 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFrameworks>$(NetCoreFrameworks)</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Ardalis.ApiEndpoints" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Condition=" '$(TargetFramework)' != 'net6.0' "/>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Condition=" '$(TargetFramework)' == 'net6.0' " VersionOverride="6.0.16"/>
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
   </ItemGroup>
