@@ -17,6 +17,7 @@ A result abstraction that can be mapped to HTTP response codes if needed.
 * [Getting Started With Ardalis.Result](https://blog.nimblepros.com/blogs/getting-started-with-ardalis-result/)
 * [Transforming Results With the Map Method](https://blog.nimblepros.com/blogs/transforming-results-with-the-map-method/)
 * [Avoid Using Exceptions to Determine API Status Codes and Responses](https://ardalis.com/avoid-using-exceptions-determine-api-status/)
+* [Fluent Validation in MediatR with Results](https://youtu.be/9KuLsPV8BYU)
 
 ## What Problem Does This Address?
 
