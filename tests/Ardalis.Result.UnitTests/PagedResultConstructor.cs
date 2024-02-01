@@ -91,6 +91,17 @@ public class PagedResultConstructor
     }
 
     [Fact]
+    public void InitializesStatusToInvalidGivenInvalidFactoryCall()
+    {
+        var result = Result<object>
+            .Invalid()
+            .ToPagedResult(_pagedInfo);
+
+        Assert.Equal(ResultStatus.Invalid, result.Status);
+        Assert.Equal(_pagedInfo, result.PagedInfo);
+    }
+
+    [Fact]
     public void InitializesStatusToErrorAndSetsErrorMessageGivenErrorFactoryCall()
     {
         string errorMessage = "Something bad happened.";

@@ -1,26 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace Ardalis.Result
 {
     public class Result<T> : IResult
     {
-        protected Result() { }
+        protected Result()
+        {
+            Initialize();
+        }
 
         public Result(T value)
         {
             Value = value;
+            Initialize();
         }
 
         protected internal Result(T value, string successMessage) : this(value)
         {
             SuccessMessage = successMessage;
+            Initialize();
         }
 
         protected Result(ResultStatus status)
         {
             Status = status;
+            Initialize();
+        }
+
+        protected void Initialize()
+        {
+            InitialStatus = Status;
+            ValidationErrors.CollectionChanged += ValidationErrors_CollectionChanged;
+            Errors.CollectionChanged += Errors_CollectionChanged;
+        }
+
+        protected void ValidationErrors_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            EvaluateResultStatus();
+        }
+        protected void Errors_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            EvaluateResultStatus();
+        }
+
+        private void EvaluateResultStatus()
+        {
+            if (ShouldParseStatusBasedOnResultStatus())
+            {
+                if (Errors.Count > 0)
+                    Status = ResultStatus.Error;
+                else if (ValidationErrors.Count > 0)
+                    Status = ResultStatus.Invalid;
+                else
+                    Status = InitialStatus;
+            }
+        }
+
+        private bool ShouldParseStatusBasedOnResultStatus()
+        {
+            return Status == ResultStatus.Ok || 
+                   Status == ResultStatus.Error || 
+                   Status == ResultStatus.Invalid;
         }
 
         public static implicit operator T(Result<T> result) => result.Value;
@@ -29,6 +74,7 @@ namespace Ardalis.Result
         public static implicit operator Result<T>(Result result) => new Result<T>(default(T))
         {
             Status = result.Status,
+            InitialStatus = result.InitialStatus,
             Errors = result.Errors,
             SuccessMessage = result.SuccessMessage,
             CorrelationId = result.CorrelationId,
@@ -39,12 +85,42 @@ namespace Ardalis.Result
 
         [JsonIgnore]
         public Type ValueType => typeof(T);
+
+        // Saves the initial status used by the static constructors. Used to revert back to this status when the user changes the Errors or ValidationErrors collections.
+        private ResultStatus InitialStatus { get; set; } = ResultStatus.Ok;
+
         public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
         public bool IsSuccess => Status == ResultStatus.Ok;
         public string SuccessMessage { get; protected set; } = string.Empty;
         public string CorrelationId { get; protected set; } = string.Empty;
-        public IEnumerable<string> Errors { get; protected set; } = new List<string>();
-        public List<ValidationError> ValidationErrors { get; protected set; } = new List<ValidationError>();
+
+        private ObservableCollection<string> _errors = new ObservableCollection<string>();
+        public ObservableCollection<string> Errors
+        {
+            get
+            {
+                return _errors;
+            }
+            set
+            {
+                _errors = value;
+                Errors_CollectionChanged(_errors, new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Reset));
+            }
+        }
+
+        private ObservableCollection<ValidationError> _validationErrors = new ObservableCollection<ValidationError>();
+        public ObservableCollection<ValidationError> ValidationErrors
+        {
+            get
+            {
+                return _validationErrors;
+            }
+            set
+            {
+                _validationErrors = value;
+                ValidationErrors_CollectionChanged(_validationErrors, new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Reset));
+            }
+        }
 
         /// <summary>
         /// Returns the current value.
@@ -65,6 +141,7 @@ namespace Ardalis.Result
             var pagedResult = new PagedResult<T>(pagedInfo, Value)
             {
                 Status = Status,
+                InitialStatus = InitialStatus,
                 SuccessMessage = SuccessMessage,
                 CorrelationId = CorrelationId,
                 Errors = Errors,
@@ -104,7 +181,12 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> Error(params string[] errorMessages)
         {
-            return new Result<T>(ResultStatus.Error) { Errors = errorMessages };
+            Result<T> result = new Result<T>(ResultStatus.Error);
+
+            if (errorMessages != null && errorMessages.Length > 0)
+                result.Errors = new ObservableCollection<string>(errorMessages);
+
+            return result;
         }
 
         /// <summary>
@@ -124,7 +206,12 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> Invalid(params ValidationError[] validationErrors)
         {
-            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = new List<ValidationError>(validationErrors) };
+            Result<T> result = new Result<T>(ResultStatus.Invalid);
+
+            if (validationErrors != null && validationErrors.Length > 0)
+                result.ValidationErrors = new ObservableCollection<ValidationError>(validationErrors);
+
+            return result;
         }
 
         /// <summary>
@@ -134,7 +221,7 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> Invalid(List<ValidationError> validationErrors)
         {
-            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = validationErrors };
+            return Invalid(validationErrors.ToArray());
         }
 
         /// <summary>
@@ -154,7 +241,12 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> NotFound(params string[] errorMessages)
         {
-            return new Result<T>(ResultStatus.NotFound) { Errors = errorMessages };
+            Result<T> result = new Result<T>(ResultStatus.NotFound);
+
+            if (errorMessages != null || errorMessages.Length > 0)
+                result.Errors = new ObservableCollection<string>(errorMessages);
+
+            return result;
         }
 
         /// <summary>
@@ -176,7 +268,7 @@ namespace Ardalis.Result
         {
             return new Result<T>(ResultStatus.Unauthorized);
         }
-        
+
         /// <summary>
         /// Represents a situation where a service is in conflict due to the current state of a resource,
         /// such as an edit conflict between multiple concurrent updates.
@@ -187,7 +279,7 @@ namespace Ardalis.Result
         {
             return new Result<T>(ResultStatus.Conflict);
         }
-        
+
         /// <summary>
         /// Represents a situation where a service is in conflict due to the current state of a resource,
         /// such as an edit conflict between multiple concurrent updates.
@@ -198,9 +290,14 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> Conflict(params string[] errorMessages)
         {
-            return new Result<T>(ResultStatus.Conflict) { Errors = errorMessages };
+            Result<T> result = new Result<T>(ResultStatus.Conflict);
+
+            if (errorMessages != null || errorMessages.Length > 0)
+                result.Errors = new ObservableCollection<string>(errorMessages);
+
+            return result;
         }
-        
+
         /// <summary>
         /// Represents a critical error that occurred during the execution of the service.
         /// Everything provided by the user was valid, but the service was unable to complete due to an exception.
@@ -210,7 +307,12 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> CriticalError(params string[] errorMessages)
         {
-            return new Result<T>(ResultStatus.CriticalError) { Errors = errorMessages };
+            Result<T> result = new Result<T>(ResultStatus.CriticalError);
+
+            if (errorMessages != null || errorMessages.Length > 0)
+                result.Errors = new ObservableCollection<string>(errorMessages);
+
+            return result;
         }
 
         /// <summary>
@@ -222,7 +324,12 @@ namespace Ardalis.Result
         /// <returns></returns>
         public static Result<T> Unavailable(params string[] errorMessages)
         {
-            return new Result<T>(ResultStatus.Unavailable) { Errors = errorMessages};
+            Result<T> result = new Result<T>(ResultStatus.Unavailable);
+
+            if (errorMessages != null || errorMessages.Length > 0)
+                result.Errors = new ObservableCollection<string>(errorMessages);
+
+            return result;
         }
     }
 }
