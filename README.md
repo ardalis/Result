@@ -12,6 +12,10 @@
 
 A result abstraction that can be mapped to HTTP response codes if needed.
 
+## Docs
+
+Docs are located in the /docs folder and available online at [result.ardalis.com](https://result.ardalis.com) Please add issues for new docs requests and [pull requests for docs issues](https://github.com/ardalis/Result/issues?q=is%3Aopen+is%3Aissue+label%3Adocumentation) are welcome!
+
 ## Learn More
 
 * [Getting Started With Ardalis.Result](https://blog.nimblepros.com/blogs/getting-started-with-ardalis-result/)
