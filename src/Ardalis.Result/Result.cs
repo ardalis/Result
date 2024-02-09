@@ -35,15 +35,21 @@ namespace Ardalis.Result
             ValidationErrors = result.ValidationErrors,
         };
 
-        public T Value { get; }
+        [JsonInclude] 
+        public T Value { get; init; }
 
         [JsonIgnore]
         public Type ValueType => typeof(T);
+        [JsonInclude] 
         public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
         public bool IsSuccess => Status == ResultStatus.Ok;
+        [JsonInclude] 
         public string SuccessMessage { get; protected set; } = string.Empty;
+        [JsonInclude] 
         public string CorrelationId { get; protected set; } = string.Empty;
+        [JsonInclude] 
         public IEnumerable<string> Errors { get; protected set; } = new List<string>();
+        [JsonInclude] 
         public List<ValidationError> ValidationErrors { get; protected set; } = new List<ValidationError>();
 
         /// <summary>

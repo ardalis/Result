@@ -48,6 +48,19 @@ namespace Ardalis.Result.UnitTests
 
             Assert.Equivalent(expected, result);
         }
+        
+        
+        [Fact]
+        public void ShouldDeserializeCorrectResultType()
+        {
+            var obj = Result.NotFound("NotFound");
+
+            var a = JsonSerializer.Serialize(obj);
+            var b = JsonSerializer.Deserialize<Result>(a);
+            var c = JsonSerializer.Serialize(b);
+
+            Assert.Equivalent(a, c);
+        }
 
         private class Foo
         {
