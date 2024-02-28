@@ -1,4 +1,6 @@
-﻿namespace Ardalis.Result
+﻿using System.Text.Json.Serialization;
+
+namespace Ardalis.Result
 {
     public class PagedResult<T> : Result<T>
     {
@@ -7,6 +9,7 @@
             PagedInfo = pagedInfo;
         }
 
-        public PagedInfo PagedInfo { get; }
+        [JsonInclude] 
+        public PagedInfo PagedInfo { get; init; }
     }
 }

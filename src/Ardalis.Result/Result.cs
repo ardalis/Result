@@ -81,7 +81,8 @@ namespace Ardalis.Result
             ValidationErrors = result.ValidationErrors,
         };
 
-        public T Value { get; }
+        [JsonInclude] 
+        public T Value { get; init; }
 
         [JsonIgnore]
         public Type ValueType => typeof(T);
@@ -89,12 +90,16 @@ namespace Ardalis.Result
         // Saves the initial status used by the static constructors. Used to revert back to this status when the user changes the Errors or ValidationErrors collections.
         private ResultStatus InitialStatus { get; set; } = ResultStatus.Ok;
 
+        [JsonInclude] 
         public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
         public bool IsSuccess => Status == ResultStatus.Ok;
+        [JsonInclude] 
         public string SuccessMessage { get; protected set; } = string.Empty;
+        [JsonInclude] 
         public string CorrelationId { get; protected set; } = string.Empty;
 
         private ObservableCollection<string> _errors = new ObservableCollection<string>();
+        [JsonInclude] 
         public ObservableCollection<string> Errors
         {
             get
@@ -109,6 +114,7 @@ namespace Ardalis.Result
         }
 
         private ObservableCollection<ValidationError> _validationErrors = new ObservableCollection<ValidationError>();
+        [JsonInclude] 
         public ObservableCollection<ValidationError> ValidationErrors
         {
             get
