@@ -1,4 +1,6 @@
-﻿namespace Ardalis.Result
+﻿using System.Text.Json.Serialization;
+
+namespace Ardalis.Result
 {
     public class PagedInfo
     {
@@ -11,9 +13,13 @@
             TotalRecords = totalRecords;
         }
 
+        [JsonInclude] 
         public long PageNumber { get; private set; }
+        [JsonInclude] 
         public long PageSize { get; private set; }
+        [JsonInclude] 
         public long TotalPages { get; private set; }
+        [JsonInclude] 
         public long TotalRecords { get; private set; }
 
         public PagedInfo SetPageNumber(long pageNumber)
