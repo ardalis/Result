@@ -6,9 +6,13 @@
     <Description>A simple package to implement the Result pattern for returning from services.</Description>
     <Summary>A simple package to implement the Result pattern for returning from services.</Summary>
     <PackageTags>result pattern web api aspnetcore mvc</PackageTags>
-    <PackageReleaseNotes>PR 132. Add Result.Conflict</PackageReleaseNotes>
+    <PackageReleaseNotes>
+		* Add .NET 8 to NetCoreFrameworks  by @KyleMcMaster in https://github.com/ardalis/Result/pull/158
+		* occured -> occurred by @Persistent13 in https://github.com/ardalis/Result/pull/168
+		* Fix Serialization always results in a Success object. by @MischaWeerwag in https://github.com/ardalis/Result/pull/166
+	</PackageReleaseNotes>
     <AssemblyName>Ardalis.Result</AssemblyName>
-    <Version>7.2.0</Version>
+    <Version>7.3.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Include="icon.png" Pack="true" Visible="false" PackagePath="" />
