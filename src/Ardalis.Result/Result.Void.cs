@@ -189,7 +189,7 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
         /// <returns>A Result</returns>
-        public static Result CriticalError(params string[] errorMessages)
+        public new static Result CriticalError(params string[] errorMessages)
         {
             return new Result(ResultStatus.CriticalError) { Errors = errorMessages };
         }
