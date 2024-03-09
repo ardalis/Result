@@ -15,7 +15,7 @@ public class PersonServiceCreate
         var result = service.Create("", "");
 
         result.Status.Should().Be(ResultStatus.Invalid);
-        result.ValidationErrors.Count.Should().Be(2);
+        result.ValidationErrors.Should().HaveCount(2);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class PersonServiceCreate
         var result = service.Create("Steve", "SomeLongName");
 
         result.Status.Should().Be(ResultStatus.Invalid);
-        result.ValidationErrors.Count.Should().Be(2);
+        result.ValidationErrors.Should().HaveCount(2);
     }
 
     [Fact]

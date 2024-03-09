@@ -48,9 +48,9 @@ namespace Ardalis.Result
         [JsonInclude] 
         public string CorrelationId { get; protected set; } = string.Empty;
         [JsonInclude] 
-        public IEnumerable<string> Errors { get; protected set; } = new List<string>();
+        public IEnumerable<string> Errors { get; protected set; } = [];
         [JsonInclude] 
-        public List<ValidationError> ValidationErrors { get; protected set; } = new List<ValidationError>();
+        public IEnumerable<ValidationError> ValidationErrors { get; protected set; } = [];
 
         /// <summary>
         /// Returns the current value.
@@ -120,7 +120,7 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> Invalid(ValidationError validationError)
         {
-            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = { validationError } };
+            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = [validationError] };
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="validationErrors">A list of validation errors encountered</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Invalid(List<ValidationError> validationErrors)
+        public static Result<T> Invalid(IEnumerable<ValidationError> validationErrors)
         {
             return new Result<T>(ResultStatus.Invalid) { ValidationErrors = validationErrors };
         }

@@ -84,7 +84,7 @@ namespace Ardalis.Result
         /// <returns>A Result</returns>
         public new static Result Invalid(ValidationError validationError)
         {
-            return new Result(ResultStatus.Invalid) { ValidationErrors = { validationError } };
+            return new Result(ResultStatus.Invalid) { ValidationErrors = [validationError] };
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="validationErrors">A list of validation errors encountered</param>
         /// <returns>A Result</returns>
-        public new static Result Invalid(List<ValidationError> validationErrors)
+        public new static Result Invalid(IEnumerable<ValidationError> validationErrors)
         {
             return new Result(ResultStatus.Invalid) { ValidationErrors = validationErrors };
         }
