@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Ardalis.Result
 {
@@ -59,14 +57,7 @@ namespace Ardalis.Result
         /// <returns>A Result</returns>
         public new static Result Error(params string[] errorMessages)
         {
-            Result result = new Result(ResultStatus.Error);
-
-            if (errorMessages != null && errorMessages.Length > 0)
-                result.Errors = new ObservableCollection<string>(errorMessages);
-
-            result.Initialize();
-
-            return result;
+            return new Result(ResultStatus.Error) { Errors = errorMessages };
         }
 
         /// <summary>
@@ -79,15 +70,11 @@ namespace Ardalis.Result
         /// <returns>A Result</returns>
         public static Result ErrorWithCorrelationId(string correlationId, params string[] errorMessages)
         {
-            Result result = new Result(ResultStatus.Error);
-            result.CorrelationId = correlationId;
-
-            if (errorMessages != null && errorMessages.Length > 0)
-                result.Errors = new ObservableCollection<string>(errorMessages);
-
-            result.Initialize();
-
-            return result;
+            return new Result(ResultStatus.Error)
+            {
+                CorrelationId = correlationId,
+                Errors = errorMessages
+            };
         }
 
         /// <summary>
@@ -97,7 +84,7 @@ namespace Ardalis.Result
         /// <returns>A Result</returns>
         public new static Result Invalid(ValidationError validationError)
         {
-            return Invalid(new List<ValidationError> { validationError });
+            return new Result(ResultStatus.Invalid) { ValidationErrors = [validationError] };
         }
 
         /// <summary>
@@ -107,14 +94,7 @@ namespace Ardalis.Result
         /// <returns>A Result</returns>
         public new static Result Invalid(params ValidationError[] validationErrors)
         {
-            Result result = new Result(ResultStatus.Invalid);
-
-            if (validationErrors != null && validationErrors.Length > 0)
-                result.ValidationErrors = new ObservableCollection<ValidationError>(validationErrors);
-
-            result.Initialize();
-
-            return result;
+            return new Result(ResultStatus.Invalid) { ValidationErrors = new List<ValidationError>(validationErrors) };
         }
 
         /// <summary>
@@ -122,9 +102,9 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="validationErrors">A list of validation errors encountered</param>
         /// <returns>A Result</returns>
-        public new static Result Invalid(List<ValidationError> validationErrors)
+        public new static Result Invalid(IEnumerable<ValidationError> validationErrors)
         {
-            return Invalid(validationErrors.ToArray());
+            return new Result(ResultStatus.Invalid) { ValidationErrors = validationErrors };
         }
 
         /// <summary>
@@ -133,7 +113,7 @@ namespace Ardalis.Result
         /// <returns>A Result</returns>
         public new static Result NotFound()
         {
-            return NotFound(null);
+            return new Result(ResultStatus.NotFound);
         }
 
         /// <summary>
@@ -144,14 +124,7 @@ namespace Ardalis.Result
         /// <returns>A Result</returns>
         public new static Result NotFound(params string[] errorMessages)
         {
-            Result result = new Result(ResultStatus.NotFound);
-
-            if (errorMessages != null && errorMessages.Length > 0)
-                result.Errors = new ObservableCollection<string>(errorMessages);
-
-            result.Initialize();
-
-            return result;
+            return new Result(ResultStatus.NotFound) { Errors = errorMessages };
         }
 
         /// <summary>
@@ -161,9 +134,7 @@ namespace Ardalis.Result
         /// <returns>A Result</returns>
         public new static Result Forbidden()
         {
-            Result result = new Result(ResultStatus.Forbidden);
-            result.Initialize();
-            return result;
+            return new Result(ResultStatus.Forbidden);
         }
 
         /// <summary>
@@ -173,11 +144,9 @@ namespace Ardalis.Result
         /// <returns>A Result</returns>
         public new static Result Unauthorized()
         {
-            Result result = new Result(ResultStatus.Unauthorized);
-            result.Initialize();
-            return result;
+            return new Result(ResultStatus.Unauthorized);
         }
-
+        
         /// <summary>
         /// Represents a situation where a service is in conflict due to the current state of a resource,
         /// such as an edit conflict between multiple concurrent updates.
@@ -186,7 +155,7 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public new static Result Conflict()
         {
-            return Conflict(null);
+            return new Result(ResultStatus.Conflict);
         }
 
         /// <summary>
@@ -199,14 +168,7 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public new static Result Conflict(params string[] errorMessages)
         {
-            Result result = new Result(ResultStatus.Conflict);
-
-            if (errorMessages != null && errorMessages.Length > 0)
-                result.Errors = new ObservableCollection<string>(errorMessages);
-
-            result.Initialize();
-
-            return result;
+            return new Result(ResultStatus.Conflict) { Errors = errorMessages };
         }
 
         /// <summary>
@@ -218,32 +180,18 @@ namespace Ardalis.Result
         /// <returns></returns>
         public new static Result Unavailable(params string[] errorMessages)
         {
-            Result result = new Result(ResultStatus.Unavailable);
-
-            if (errorMessages != null && errorMessages.Length > 0)
-                result.Errors = new ObservableCollection<string>(errorMessages);
-
-            result.Initialize();
-
-            return result;
+            return new Result(ResultStatus.Unavailable) { Errors = errorMessages };
         }
-
+        
         /// Represents a critical error that occurred during the execution of the service.
         /// Everything provided by the user was valid, but the service was unable to complete due to an exception.
         /// See also HTTP 500 Internal Server Error: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#5xx_server_errors
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
         /// <returns>A Result</returns>
-        public static Result CriticalError(params string[] errorMessages)
+        public new static Result CriticalError(params string[] errorMessages)
         {
-            Result result = new Result(ResultStatus.CriticalError);
-
-            if (errorMessages != null && errorMessages.Length > 0)
-                result.Errors = new ObservableCollection<string>(errorMessages);
-
-            result.Initialize();
-
-            return result;
+            return new Result(ResultStatus.CriticalError) { Errors = errorMessages };
         }
     }
 }

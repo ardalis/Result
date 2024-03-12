@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace Ardalis.Result
 {
     public interface IResult
     {
         ResultStatus Status { get; }
-        ObservableCollection<string> Errors { get; }
-        ObservableCollection<ValidationError> ValidationErrors { get; }
+        IEnumerable<string> Errors { get; }
+        IEnumerable<ValidationError> ValidationErrors { get; }
         Type ValueType { get; }
-        Object GetValue();
+        object GetValue();
     }
 }
