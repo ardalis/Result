@@ -155,7 +155,7 @@ app.MapPost("/Forecast/New", (ForecastRequestDto request, WeatherService weather
 .WithName("NewWeatherForecast");
 ```
 
-The full Minimal API sample can be found in the [sample folder](./sample/Ardalis.Result.SampleMinimalApi/Program.cs).
+The full Minimal API sample can be found in the [sample folder](https://github.com/ardalis/Result/tree/main/sample/Ardalis.Result.SampleMinimalApi/Program.cs).
 
 ### Mapping Results From One Type to Another
 
