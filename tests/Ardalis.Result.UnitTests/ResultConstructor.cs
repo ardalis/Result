@@ -1,4 +1,5 @@
 using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -7,6 +8,10 @@ namespace Ardalis.Result.UnitTests;
 
 public class ResultConstructor
 {
+    private class TestObject
+    {
+    }
+
     [Fact]
     public void InitializesStronglyTypedStringValue()
     {
@@ -32,10 +37,6 @@ public class ResultConstructor
         var result = new Result<TestObject>(expectedObject);
 
         Assert.Equal(expectedObject, result.Value);
-    }
-
-    private class TestObject
-    {
     }
 
     [Fact]
@@ -98,7 +99,7 @@ public class ResultConstructor
     [Fact]
     public void InitializesStatusToErrorGivenErrorFactoryCall()
     {
-        var result = Result<object>.Error();
+        var result = Result<object>.Error(new([], default));
 
         Assert.Equal(ResultStatus.Error, result.Status);
     }
@@ -107,10 +108,12 @@ public class ResultConstructor
     public void InitializesStatusToErrorAndSetsErrorMessageGivenErrorFactoryCall()
     {
         string errorMessage = "Something bad happened.";
-        var result = Result<object>.Error(errorMessage);
+        string correlationId = Guid.NewGuid().ToString();
+        var result = Result<object>.Error(new([errorMessage], correlationId));
 
         Assert.Equal(ResultStatus.Error, result.Status);
-        Assert.Equal(errorMessage, result.Errors.First());
+        Assert.Equal(errorMessage, result.Errors.Single());
+      Assert.Equal(correlationId, result.CorrelationId);
     }
 
     [Fact]

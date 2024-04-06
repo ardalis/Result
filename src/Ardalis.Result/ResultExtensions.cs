@@ -25,7 +25,7 @@ namespace Ardalis.Result
                 case ResultStatus.Unauthorized: return Result<TDestination>.Unauthorized();
                 case ResultStatus.Forbidden: return Result<TDestination>.Forbidden();
                 case ResultStatus.Invalid: return Result<TDestination>.Invalid(result.ValidationErrors);
-                case ResultStatus.Error: return Result<TDestination>.Error(result.Errors.ToArray());
+                case ResultStatus.Error: return Result<TDestination>.Error(new ErrorList(result.Errors.ToArray(), result.CorrelationId));
                 case ResultStatus.Conflict: return result.Errors.Any()
                                         ? Result<TDestination>.Conflict(result.Errors.ToArray())
                                         : Result<TDestination>.Conflict();

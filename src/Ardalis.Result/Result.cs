@@ -108,9 +108,13 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Error(params string[] errorMessages)
+        public static Result<T> Error(ErrorList error)
         {
-            return new Result<T>(ResultStatus.Error) { Errors = errorMessages };
+            return new Result<T>(ResultStatus.Error)
+            {
+              CorrelationId = error?.CorrelationId ?? string.Empty,
+              Errors = error?.ErrorMessages ?? []
+            };
         }
 
         /// <summary>

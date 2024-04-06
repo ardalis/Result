@@ -41,7 +41,7 @@ public class ResultVoidConstructor
     [InlineData("test1", "test2")]
     public void InitializesErrorResultWithFactoryMethod(params string[] errors)
     {
-        var result = Result.Error(errors);
+        var result = Result.Error(new ErrorList(errors, null));
 
         Assert.Null(result.Value);
         Assert.Equal(ResultStatus.Error, result.Status);
@@ -59,7 +59,7 @@ public class ResultVoidConstructor
     {
         var correlationId = "testId";
         var errors = new string[] { "Error 1", "Error 2" };
-        var result = Result.ErrorWithCorrelationId(correlationId, errors);
+        var result = Result.Error(new ErrorList(errors, correlationId));
 
         Assert.Null(result.Value);
         Assert.Equal(ResultStatus.Error, result.Status);

@@ -74,7 +74,7 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void ShouldProduceError()
         {
-            var result = Result.Error();
+            var result = Result.Error(new([], default));
 
             var actual = result.Map(_ => "This should be ignored");
 

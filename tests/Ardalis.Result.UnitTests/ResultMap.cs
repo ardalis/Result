@@ -121,25 +121,25 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void ShouldProduceErrorResultWithErrors()
         {
-            var errors = new string[] { "Error 1", "Error 2" };
-            var result = Result<int>.Error(errors);
+            var errorList = new ErrorList(["Error 1", "Error 2"], default);
+            var result = Result<int>.Error(errorList);
 
             var actual = result.Map(val => val.ToString());
 
             actual.Status.Should().Be(ResultStatus.Error);
-            actual.Errors.Should().BeEquivalentTo(errors);
+            actual.Errors.Should().BeEquivalentTo(errorList.ErrorMessages);
         }
 
         [Fact]
         public void ShouldProduceErrorResultWithNoErrors()
         {
-            var errors = Array.Empty<string>();
-            var result = Result<int>.Error(errors);
+            var result = Result<int>.Error(new([], default));
 
             var actual = result.Map(val => val.ToString());
 
             actual.Status.Should().Be(ResultStatus.Error);
-            actual.Errors.Should().BeEquivalentTo(errors);
+            actual.Errors.Should().BeEmpty();
+            actual.CorrelationId.Should().BeEmpty();
         }
         
         [Fact]
