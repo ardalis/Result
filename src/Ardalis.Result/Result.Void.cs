@@ -53,7 +53,7 @@ namespace Ardalis.Result
         /// Represents an error that occurred during the execution of the service.
         /// Error messages may be provided and will be exposed via the Errors property.
         /// </summary>
-        /// <param name="errorMessages">A list of string error messages.</param>
+        /// <param name="error">An optional instance of ErrorList with list of string error messages and CorrelationId.</param>
         /// <returns>A Result</returns>
         public new static Result Error(ErrorList error = null)
         {
