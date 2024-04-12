@@ -99,7 +99,7 @@ public class ResultConstructor
     [Fact]
     public void InitializesStatusToErrorGivenErrorFactoryCall()
     {
-        var result = Result<object>.Error(new([], default));
+        var result = Result<object>.Error();
 
         Assert.Equal(ResultStatus.Error, result.Status);
     }
@@ -208,7 +208,7 @@ public class ResultConstructor
     [Fact]
     public void InitializedIsSuccessFalseForErrorFactoryCall()
     {
-        var result = Result<object>.Error(null);
+        var result = Result<object>.Error();
 
         Assert.False(result.IsSuccess);
     }

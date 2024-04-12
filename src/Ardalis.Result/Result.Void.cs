@@ -55,12 +55,12 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
         /// <returns>A Result</returns>
-        public new static Result Error(ErrorList error)
+        public new static Result Error(ErrorList error = null)
         {
           return new Result(ResultStatus.Error)
           {
-            CorrelationId = error.CorrelationId ?? "",
-            Errors = error.ErrorMessages
+             CorrelationId = error?.CorrelationId ?? string.Empty,
+             Errors = error?.ErrorMessages ?? []
           };
         }
 

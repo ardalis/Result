@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace Ardalis.Result
@@ -108,7 +109,7 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Error(ErrorList error)
+        public static Result<T> Error(ErrorList error = null)
         {
             return new Result<T>(ResultStatus.Error)
             {

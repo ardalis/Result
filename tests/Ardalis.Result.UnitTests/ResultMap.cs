@@ -133,7 +133,7 @@ namespace Ardalis.Result.UnitTests
         [Fact]
         public void ShouldProduceErrorResultWithNoErrors()
         {
-            var result = Result<int>.Error(new([], default));
+            var result = Result<int>.Error();
 
             var actual = result.Map(val => val.ToString());
 

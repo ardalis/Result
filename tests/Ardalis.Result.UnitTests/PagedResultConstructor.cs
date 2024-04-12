@@ -84,7 +84,7 @@ public class PagedResultConstructor
     public void InitializesStatusToErrorGivenErrorFactoryCall()
     {
         var result = Result<object>
-            .Error(new([], default))
+            .Error()
             .ToPagedResult(_pagedInfo);
 
         Assert.Equal(ResultStatus.Error, result.Status);
