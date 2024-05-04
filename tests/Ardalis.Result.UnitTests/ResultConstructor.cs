@@ -94,7 +94,32 @@ public class ResultConstructor
         Assert.Equal(value, result.Value);
         Assert.Equal(message, result.SuccessMessage);
     }
-
+    
+    [Theory]
+    [InlineData(null)]
+    [InlineData(123)]
+    [InlineData("test value")]
+    public void InitializesStatusToCreatedAndSetLocationGivenCreatedFactoryCall(object value)
+    {
+        string location = "https://github.com/ardalis/Result";
+        var result = Result<object>.Created(value, location);
+        
+        Assert.Equal(ResultStatus.Created, result.Status);
+        Assert.Equal(location, result.Location);
+    }
+    
+    [Theory]
+    [InlineData(null)]
+    [InlineData(123)]
+    [InlineData("test value")]
+    public void InitializesStatusToCreatedGivenCreatedFactoryCall(object value)
+    {
+        var result = Result<object>.Created(value);
+        
+        Assert.Equal(ResultStatus.Created, result.Status);
+        Assert.Equal(result.Location, string.Empty);
+    }
+    
     [Fact]
     public void InitializesStatusToErrorGivenErrorFactoryCall()
     {
