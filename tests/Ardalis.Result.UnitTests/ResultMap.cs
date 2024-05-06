@@ -188,6 +188,19 @@ namespace Ardalis.Result.UnitTests
             actual.Errors.Single().Should().Be(expectedMessage);
         }
 
+        [Fact]
+        public void ShouldProductNoContentWithoutAnyContent()
+        {
+            var result = Result<int>.NoContent();
+
+            var actual = result.Map(val => val.ToString());
+
+            actual.Status.Should().Be(ResultStatus.NoContent);
+            actual.Value.Should().BeNull();
+            actual.Errors.Should().BeEmpty();
+            actual.ValidationErrors.Should().BeEmpty();
+        }
+
         private record Foo(string Bar);
 
         private class FooDto
