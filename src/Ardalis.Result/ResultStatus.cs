@@ -8,6 +8,7 @@
         Unauthorized,
         Invalid,
         NotFound,
+        NoContent,
         Conflict,
         CriticalError,
         Unavailable
