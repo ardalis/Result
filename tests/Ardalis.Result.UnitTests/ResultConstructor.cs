@@ -106,6 +106,7 @@ public class ResultConstructor
         
         Assert.Equal(ResultStatus.Created, result.Status);
         Assert.Equal(location, result.Location);
+        Assert.True(result.IsSuccess);
     }
     
     [Theory]
@@ -118,6 +119,7 @@ public class ResultConstructor
         
         Assert.Equal(ResultStatus.Created, result.Status);
         Assert.Equal(result.Location, string.Empty);
+        Assert.True(result.IsSuccess);
     }
     
     [Fact]

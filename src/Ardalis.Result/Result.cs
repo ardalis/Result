@@ -42,7 +42,8 @@ namespace Ardalis.Result
         public Type ValueType => typeof(T);
         [JsonInclude] 
         public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
-        public bool IsSuccess => Status == ResultStatus.Ok;
+
+        public bool IsSuccess => Status is ResultStatus.Ok or ResultStatus.Created;
         [JsonInclude] 
         public string SuccessMessage { get; protected set; } = string.Empty;
         [JsonInclude] 
