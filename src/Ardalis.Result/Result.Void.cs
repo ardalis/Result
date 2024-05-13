@@ -180,5 +180,14 @@ namespace Ardalis.Result
         {
             return new Result(ResultStatus.CriticalError) { Errors = errorMessages };
         }
+
+        /// <summary>
+        /// Represents a situation where the server has successfully fulfilled the request, but there is no content to send back in the response body.
+        /// </summary>
+        /// <returns>A Result object</returns>
+        public new static Result NoContent()
+        {
+            return new Result(ResultStatus.NoContent);
+        }
     }
 }

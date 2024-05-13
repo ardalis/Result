@@ -19,6 +19,9 @@ namespace Ardalis.Result
             switch (result.Status)
             {
                 case ResultStatus.Ok: return func(result);
+                case ResultStatus.Created: return string.IsNullOrEmpty(result.Location)
+                        ? Result<TDestination>.Created(func(result.Value))
+                        : Result<TDestination>.Created(func(result.Value), result.Location);
                 case ResultStatus.NotFound: return result.Errors.Any()
                         ? Result<TDestination>.NotFound(result.Errors.ToArray())
                         : Result<TDestination>.NotFound();
@@ -31,6 +34,7 @@ namespace Ardalis.Result
                                         : Result<TDestination>.Conflict();
                 case ResultStatus.CriticalError: return Result<TDestination>.CriticalError(result.Errors.ToArray());
                 case ResultStatus.Unavailable: return Result<TDestination>.Unavailable(result.Errors.ToArray());
+                case ResultStatus.NoContent: return Result<TDestination>.NoContent();
                 default:
                     throw new NotSupportedException($"Result {result.Status} conversion is not supported.");
             }

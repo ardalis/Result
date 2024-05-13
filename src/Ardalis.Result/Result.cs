@@ -43,11 +43,15 @@ namespace Ardalis.Result
         public Type ValueType => typeof(T);
         [JsonInclude] 
         public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
-        public bool IsSuccess => Status == ResultStatus.Ok;
+
+        public bool IsSuccess => Status is ResultStatus.Ok or ResultStatus.NoContent or ResultStatus.Created;
+
         [JsonInclude] 
         public string SuccessMessage { get; protected set; } = string.Empty;
         [JsonInclude] 
         public string CorrelationId { get; protected set; } = string.Empty;
+        [JsonInclude] 
+        public string Location { get; protected set; } = string.Empty;
         [JsonInclude] 
         public IEnumerable<string> Errors { get; protected set; } = [];
         [JsonInclude] 
@@ -102,6 +106,29 @@ namespace Ardalis.Result
         {
             return new Result<T>(value, successMessage);
         }
+        
+        /// <summary>
+        /// Represents a successful operation that resulted in the creation of a new resource.
+        /// </summary>
+        /// <typeparam name="T">The type of the resource created.</typeparam>
+        /// <returns>A Result<typeparamref name="T"/> with status Created.</returns>
+        public static Result<T> Created(T value)
+        {
+            return new Result<T>(ResultStatus.Created) { Value = value };
+        }
+
+        /// <summary>
+        /// Represents a successful operation that resulted in the creation of a new resource.
+        /// Sets the SuccessMessage property to the provided value.
+        /// </summary>
+        /// <typeparam name="T">The type of the resource created.</typeparam>
+        /// <param name="value">The value of the resource created.</param>
+        /// <param name="location">The URL indicating where the newly created resource can be accessed.</param>
+        /// <returns>A Result<typeparamref name="T"/> with status Created.</returns>
+        public static Result<T> Created(T value, string location)
+        {
+            return new Result<T>(ResultStatus.Created) { Value = value, Location = location };
+        }
 
         /// <summary>
         /// Represents an error that occurred during the execution of the service.
@@ -135,7 +162,8 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> Invalid(params ValidationError[] validationErrors)
         {
-            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = new List<ValidationError>(validationErrors) };
+            return new Result<T>(ResultStatus.Invalid)
+                { ValidationErrors = new List<ValidationError>(validationErrors) };
         }
 
         /// <summary>
@@ -234,6 +262,16 @@ namespace Ardalis.Result
         public static Result<T> Unavailable(params string[] errorMessages)
         {
             return new Result<T>(ResultStatus.Unavailable) { Errors = errorMessages};
+        }
+
+        /// <summary>
+        /// Represents a situation where the server has successfully fulfilled the request, but there is no content to send back in the response body.
+        /// </summary>
+        /// <typeparam name="T">The type parameter representing the expected response data.</typeparam>
+        /// <returns>A Result object</returns>
+        public static Result<T> NoContent()
+        {
+            return new Result<T>(ResultStatus.NoContent);
         }
     }
 }
