@@ -41,7 +41,8 @@ namespace Ardalis.Result.AspNetCore
                         .With(CriticalEntity))
                 .For(ResultStatus.Unavailable, HttpStatusCode.ServiceUnavailable, resultStatusOptions =>
                     resultStatusOptions
-                        .With(UnavailableEntity));
+                        .With(UnavailableEntity))
+                .For(ResultStatus.NoContent, HttpStatusCode.NoContent);
         }
 
         /// <summary>

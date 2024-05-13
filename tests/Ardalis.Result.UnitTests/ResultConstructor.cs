@@ -284,4 +284,12 @@ public class ResultConstructor
 
         Assert.False(result.IsSuccess);
     }
+
+    [Fact]
+    public void InitializesStatusToNoContentForNoContentFactoryCall()
+    {
+        var result = Result<object>.NoContent();
+        
+        Assert.True(result.IsSuccess);
+    }
 }

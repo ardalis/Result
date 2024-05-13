@@ -43,7 +43,8 @@ namespace Ardalis.Result
         [JsonInclude] 
         public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
 
-        public bool IsSuccess => Status is ResultStatus.Ok or ResultStatus.Created;
+        public bool IsSuccess => Status is ResultStatus.Ok or ResultStatus.NoContent or ResultStatus.Created;
+
         [JsonInclude] 
         public string SuccessMessage { get; protected set; } = string.Empty;
         [JsonInclude] 
@@ -156,7 +157,8 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> Invalid(params ValidationError[] validationErrors)
         {
-            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = new List<ValidationError>(validationErrors) };
+            return new Result<T>(ResultStatus.Invalid)
+                { ValidationErrors = new List<ValidationError>(validationErrors) };
         }
 
         /// <summary>
@@ -255,6 +257,16 @@ namespace Ardalis.Result
         public static Result<T> Unavailable(params string[] errorMessages)
         {
             return new Result<T>(ResultStatus.Unavailable) { Errors = errorMessages};
+        }
+
+        /// <summary>
+        /// Represents a situation where the server has successfully fulfilled the request, but there is no content to send back in the response body.
+        /// </summary>
+        /// <typeparam name="T">The type parameter representing the expected response data.</typeparam>
+        /// <returns>A Result object</returns>
+        public static Result<T> NoContent()
+        {
+            return new Result<T>(ResultStatus.NoContent);
         }
     }
 }
