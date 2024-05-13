@@ -43,6 +43,40 @@ namespace Ardalis.Result.UnitTests
         }
 
         [Fact]
+        public void ShouldProduceReturnValueFromCreated()
+        {
+            int createdValue = 123;
+            var result = Result<int>.Created(createdValue);
+            string expected = createdValue.ToString();
+            
+            var actual = result.Map(val => val.ToString());
+
+            expected.Should().BeEquivalentTo(actual.Value);
+        }
+        
+        [Fact]
+        public void ShouldProduceComplexTypeReturnValueFromCreatedAnonymously()
+        {
+            var foo = new Foo("Bar");
+            var result = Result<Foo>.Created(foo);
+
+            var actual = result.Map(foo => new FooDto(foo.Bar));
+
+            actual.Value.Bar.Should().Be(foo.Bar);
+        }
+        
+        [Fact]
+        public void ShouldProduceComplexTypeReturnValueFromCreatedWithMethod()
+        {
+            var foo = new Foo("Bar");
+            var result = Result<Foo>.Created(foo);
+
+            var actual = result.Map(FooDto.CreateFromFoo);
+
+            actual.Value.Bar.Should().Be(foo.Bar);
+        }
+
+        [Fact]
         public void ShouldProduceNotFound()
         {
             var result = Result<int>.NotFound();

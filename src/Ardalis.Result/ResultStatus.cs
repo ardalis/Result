@@ -3,6 +3,7 @@
     public enum ResultStatus
     {
         Ok,
+        Created,
         Error,
         Forbidden,
         Unauthorized,
