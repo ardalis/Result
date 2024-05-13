@@ -42,11 +42,14 @@ namespace Ardalis.Result
         public Type ValueType => typeof(T);
         [JsonInclude] 
         public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
-        public bool IsSuccess => Status == ResultStatus.Ok;
+
+        public bool IsSuccess => Status is ResultStatus.Ok or ResultStatus.Created;
         [JsonInclude] 
         public string SuccessMessage { get; protected set; } = string.Empty;
         [JsonInclude] 
         public string CorrelationId { get; protected set; } = string.Empty;
+        [JsonInclude] 
+        public string Location { get; protected set; } = string.Empty;
         [JsonInclude] 
         public IEnumerable<string> Errors { get; protected set; } = [];
         [JsonInclude] 
@@ -100,6 +103,29 @@ namespace Ardalis.Result
         public static Result<T> Success(T value, string successMessage)
         {
             return new Result<T>(value, successMessage);
+        }
+        
+        /// <summary>
+        /// Represents a successful operation that resulted in the creation of a new resource.
+        /// </summary>
+        /// <typeparam name="T">The type of the resource created.</typeparam>
+        /// <returns>A Result<typeparamref name="T"/> with status Created.</returns>
+        public static Result<T> Created(T value)
+        {
+            return new Result<T>(ResultStatus.Created) { Value = value };
+        }
+
+        /// <summary>
+        /// Represents a successful operation that resulted in the creation of a new resource.
+        /// Sets the SuccessMessage property to the provided value.
+        /// </summary>
+        /// <typeparam name="T">The type of the resource created.</typeparam>
+        /// <param name="value">The value of the resource created.</param>
+        /// <param name="location">The URL indicating where the newly created resource can be accessed.</param>
+        /// <returns>A Result<typeparamref name="T"/> with status Created.</returns>
+        public static Result<T> Created(T value, string location)
+        {
+            return new Result<T>(ResultStatus.Created) { Value = value, Location = location };
         }
 
         /// <summary>
