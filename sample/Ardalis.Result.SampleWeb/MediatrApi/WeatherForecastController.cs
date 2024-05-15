@@ -46,7 +46,7 @@ public class WeatherForecastController : ControllerBase
     public class NewForecastCommand : IRequest<Result<IEnumerable<WeatherForecast>>>
     {
         [Required]
-        public string PostalCode { get; set; }
+        public string PostalCode { get; set; } = String.Empty;
     }
 
     public class NewForecastHandler : IRequestHandler<NewForecastCommand, Result<IEnumerable<WeatherForecast>>>

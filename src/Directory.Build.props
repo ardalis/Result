@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <NetCoreFrameworks>net6.0;net7.0;net8.0</NetCoreFrameworks>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+     <TargetFrameworks>netstandard2.0;$(NetCoreFrameworks)</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Steve Smith (@ardalis); Shady Nagy (@ShadyNagy)</Authors>

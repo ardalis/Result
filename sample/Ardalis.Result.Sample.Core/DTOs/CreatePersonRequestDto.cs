@@ -1,7 +1,9 @@
-﻿namespace Ardalis.Result.Sample.Core.DTOs;
+﻿using System;
+
+namespace Ardalis.Result.Sample.Core.DTOs;
 
 public class CreatePersonRequestDto
 {
-    public string FirstName { get; set; }  
-    public string LastName { get; set; }  
+    public string FirstName { get; set; } = String.Empty; 
+    public string LastName { get; set; } = String.Empty;  
 }

@@ -9,7 +9,7 @@ namespace Ardalis.Result.UnitTests
         public void ShouldSerializeResultOfValueType()
         {
             var result = Result.Success(5);
-            string expected = "{\"Value\":5,\"Status\":0,\"IsSuccess\":true,\"SuccessMessage\":\"\",\"CorrelationId\":\"\",\"Errors\":[],\"ValidationErrors\":[]}";
+            string expected = "{\"Value\":5,\"Status\":0,\"IsSuccess\":true,\"SuccessMessage\":\"\",\"CorrelationId\":\"\",\"Location\":\"\",\"Errors\":[],\"ValidationErrors\":[]}";
 
             var json = JsonSerializer.Serialize(result);
 
@@ -20,7 +20,7 @@ namespace Ardalis.Result.UnitTests
         public void ShouldSerializeResultOfReferenceType()
         {
             var result = Result.Success(new Foo { Bar = "Result!" });
-            string expected = "{\"Value\":{\"Bar\":\"Result!\"},\"Status\":0,\"IsSuccess\":true,\"SuccessMessage\":\"\",\"CorrelationId\":\"\",\"Errors\":[],\"ValidationErrors\":[]}";
+            string expected = "{\"Value\":{\"Bar\":\"Result!\"},\"Status\":0,\"IsSuccess\":true,\"SuccessMessage\":\"\",\"CorrelationId\":\"\",\"Location\":\"\",\"Errors\":[],\"ValidationErrors\":[]}";
 
             var json = JsonSerializer.Serialize(result);
 

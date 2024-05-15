@@ -13,6 +13,30 @@ using Xunit;
 
 namespace Ardalis.Result.SampleWeb.FunctionalTests;
 
+public class WeatherForecastControllerThrows : IClassFixture<WebApplicationFactory<WebMarker>>
+{
+    private const string CONTROLLER_THROWS_ROUTE = "/weatherforecast/throws";
+    private readonly HttpClient _client;
+
+    public WeatherForecastControllerThrows(WebApplicationFactory<WebMarker> factory)
+    {
+        _client = factory.CreateClient();
+    }
+
+    [Fact]
+    public async Task Returns400BadRequestNot500()
+    {
+        var response = await _client.GetAsync(CONTROLLER_THROWS_ROUTE);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var stringResponse = await response.Content.ReadAsStringAsync();
+        var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(stringResponse);
+
+        Assert.Equal("One or more validation errors occurred.", problemDetails?.Title);
+        Assert.Equal(400, problemDetails.Status);
+    }
+}
+
 public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory<WebMarker>>
 {
     private const string CONTROLLER_POST_ROUTE = "/weatherforecast/create";
@@ -36,7 +60,7 @@ public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory
         var stringResponse = await response.Content.ReadAsStringAsync();
         var forecasts = JsonConvert.DeserializeObject<List<WeatherForecast>>(stringResponse);
 
-        Assert.Equal("Freezing", forecasts.First().Summary);
+        Assert.Equal("Freezing", forecasts?.First()?.Summary);
     }
 
     [Theory]

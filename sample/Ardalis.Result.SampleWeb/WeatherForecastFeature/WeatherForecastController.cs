@@ -50,4 +50,15 @@ public class WeatherForecastController : ControllerBase
             // .Map(WeatherForecastSummaryDto.MapFrom)
             .ToActionResult(this);
     }
+
+    /// <summary>
+    /// Issue #179
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("throws")]
+    [TranslateResultToActionResult]
+    public Result<int> Throws()
+    {
+        return Result<int>.Invalid(new ValidationError("foo"));
+    }
 }
