@@ -110,9 +110,10 @@ public class ResultConventionDefaultResultStatusMap : BaseResultConventionTest
 
         convention.Apply(actionModel);
 
-        Assert.Equal(9, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
+        Assert.Equal(10, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
 
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 200, expectedType));
+        Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 204, typeof(void)));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 404, typeof(ProblemDetails)));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 400, typeof(ValidationProblemDetails)));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 401, typeof(void)));

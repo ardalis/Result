@@ -11,6 +11,9 @@ public class ResultStatusMapAddDefaultMap
         var controller = new TestController();
 
         var result = Result<int>.Invalid(new ValidationError("test"));
+
+        // TODO: require identifier
+        Assert.True(true);
     }
 
     public class TestController : ControllerBase
