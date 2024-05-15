@@ -6,10 +6,10 @@ namespace Ardalis.Result.Sample.Core.Model
     public class Person
     {
 		public int Id { get; set; }
-		public string Surname { get; set; }
-		public string Forename { get; set; }
+		public string Surname { get; set; } = String.Empty;
+		public string Forename { get; set; } = String.Empty;
 
-		public List<Person> Children { get; set; }
+		public List<Person> Children { get; set; } = new();
 
 		public DateTime DateOfBirth { get; set; }
 	}
