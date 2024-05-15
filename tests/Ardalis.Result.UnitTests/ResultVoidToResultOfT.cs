@@ -11,10 +11,12 @@ public class ResultVoidToResultOfT
     [InlineData("test1", "test2")]
     public void ConvertFromErrorResultOfUnit(params string[] errors)
     {
-        var result = DoBusinessOperationExample<object>(Result.Error(errors));
+        var errorList = new ErrorList(errors, default);
+        var result = DoBusinessOperationExample<object>(Result.Error(errorList));
 
         Assert.Null(result.Value);
         Assert.Equal(ResultStatus.Error, result.Status);
+        Assert.Empty(result.CorrelationId);
 
         foreach (var error in errors)
         {

@@ -1,4 +1,5 @@
 using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -94,12 +95,14 @@ public class PagedResultConstructor
     public void InitializesStatusToErrorAndSetsErrorMessageGivenErrorFactoryCall()
     {
         string errorMessage = "Something bad happened.";
+        string correlationId = Guid.NewGuid().ToString();
         var result = Result<object>
-            .Error(errorMessage)
+            .Error(new([errorMessage], correlationId))
             .ToPagedResult(_pagedInfo);
 
         Assert.Equal(ResultStatus.Error, result.Status);
-        Assert.Equal(errorMessage, result.Errors.First());
+        Assert.Equal(errorMessage, result.Errors.Single());
+        Assert.Equal(correlationId, result.CorrelationId);
         Assert.Equal(_pagedInfo, result.PagedInfo);
     }
 

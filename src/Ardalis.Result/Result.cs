@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace Ardalis.Result
@@ -133,11 +134,15 @@ namespace Ardalis.Result
         /// Represents an error that occurred during the execution of the service.
         /// Error messages may be provided and will be exposed via the Errors property.
         /// </summary>
-        /// <param name="errorMessages">A list of string error messages.</param>
+        /// <param name="error">An optional instance of ErrorList with list of string error messages and CorrelationId.</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Error(params string[] errorMessages)
+        public static Result<T> Error(ErrorList error = null)
         {
-            return new Result<T>(ResultStatus.Error) { Errors = errorMessages };
+            return new Result<T>(ResultStatus.Error)
+            {
+              CorrelationId = error?.CorrelationId ?? string.Empty,
+              Errors = error?.ErrorMessages ?? []
+            };
         }
 
         /// <summary>
