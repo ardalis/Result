@@ -49,7 +49,7 @@ public static partial class ResultExtensions
 
     private static Microsoft.AspNetCore.Http.IResult UnprocessableEntity(IResult result)
     {
-        var details = new StringBuilder("Next error(s) occured:");
+        var details = new StringBuilder("Next error(s) occurred:");
 
         foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
@@ -62,7 +62,7 @@ public static partial class ResultExtensions
 
     private static Microsoft.AspNetCore.Http.IResult NotFoundEntity(IResult result)
     {
-        var details = new StringBuilder("Next error(s) occured:");
+        var details = new StringBuilder("Next error(s) occurred:");
 
         if (result.Errors.Any())
         {
@@ -82,7 +82,7 @@ public static partial class ResultExtensions
 
     private static Microsoft.AspNetCore.Http.IResult ConflictEntity(IResult result)
     {
-        var details = new StringBuilder("Next error(s) occured:");
+        var details = new StringBuilder("Next error(s) occurred:");
 
         if (result.Errors.Any())
         {
@@ -102,7 +102,7 @@ public static partial class ResultExtensions
 
     private static Microsoft.AspNetCore.Http.IResult CriticalEntity(IResult result)
     {
-        var details = new StringBuilder("Next error(s) occured:");
+        var details = new StringBuilder("Next error(s) occurred:");
 
         if (result.Errors.Any())
         {
@@ -123,7 +123,7 @@ public static partial class ResultExtensions
 
     private static Microsoft.AspNetCore.Http.IResult UnavailableEntity(IResult result)
     {
-        var details = new StringBuilder("Next error(s) occured:");
+        var details = new StringBuilder("Next error(s) occurred:");
 
         if (result.Errors.Any())
         {

@@ -7,8 +7,8 @@ namespace Ardalis.Result
     {
         ResultStatus Status { get; }
         IEnumerable<string> Errors { get; }
-        List<ValidationError> ValidationErrors { get; }
+        IEnumerable<ValidationError> ValidationErrors { get; }
         Type ValueType { get; }
-        Object GetValue();
+        object GetValue();
     }
 }

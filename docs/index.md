@@ -1,3 +1,10 @@
+---
+layout: default
+title: Overview
+nav_order: 1
+has_children: false
+---
+
 [![Ardalis.Result - NuGet](https://img.shields.io/nuget/v/Ardalis.Result.svg?label=Ardalis.Result%20-%20nuget)](https://www.nuget.org/packages/Ardalis.Result) [![NuGet](https://img.shields.io/nuget/dt/Ardalis.Result.svg)](https://www.nuget.org/packages/Ardalis.Result) [![Build Status](https://github.com/ardalis/Result/workflows/.NET%20Core/badge.svg)](https://github.com/ardalis/Result/actions?query=workflow%3A%22.NET+Core%22)
 
 [![Ardails.Result.AspNetCore - NuGet](https://img.shields.io/nuget/v/Ardalis.Result.AspNetCore.svg?label=Ardalis.Result.AspNetCore%20-%20nuget)](https://www.nuget.org/packages/Ardalis.Result.AspNetCore) [![NuGet](https://img.shields.io/nuget/dt/Ardalis.Result.AspNetCore.svg)](https://www.nuget.org/packages/Ardalis.Result.AspNetCore) &nbsp; [![Ardails.Result.FluentValidation - NuGet](https://img.shields.io/nuget/v/Ardalis.Result.FluentValidation.svg?label=Ardalis.Result.FluentValidation%20-%20nuget)](https://www.nuget.org/packages/Ardalis.Result.FluentValidation) [![NuGet](https://img.shields.io/nuget/dt/Ardalis.Result.FluentValidation.svg)](https://www.nuget.org/packages/Ardalis.Result.FluentValidation)
@@ -12,16 +19,11 @@
 
 A result abstraction that can be mapped to HTTP response codes if needed.
 
-## Docs
-
-Docs are located in the /docs folder and available online at [result.ardalis.com](https://result.ardalis.com) Please add issues for new docs requests and [pull requests for docs issues](https://github.com/ardalis/Result/issues?q=is%3Aopen+is%3Aissue+label%3Adocumentation) are welcome!
-
 ## Learn More
 
 * [Getting Started With Ardalis.Result](https://blog.nimblepros.com/blogs/getting-started-with-ardalis-result/)
 * [Transforming Results With the Map Method](https://blog.nimblepros.com/blogs/transforming-results-with-the-map-method/)
 * [Avoid Using Exceptions to Determine API Status Codes and Responses](https://ardalis.com/avoid-using-exceptions-determine-api-status/)
-* [Fluent Validation in MediatR with Results](https://youtu.be/9KuLsPV8BYU)
 
 ## What Problem Does This Address?
 
@@ -153,7 +155,7 @@ app.MapPost("/Forecast/New", (ForecastRequestDto request, WeatherService weather
 .WithName("NewWeatherForecast");
 ```
 
-The full Minimal API sample can be found in the [sample folder](./sample/Ardalis.Result.SampleMinimalApi/Program.cs).
+The full Minimal API sample can be found in the [sample folder](https://github.com/ardalis/Result/tree/main/sample/Ardalis.Result.SampleMinimalApi/Program.cs).
 
 ### Mapping Results From One Type to Another
 
@@ -268,7 +270,3 @@ public async Task<Result<BlogCategory>> UpdateAsync(BlogCategory blogCategory)
     return Result<BlogCategory>.Success(await _blogCategoryRepository.UpdateAsync(itemToUpdate));
 }
 ```
-
-## Getting Started
-
-If you're building an ASP.NET Core Web API you can simply install the [Ardalis.Result.AspNetCore](https://www.nuget.org/packages/Ardalis.Result.AspNetCore/) package to get started. Then, apply the `[TranslateResultToActionResult]` attribute to any actions or controllers that you want to automatically translate from Result types to ActionResult types.

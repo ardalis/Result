@@ -41,7 +41,8 @@ namespace Ardalis.Result.AspNetCore
                         .With(CriticalEntity))
                 .For(ResultStatus.Unavailable, HttpStatusCode.ServiceUnavailable, resultStatusOptions =>
                     resultStatusOptions
-                        .With(UnavailableEntity));
+                        .With(UnavailableEntity))
+                .For(ResultStatus.NoContent, HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -113,7 +114,7 @@ namespace Ardalis.Result.AspNetCore
 
         private static ProblemDetails UnprocessableEntity(ControllerBase controller, IResult result)
         {
-            var details = new StringBuilder("Next error(s) occured:");
+            var details = new StringBuilder("Next error(s) occurred:");
 
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
@@ -126,7 +127,7 @@ namespace Ardalis.Result.AspNetCore
 
         private static ProblemDetails NotFoundEntity(ControllerBase controller, IResult result)
         {
-            var details = new StringBuilder("Next error(s) occured:");
+            var details = new StringBuilder("Next error(s) occurred:");
 
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
@@ -139,7 +140,7 @@ namespace Ardalis.Result.AspNetCore
         
         private static ProblemDetails ConflictEntity(ControllerBase controller, IResult result)
         {
-            var details = new StringBuilder("Next error(s) occured:");
+            var details = new StringBuilder("Next error(s) occurred:");
 
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
@@ -152,7 +153,7 @@ namespace Ardalis.Result.AspNetCore
 
         private static ProblemDetails CriticalEntity(ControllerBase controller, IResult result)
         {
-            var details = new StringBuilder("Next error(s) occured:");
+            var details = new StringBuilder("Next error(s) occurred:");
 
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
@@ -165,7 +166,7 @@ namespace Ardalis.Result.AspNetCore
 
         private static ProblemDetails UnavailableEntity(ControllerBase controller, IResult result)
         {
-            var details = new StringBuilder("Next error(s) occured:");
+            var details = new StringBuilder("Next error(s) occurred:");
 
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 

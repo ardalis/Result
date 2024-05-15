@@ -84,7 +84,7 @@ namespace Ardalis.Result
         /// <returns>A Result</returns>
         public new static Result Invalid(ValidationError validationError)
         {
-            return new Result(ResultStatus.Invalid) { ValidationErrors = { validationError } };
+            return new Result(ResultStatus.Invalid) { ValidationErrors = [validationError] };
         }
 
         /// <summary>
@@ -92,7 +92,17 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="validationErrors">A list of validation errors encountered</param>
         /// <returns>A Result</returns>
-        public new static Result Invalid(List<ValidationError> validationErrors)
+        public new static Result Invalid(params ValidationError[] validationErrors)
+        {
+            return new Result(ResultStatus.Invalid) { ValidationErrors = new List<ValidationError>(validationErrors) };
+        }
+
+        /// <summary>
+        /// Represents validation errors that prevent the underlying service from completing.
+        /// </summary>
+        /// <param name="validationErrors">A list of validation errors encountered</param>
+        /// <returns>A Result</returns>
+        public new static Result Invalid(IEnumerable<ValidationError> validationErrors)
         {
             return new Result(ResultStatus.Invalid) { ValidationErrors = validationErrors };
         }
@@ -179,9 +189,18 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
         /// <returns>A Result</returns>
-        public static Result CriticalError(params string[] errorMessages)
+        public new static Result CriticalError(params string[] errorMessages)
         {
             return new Result(ResultStatus.CriticalError) { Errors = errorMessages };
+        }
+
+        /// <summary>
+        /// Represents a situation where the server has successfully fulfilled the request, but there is no content to send back in the response body.
+        /// </summary>
+        /// <returns>A Result object</returns>
+        public new static Result NoContent()
+        {
+            return new Result(ResultStatus.NoContent);
         }
     }
 }

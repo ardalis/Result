@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Ardalis.Result
 {
@@ -10,10 +11,6 @@ namespace Ardalis.Result
         public Result(T value)
         {
             Value = value;
-            if (Value != null)
-            {
-                ValueType = Value.GetType();
-            }
         }
 
         protected internal Result(T value, string successMessage) : this(value)
@@ -38,17 +35,26 @@ namespace Ardalis.Result
             ValidationErrors = result.ValidationErrors,
         };
 
-        public T Value { get; }
+        [JsonInclude] 
+        public T Value { get; init; }
 
-        public Type ValueType { get; private set; }
+        [JsonIgnore]
+        public Type ValueType => typeof(T);
+        [JsonInclude] 
         public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
-        public bool IsSuccess => Status == ResultStatus.Ok;
-        public string SuccessMessage { get; protected set; } = string.Empty;
-        public string CorrelationId { get; protected set; } = string.Empty;
-        public IEnumerable<string> Errors { get; protected set; } = new List<string>();
-        public List<ValidationError> ValidationErrors { get; protected set; } = new List<ValidationError>();
 
-        public void ClearValueType() => ValueType = null;
+        public bool IsSuccess => Status is ResultStatus.Ok or ResultStatus.NoContent or ResultStatus.Created;
+
+        [JsonInclude] 
+        public string SuccessMessage { get; protected set; } = string.Empty;
+        [JsonInclude] 
+        public string CorrelationId { get; protected set; } = string.Empty;
+        [JsonInclude] 
+        public string Location { get; protected set; } = string.Empty;
+        [JsonInclude] 
+        public IEnumerable<string> Errors { get; protected set; } = [];
+        [JsonInclude] 
+        public IEnumerable<ValidationError> ValidationErrors { get; protected set; } = [];
 
         /// <summary>
         /// Returns the current value.
@@ -99,6 +105,29 @@ namespace Ardalis.Result
         {
             return new Result<T>(value, successMessage);
         }
+        
+        /// <summary>
+        /// Represents a successful operation that resulted in the creation of a new resource.
+        /// </summary>
+        /// <typeparam name="T">The type of the resource created.</typeparam>
+        /// <returns>A Result<typeparamref name="T"/> with status Created.</returns>
+        public static Result<T> Created(T value)
+        {
+            return new Result<T>(ResultStatus.Created) { Value = value };
+        }
+
+        /// <summary>
+        /// Represents a successful operation that resulted in the creation of a new resource.
+        /// Sets the SuccessMessage property to the provided value.
+        /// </summary>
+        /// <typeparam name="T">The type of the resource created.</typeparam>
+        /// <param name="value">The value of the resource created.</param>
+        /// <param name="location">The URL indicating where the newly created resource can be accessed.</param>
+        /// <returns>A Result<typeparamref name="T"/> with status Created.</returns>
+        public static Result<T> Created(T value, string location)
+        {
+            return new Result<T>(ResultStatus.Created) { Value = value, Location = location };
+        }
 
         /// <summary>
         /// Represents an error that occurred during the execution of the service.
@@ -118,7 +147,7 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> Invalid(ValidationError validationError)
         {
-            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = { validationError } };
+            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = [validationError] };
         }
 
         /// <summary>
@@ -126,7 +155,18 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="validationErrors">A list of validation errors encountered</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Invalid(List<ValidationError> validationErrors)
+        public static Result<T> Invalid(params ValidationError[] validationErrors)
+        {
+            return new Result<T>(ResultStatus.Invalid)
+                { ValidationErrors = new List<ValidationError>(validationErrors) };
+        }
+
+        /// <summary>
+        /// Represents validation errors that prevent the underlying service from completing.
+        /// </summary>
+        /// <param name="validationErrors">A list of validation errors encountered</param>
+        /// <returns>A Result<typeparamref name="T"/></returns>
+        public static Result<T> Invalid(IEnumerable<ValidationError> validationErrors)
         {
             return new Result<T>(ResultStatus.Invalid) { ValidationErrors = validationErrors };
         }
@@ -217,6 +257,16 @@ namespace Ardalis.Result
         public static Result<T> Unavailable(params string[] errorMessages)
         {
             return new Result<T>(ResultStatus.Unavailable) { Errors = errorMessages};
+        }
+
+        /// <summary>
+        /// Represents a situation where the server has successfully fulfilled the request, but there is no content to send back in the response body.
+        /// </summary>
+        /// <typeparam name="T">The type parameter representing the expected response data.</typeparam>
+        /// <returns>A Result object</returns>
+        public static Result<T> NoContent()
+        {
+            return new Result<T>(ResultStatus.NoContent);
         }
     }
 }
