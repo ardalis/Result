@@ -5,7 +5,7 @@ namespace Ardalis.Result.Sample.Core.Exceptions
 {
     public class ForecastRequestInvalidException : Exception
     {
-        public Dictionary<string,string> ValidationErrors { get; set; }
+        public Dictionary<string,string> ValidationErrors { get; set; } = new();
 
         public ForecastRequestInvalidException(Dictionary<string, string> validationErrors) : base("Forecast request is invalid.")
         {

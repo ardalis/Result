@@ -12,7 +12,7 @@ public class IndexModel : PageModel
         _stringLocalizer = stringLocalizer;
     }
 
-    public string Message { get; set; }
+    public string Message { get; set; } = String.Empty;
     public void OnGet()
     {
         Message = _stringLocalizer["message"].Value;

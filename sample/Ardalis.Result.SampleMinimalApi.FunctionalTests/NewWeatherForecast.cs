@@ -33,7 +33,7 @@ public class NewWeatherForecast : IClassFixture<WebApplicationFactory<IWebMarker
         var stringResponse = await response.Content.ReadAsStringAsync();
         var forecasts = JsonConvert.DeserializeObject<List<WeatherForecast>>(stringResponse);
 
-        Assert.Equal("Freezing", forecasts.First().Summary);
+        Assert.Equal("Freezing", forecasts?.First()?.Summary);
     }
 
     [Fact]
