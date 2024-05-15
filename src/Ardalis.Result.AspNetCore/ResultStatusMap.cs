@@ -101,7 +101,11 @@ namespace Ardalis.Result.AspNetCore
         {
             foreach (var error in result.ValidationErrors)
             {
-                controller.ModelState.AddModelError(error.Identifier, error.ErrorMessage);
+                // TODO: mark ValidationError.Identifier as required and limit setting (see #179)
+                string identifier = error.Identifier ?? "(identifier)";
+                // TODO: mark ValidationError.Identifier as required and limit setting (see #179)
+                string errorMessage = error.ErrorMessage ?? "(error message)";
+                controller.ModelState.AddModelError(identifier, errorMessage);
             }
 
             return new ValidationProblemDetails(controller.ModelState);

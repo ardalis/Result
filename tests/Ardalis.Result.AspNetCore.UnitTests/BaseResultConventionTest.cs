@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Reflection;
 
 namespace Ardalis.Result.AspNetCore.UnitTests;
-
 public class BaseResultConventionTest
 {
     protected bool ProducesResponseTypeAttribute(IFilterMetadata filterMetadata, int statusCode, Type type)
