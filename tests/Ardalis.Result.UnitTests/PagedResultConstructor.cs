@@ -96,8 +96,10 @@ public class PagedResultConstructor
     {
         string errorMessage = "Something bad happened.";
         string correlationId = Guid.NewGuid().ToString();
+        ErrorList errors = new(new[] { errorMessage }, correlationId);
+
         var result = Result<object>
-            .Error(new([errorMessage], correlationId))
+            .Error(errors)
             .ToPagedResult(_pagedInfo);
 
         Assert.Equal(ResultStatus.Error, result.Status);
