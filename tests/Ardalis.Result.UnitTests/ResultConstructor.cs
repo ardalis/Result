@@ -95,7 +95,7 @@ public class ResultConstructor
         Assert.Equal(value, result.Value);
         Assert.Equal(message, result.SuccessMessage);
     }
-    
+
     [Theory]
     [InlineData(null)]
     [InlineData(123)]
@@ -104,12 +104,12 @@ public class ResultConstructor
     {
         string location = "https://github.com/ardalis/Result";
         var result = Result<object>.Created(value, location);
-        
+
         Assert.Equal(ResultStatus.Created, result.Status);
         Assert.Equal(location, result.Location);
         Assert.True(result.IsSuccess);
     }
-    
+
     [Theory]
     [InlineData(null)]
     [InlineData(123)]
@@ -117,12 +117,12 @@ public class ResultConstructor
     public void InitializesStatusToCreatedGivenCreatedFactoryCall(object value)
     {
         var result = Result<object>.Created(value);
-        
+
         Assert.Equal(ResultStatus.Created, result.Status);
         Assert.Equal(result.Location, string.Empty);
         Assert.True(result.IsSuccess);
     }
-    
+
     [Fact]
     public void InitializesStatusToErrorGivenErrorFactoryCall()
     {
@@ -132,15 +132,37 @@ public class ResultConstructor
     }
 
     [Fact]
+    public void InitializesStatusToErrorGivenErrorFactoryCallWithSimpleMessage()
+    {
+        string errorMessage = Guid.NewGuid().ToString();
+        var result = Result<object>.Error(errorMessage);
+
+        Assert.Equal(ResultStatus.Error, result.Status);
+        Assert.Equal(errorMessage, result.Errors.Single());
+    }
+
+    [Fact]
     public void InitializesStatusToErrorAndSetsErrorMessageGivenErrorFactoryCall()
     {
         string errorMessage = "Something bad happened.";
         string correlationId = Guid.NewGuid().ToString();
-        var result = Result<object>.Error(new([errorMessage], correlationId));
+        ErrorList errors = new(new[] { errorMessage }, correlationId);
+        var result = Result<object>.Error(errors);
 
         Assert.Equal(ResultStatus.Error, result.Status);
         Assert.Equal(errorMessage, result.Errors.Single());
-      Assert.Equal(correlationId, result.CorrelationId);
+        Assert.Equal(correlationId, result.CorrelationId);
+    }
+
+    [Fact]
+    public void InitializesStatusToErrorAndSetsErrorMessageGivenErrorFactoryCallWithoutCorrelationId()
+    {
+        string errorMessage = "Something bad happened.";
+        ErrorList errors = new(new[] { errorMessage });
+        var result = Result<object>.Error(errors);
+
+        Assert.Equal(ResultStatus.Error, result.Status);
+        Assert.Equal(errorMessage, result.Errors.Single());
     }
 
     [Fact]
@@ -185,7 +207,7 @@ public class ResultConstructor
         Assert.Equal(ResultStatus.NotFound, result.Status);
         Assert.Equal(errorMessage, result.Errors.First());
     }
-    
+
     [Fact]
     public void InitializesStatusToConflictGivenConflictFactoryCall()
     {
@@ -222,7 +244,7 @@ public class ResultConstructor
         Assert.Equal(ResultStatus.Unavailable, result.Status);
         Assert.Equal(errorMessage, result.Errors.First());
     }
-    
+
 
     [Fact]
     public void InitializedIsSuccessTrueForSuccessFactoryCall()
@@ -271,7 +293,7 @@ public class ResultConstructor
 
         Assert.False(result.IsSuccess);
     }
-    
+
     [Fact]
     public void InitializedIsSuccessFalseForConflictFactoryCall()
     {
@@ -292,7 +314,7 @@ public class ResultConstructor
     public void InitializesStatusToNoContentForNoContentFactoryCall()
     {
         var result = Result<object>.NoContent();
-        
+
         Assert.True(result.IsSuccess);
     }
 }
