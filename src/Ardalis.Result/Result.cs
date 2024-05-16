@@ -132,6 +132,17 @@ namespace Ardalis.Result
 
         /// <summary>
         /// Represents an error that occurred during the execution of the service.
+        /// A single error message may be provided and will be exposed via the Errors property.
+        /// </summary>
+        /// <param name="errorMessage"></param>
+        /// <returns></returns>
+        public static Result<T> Error(string errorMessage)
+        {
+            return new Result<T>(ResultStatus.Error) { Errors = new[] { errorMessage } };
+        }
+
+        /// <summary>
+        /// Represents an error that occurred during the execution of the service.
         /// Error messages may be provided and will be exposed via the Errors property.
         /// </summary>
         /// <param name="error">An optional instance of ErrorList with list of string error messages and CorrelationId.</param>

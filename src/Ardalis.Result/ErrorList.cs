@@ -7,4 +7,4 @@ namespace Ardalis.Result;
 /// </summary>
 /// <param name="ErrorMessages"></param>
 /// <param name="CorrelationId"></param>
-public record ErrorList(IEnumerable<string> ErrorMessages, string? CorrelationId);
+public record ErrorList(IEnumerable<string> ErrorMessages, string? CorrelationId = null);
