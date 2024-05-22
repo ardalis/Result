@@ -28,7 +28,7 @@ namespace Ardalis.Result.Sample.Core.Services
 
             if (person.Forename == _existPerson.Forename && person.Surname == _existPerson.Surname)
             {
-                return Result.Conflict($"Person ({person.Forename} {person.Surname}) is exist");
+                return Result.Conflict($"Person ({person.Forename} {person.Surname}) already exists in the system");
             }
 
             return Result.Success(person);
@@ -38,7 +38,7 @@ namespace Ardalis.Result.Sample.Core.Services
         {
             if (!_knownIds.Any(knownId => knownId == id))
             {
-                return Result.NotFound("Person Not Found");
+                return Result.NotFound($"Person with id {id} Not Found");
             }
 
             //Pretend removing person
