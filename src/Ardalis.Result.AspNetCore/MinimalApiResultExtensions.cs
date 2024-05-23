@@ -33,9 +33,8 @@ public static partial class ResultExtensions
     internal static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult(this IResult result) =>
         result.Status switch
         {
-            ResultStatus.Ok => typeof(Result).IsInstanceOfType(result)
-                ? Results.Ok()
-                : Results.Ok(result.GetValue()),
+            ResultStatus.Ok => result is Result ? Results.Ok() : Results.Ok(result.GetValue()),
+            ResultStatus.Created => Results.Created("", result.GetValue()),
             ResultStatus.NotFound => NotFoundEntity(result),
             ResultStatus.Unauthorized => Results.Unauthorized(),
             ResultStatus.Forbidden => Results.Forbid(),
