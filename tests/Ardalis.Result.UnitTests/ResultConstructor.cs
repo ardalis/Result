@@ -236,6 +236,34 @@ public class ResultConstructor
     }
 
     [Fact]
+    public void InitializesStatusToForbiddenGivenForbiddenFactoryCallWithString()
+    {
+        var errorMessage = "You are forbidden";
+        var result = Result<object>.Forbidden(errorMessage);
+
+        result.Status.Should().Be(ResultStatus.Forbidden);
+        result.Errors.Single().Should().Be(errorMessage);
+    }
+
+    [Fact]
+    public void InitializesStatusToUnauthorizedGivenUnauthorizedFactoryCall()
+    {
+        var result = Result<object>.Unauthorized();
+
+        Assert.Equal(ResultStatus.Unauthorized, result.Status);
+    }
+
+    [Fact]
+    public void InitializesStatusToUnauthorizedGivenUnauthorizedFactoryCallWithString()
+    {
+        var errorMessage = "You are unauthorized";
+        var result = Result<object>.Unauthorized(errorMessage);
+
+        result.Status.Should().Be(ResultStatus.Unauthorized);
+        result.Errors.Single().Should().Be(errorMessage);
+    }
+
+    [Fact]
     public void InitializesStatusToUnavailableGivenUnavailableFactoryCallWithString()
     {
         var errorMessage = "Service Unavailable";

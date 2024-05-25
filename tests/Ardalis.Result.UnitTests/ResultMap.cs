@@ -223,6 +223,30 @@ namespace Ardalis.Result.UnitTests
         }
 
         [Fact]
+        public void ShouldProduceForbiddenWithError()
+        {
+            string expectedMessage = "You are forbidden";
+            var result = Result<int>.Forbidden(expectedMessage);
+
+            var actual = result.Map(val => val.ToString());
+
+            actual.Status.Should().Be(ResultStatus.Forbidden);
+            actual.Errors.Single().Should().Be(expectedMessage);
+        }
+
+        [Fact]
+        public void ShouldProduceUnauthroizedWithError()
+        {
+            string expectedMessage = "You are unauthorized";
+            var result = Result<int>.Unauthorized(expectedMessage);
+
+            var actual = result.Map(val => val.ToString());
+
+            actual.Status.Should().Be(ResultStatus.Unauthorized);
+            actual.Errors.Single().Should().Be(expectedMessage);
+        }
+
+        [Fact]
         public void ShouldProductNoContentWithoutAnyContent()
         {
             var result = Result<int>.NoContent();

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,8 +39,8 @@ public static partial class ResultExtensions
                 ? Results.Ok()
                 : Results.Ok(result.GetValue()),
             ResultStatus.NotFound => NotFoundEntity(result),
-            ResultStatus.Unauthorized => Results.Unauthorized(),
-            ResultStatus.Forbidden => Results.Forbid(),
+            ResultStatus.Unauthorized => UnAuthorized(result),
+            ResultStatus.Forbidden => Forbidden(result),
             ResultStatus.Invalid => Results.BadRequest(result.ValidationErrors),
             ResultStatus.Error => UnprocessableEntity(result),
             ResultStatus.Conflict => ConflictEntity(result),
@@ -139,6 +141,48 @@ public static partial class ResultExtensions
         else
         {
             return Results.StatusCode(StatusCodes.Status503ServiceUnavailable);
+        }
+    }
+
+    private static Microsoft.AspNetCore.Http.IResult Forbidden(IResult result)
+    {
+        var details = new StringBuilder("Next error(s) occurred:");
+
+        if (result.Errors.Any())
+        {
+            foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+
+            return Results.Problem(new ProblemDetails
+            {
+                Title = "Forbidden.",
+                Detail = details.ToString(),
+                Status = StatusCodes.Status403Forbidden
+            });
+        }
+        else
+        {
+            return Results.Forbid();
+        }
+    }
+
+    private static Microsoft.AspNetCore.Http.IResult UnAuthorized(IResult result)
+    {
+        var details = new StringBuilder("Next error(s) occurred:");
+
+        if (result.Errors.Any())
+        {
+            foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
+
+            return Results.Problem(new ProblemDetails
+            {
+                Title = "Unauthorized.",
+                Detail = details.ToString(),
+                Status = StatusCodes.Status401Unauthorized
+            });
+        }
+        else
+        {
+            return Results.Unauthorized();
         }
     }
 }
