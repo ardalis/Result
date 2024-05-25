@@ -7,10 +7,13 @@
     <Summary>A simple package to implement the Result pattern for returning from services.</Summary>
     <PackageTags>result pattern web api aspnetcore mvc</PackageTags>
     <PackageReleaseNotes>
-		* #182 - Add overload for single Error message and make correlationId optional
+		* fixes ardalis/Result#187; add created option in ToMinimalApiResult by @Dalmazox in #188
+		* ✨ 176 result status helpers by @danielmackay in #184
+		* Bump rexml from 3.2.6 to 3.2.8 in /docs by @dependabot in #183
+		* Fix Null Ref when returning Result.Error(string) non-generically. by @ardalis in #189
 	</PackageReleaseNotes>
     <AssemblyName>Ardalis.Result</AssemblyName>
-    <Version>9.0.1</Version>
+    <Version>9.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Include="icon.png" Pack="true" Visible="false" PackagePath="" />
