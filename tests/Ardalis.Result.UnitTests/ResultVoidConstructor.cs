@@ -144,6 +144,17 @@ public class ResultVoidConstructor
     }
 
     [Fact]
+    public void InitializesStatusToForbiddenGivenForbiddenFactoryCallWithString()
+    {
+        var errorMessage = "You are forbidden";
+        var result = Result<object>.Forbidden(errorMessage);
+        
+        Assert.Null(result.Value);
+        result.Status.Should().Be(ResultStatus.Forbidden);
+        result.Errors.Single().Should().Be(errorMessage);
+    }
+
+    [Fact]
     public void InitializesUnauthorizedResultWithFactoryMethod()
     {
         var result = Result.Unauthorized();
@@ -151,7 +162,18 @@ public class ResultVoidConstructor
         Assert.Null(result.Value);
         Assert.Equal(ResultStatus.Unauthorized, result.Status);
     }
-    
+
+    [Fact]
+    public void InitializesUnauthorizedResultWithFactoryMethodWithString()
+    {
+        var errorMessage = "You are unauthorized";
+        var result = Result.Unauthorized(errorMessage);
+
+        result.Value.Should().BeNull();
+        result.Status.Should().Be(ResultStatus.Unauthorized);
+        result.Errors.Single().Should().Be(errorMessage);
+    }
+
     [Fact]
     public void InitializesConflictResultWithFactoryMethod()
     {
