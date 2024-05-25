@@ -51,7 +51,7 @@ public class PersonControllerDelete : IClassFixture<WebApplicationFactory<WebMar
         var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(stringResponse);
 
         Assert.Contains("Resource not found.", problemDetails.Title);
-        Assert.Contains("Person Not Found", problemDetails.Detail);
+        Assert.Contains("Person with id 2 Not Found", problemDetails.Detail);
         Assert.Equal(404, problemDetails.Status);
     }
 

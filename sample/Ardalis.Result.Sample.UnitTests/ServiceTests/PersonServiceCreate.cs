@@ -30,7 +30,7 @@ public class PersonServiceCreate
     }
 
     [Fact]
-    public void ReturnsConflictResultGivenExistPerson()
+    public void ReturnsConflictResultGivenExistingPerson()
     {
         var service = new PersonService();
         string firstName = "John";
@@ -39,6 +39,6 @@ public class PersonServiceCreate
         var result = service.Create(firstName, lastName);
 
         result.Status.Should().Be(ResultStatus.Conflict);
-        result.Errors.Single().Should().Be($"Person ({firstName} {lastName}) is exist");
+        result.Errors.Single().Should().Be($"Person ({firstName} {lastName}) already exists in the system");
     }
 }
