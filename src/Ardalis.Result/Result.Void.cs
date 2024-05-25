@@ -65,6 +65,18 @@ namespace Ardalis.Result
         }
 
         /// <summary>
+        /// Represents an error that occurred during the execution of the service.
+        /// A single error message may be provided and will be exposed via the Errors property.
+        /// </summary>
+        /// <param name="errorMessage"></param>
+        /// <returns></returns>
+        public static Result Error(string errorMessage)
+        {
+            return new Result(ResultStatus.Error) { Errors = new[] { errorMessage } };
+        }
+
+
+        /// <summary>
         /// Represents the validation error that prevents the underlying service from completing.
         /// </summary>
         /// <param name="validationError">The validation error encountered</param>

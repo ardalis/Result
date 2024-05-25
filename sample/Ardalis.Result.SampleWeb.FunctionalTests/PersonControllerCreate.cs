@@ -43,7 +43,7 @@ public class PersonControllerCreate : IClassFixture<WebApplicationFactory<WebMar
         var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(stringResponse);
 
         Assert.Contains("There was a conflict.", problemDetails.Title);
-        Assert.Contains("Next error(s) occurred:* Person (John Smith) is exist", problemDetails.Detail);
+        Assert.Contains("Next error(s) occurred:* Person (John Smith) already exists in the system", problemDetails.Detail);
         Assert.Equal(409, problemDetails.Status);
     }
 }
