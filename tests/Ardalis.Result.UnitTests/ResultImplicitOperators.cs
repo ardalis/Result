@@ -1,3 +1,4 @@
+using System.Linq;
 using Xunit;
 
 namespace Ardalis.Result.UnitTests;
@@ -81,6 +82,17 @@ public class ResultImplicitOperators
         var result = GetValueForResultExample(Result<TestObject>.Success(expectedNullObject));
 
         Assert.Equal(expectedNullObject, result);
+    }
+
+    [Fact]
+    public void ConvertResultResultToResult()
+    {
+        var result = Result.Error(expectedString);
+
+        Result convertedResult = result;
+
+        Assert.NotNull(convertedResult);
+        Assert.Equal(expectedString, convertedResult.Errors.First());
     }
 
     public Result<T> DoBusinessOperationExample<T>(T testValue) => testValue;
