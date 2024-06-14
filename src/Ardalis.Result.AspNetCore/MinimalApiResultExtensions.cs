@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text;
 
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,6 +36,7 @@ public static partial class ResultExtensions
         {
             ResultStatus.Ok => result is Result ? Results.Ok() : Results.Ok(result.GetValue()),
             ResultStatus.Created => Results.Created("", result.GetValue()),
+            ResultStatus.NoContent => Results.NoContent(),
             ResultStatus.NotFound => NotFoundEntity(result),
             ResultStatus.Unauthorized => UnAuthorized(result),
             ResultStatus.Forbidden => Forbidden(result),
