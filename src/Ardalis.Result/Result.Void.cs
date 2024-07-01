@@ -21,10 +21,10 @@ namespace Ardalis.Result
         /// Represents a successful operation without return type
         /// </summary>
         /// <param name="successMessage">Sets the SuccessMessage property</param>
-        /// <returns>A Result></returns>
+        /// <returns>A Result</returns>
         public static Result SuccessWithMessage(string successMessage)
         {
-            return new Result() { SuccessMessage = successMessage };
+            return new Result { SuccessMessage = successMessage };
         }
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace Ardalis.Result
         /// A single error message may be provided and will be exposed via the Errors property.
         /// </summary>
         /// <param name="errorMessage"></param>
-        /// <returns></returns>
-        public static Result Error(string errorMessage)
+        /// <returns>A Result</returns>
+        public new static Result Error(string errorMessage)
         {
             return new Result(ResultStatus.Error) { Errors = new[] { errorMessage } };
         }
@@ -173,7 +173,7 @@ namespace Ardalis.Result
         /// such as an edit conflict between multiple concurrent updates.
         /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
         /// </summary>
-        /// <returns>A Result<typeparamref name="T"/></returns>
+        /// <returns>A Result></returns>
         public new static Result Conflict()
         {
             return new Result(ResultStatus.Conflict);
@@ -186,7 +186,7 @@ namespace Ardalis.Result
         /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
-        /// <returns>A Result<typeparamref name="T"/></returns>
+        /// <returns>A Result></returns>
         public new static Result Conflict(params string[] errorMessages)
         {
             return new Result(ResultStatus.Conflict) { Errors = errorMessages };
@@ -204,6 +204,7 @@ namespace Ardalis.Result
             return new Result(ResultStatus.Unavailable) { Errors = errorMessages };
         }
         
+        /// <summary>
         /// Represents a critical error that occurred during the execution of the service.
         /// Everything provided by the user was valid, but the service was unable to complete due to an exception.
         /// See also HTTP 500 Internal Server Error: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#5xx_server_errors
