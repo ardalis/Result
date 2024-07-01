@@ -21,10 +21,10 @@ namespace Ardalis.Result
         /// Represents a successful operation without return type
         /// </summary>
         /// <param name="successMessage">Sets the SuccessMessage property</param>
-        /// <returns>A Result></returns>
+        /// <returns>A Result</returns>
         public static Result SuccessWithMessage(string successMessage)
         {
-            return new Result() { SuccessMessage = successMessage };
+            return new Result { SuccessMessage = successMessage };
         }
 
         /// <summary>
