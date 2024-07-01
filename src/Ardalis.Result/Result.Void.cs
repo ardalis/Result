@@ -69,8 +69,8 @@ namespace Ardalis.Result
         /// A single error message may be provided and will be exposed via the Errors property.
         /// </summary>
         /// <param name="errorMessage"></param>
-        /// <returns></returns>
-        public static Result Error(string errorMessage)
+        /// <returns>A Result</returns>
+        public new static Result Error(string errorMessage)
         {
             return new Result(ResultStatus.Error) { Errors = new[] { errorMessage } };
         }
