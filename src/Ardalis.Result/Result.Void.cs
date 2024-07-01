@@ -173,7 +173,7 @@ namespace Ardalis.Result
         /// such as an edit conflict between multiple concurrent updates.
         /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
         /// </summary>
-        /// <returns>A Result></returns>
+        /// <returns>A Result</returns>
         public new static Result Conflict()
         {
             return new Result(ResultStatus.Conflict);
@@ -186,7 +186,7 @@ namespace Ardalis.Result
         /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
-        /// <returns>A Result></returns>
+        /// <returns>A Result</returns>
         public new static Result Conflict(params string[] errorMessages)
         {
             return new Result(ResultStatus.Conflict) { Errors = errorMessages };
