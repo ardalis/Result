@@ -26,6 +26,7 @@ namespace Ardalis.Result.AspNetCore
         public ResultStatusMap AddDefaultMap()
         {
             return For(ResultStatus.Ok, HttpStatusCode.OK)
+                .For(ResultStatus.Created, HttpStatusCode.Created)
                 .For(ResultStatus.Error, (HttpStatusCode)422, resultStatusOptions => resultStatusOptions
                     .With(UnprocessableEntity))
                 .For(ResultStatus.Forbidden, HttpStatusCode.Forbidden)

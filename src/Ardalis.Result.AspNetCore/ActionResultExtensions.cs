@@ -74,6 +74,17 @@ namespace Ardalis.Result.AspNetCore
                     return typeof(Result).IsInstanceOfType(result)
                         ? (ActionResult)controller.StatusCode(statusCode)
                         : controller.StatusCode(statusCode, result.GetValue());
+                case ResultStatus.Created:
+                    if ((result as dynamic).Location is not string location)
+                        return controller.Created((string?)null, result.GetValue());
+                    
+                    var httpRequest = controller.HttpContext.Request;
+                    var locationUri = new UriBuilder(httpRequest.Scheme, 
+                        httpRequest.Host.Host, 
+                        httpRequest.Host.Port ?? -1,
+                        location).Uri.AbsoluteUri;
+
+                    return controller.Created(locationUri, result.GetValue());
                 default:
                     return resultStatusOptions.ResponseType == null
                         ? (ActionResult)controller.StatusCode(statusCode)

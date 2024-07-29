@@ -81,7 +81,7 @@ namespace Ardalis.Result.AspNetCore
 
                 var resultStatuses = attr?.ResultStatuses ?? _map.Keys;
 
-                foreach (var status in resultStatuses.Where(s => s != ResultStatus.Ok))
+                foreach (var status in resultStatuses.Where(s => s is not (ResultStatus.Ok or ResultStatus.Created)))
                 {
                     var info = _map[status];
                     AddProducesResponseTypeAttribute(action.Filters, (int)info.GetStatusCode(method), info.ResponseType);
