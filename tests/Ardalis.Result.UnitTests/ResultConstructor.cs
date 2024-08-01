@@ -345,4 +345,20 @@ public class ResultConstructor
 
         Assert.True(result.IsSuccess);
     }
+    
+    [Fact]
+    public void InitializedIsSuccessTrueForCreatedFactoryCall()
+    {
+        var result = Result<object>.Created(new object());
+        
+        Assert.True(result.IsSuccess);
+    }
+    
+    [Fact]
+    public void InitializedIsSuccessTrueForCreatedWithLocationFactoryCall()
+    {
+        var result = Result<object>.Created(new object(), "sample/endpoint");
+        
+        Assert.True(result.IsSuccess);
+    }
 }
