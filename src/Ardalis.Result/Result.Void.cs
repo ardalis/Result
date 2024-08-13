@@ -49,6 +49,30 @@ namespace Ardalis.Result
             return new Result<T>(value, successMessage);
         }
 
+		/// <summary>
+		/// Represents a successful operation that resulted in the creation of a new resource.
+		/// Accepts a value as the result of the operation.
+		/// </summary>		
+		/// <param name="value">Sets the Value property</param>
+		/// <returns>A Result<typeparamref name="T"/></returns>
+		public static Result<T> Created<T>(T value)
+		{
+			return Result<T>.Created(value);
+		}
+
+		/// <summary>
+		/// Represents a successful operation that resulted in the creation of a new resource.
+		/// Accepts a value as the result of the operation.
+		/// Accepts a location for the new resource.
+		/// </summary>		
+		/// <param name="value">Sets the Value property</param>
+		/// <param name="location">The location of the newly created resource</param>
+		/// <returns>A Result<typeparamref name="T"/></returns>
+		public static Result<T> Created<T>(T value, string location)
+		{
+			return Result<T>.Created(value, location);
+		}
+
         /// <summary>
         /// Represents an error that occurred during the execution of the service.
         /// Error messages may be provided and will be exposed via the Errors property.
