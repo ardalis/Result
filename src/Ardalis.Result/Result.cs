@@ -114,7 +114,7 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/> with status Created.</returns>
         public static Result<T> Created(T value)
         {
-            return new Result<T>(ResultStatus.Created) { Value = value };
+            return new Result<T>(value) { Status = ResultStatus.Created };
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/> with status Created.</returns>
         public static Result<T> Created(T value, string location)
         {
-            return new Result<T>(ResultStatus.Created) { Value = value, Location = location };
+            return new Result<T>(value) { Status = ResultStatus.Created, Location = location };
         }
 
         /// <summary>
