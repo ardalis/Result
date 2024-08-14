@@ -17,9 +17,7 @@ namespace Ardalis.Result.AspNetCore
         /// <param name="result">The Result to convert to an ActionResult</param>
         /// <returns></returns>
         public static ActionResult<T> ToActionResult<T>(this Result<T> result, ControllerBase controller)
-        {
-            return controller.ToActionResult((IResult)result);
-        }
+            => controller.ToActionResult((IResult)result);
 
         /// <summary>
         /// Convert a <see cref="Result"/> to a <see cref="ActionResult"/>
@@ -28,9 +26,7 @@ namespace Ardalis.Result.AspNetCore
         /// <param name="result">The Result to convert to an ActionResult</param>
         /// <returns></returns>
         public static ActionResult ToActionResult(this Result result, ControllerBase controller)
-        {
-            return controller.ToActionResult((IResult)result);
-        }
+            => controller.ToActionResult((IResult)result);
 
         /// <summary>
         /// Convert a <see cref="Result{T}"/> to a <see cref="ActionResult"/>
@@ -39,11 +35,8 @@ namespace Ardalis.Result.AspNetCore
         /// <param name="controller">The controller this is called from</param>
         /// <param name="result">The Result to convert to an ActionResult</param>
         /// <returns></returns>
-        public static ActionResult<T> ToActionResult<T>(this ControllerBase controller,
-            Result<T> result)
-        {
-            return controller.ToActionResult((IResult)result);
-        }
+        public static ActionResult<T> ToActionResult<T>(this ControllerBase controller, Result<T> result)
+            => controller.ToActionResult((IResult)result);
 
         /// <summary>
         /// Convert a <see cref="Result"/> to a <see cref="ActionResult"/>
@@ -51,18 +44,15 @@ namespace Ardalis.Result.AspNetCore
         /// <param name="controller">The controller this is called from</param>
         /// <param name="result">The Result to convert to an ActionResult</param>
         /// <returns></returns>
-        public static ActionResult ToActionResult(this ControllerBase controller,
-            Result result)
-        {
-            return controller.ToActionResult((IResult)result);
-        }
+        public static ActionResult ToActionResult(this ControllerBase controller, Result result)
+            => controller.ToActionResult((IResult)result);
 
         internal static ActionResult ToActionResult(this ControllerBase controller, IResult result)
         {
             var actionProps = controller.ControllerContext.ActionDescriptor.Properties;
 
-            var resultStatusMap = actionProps.ContainsKey(ResultConvention.RESULT_STATUS_MAP_PROP) 
-                ?(actionProps[ResultConvention.RESULT_STATUS_MAP_PROP] as ResultStatusMap)
+            var resultStatusMap = actionProps.ContainsKey(ResultConvention.RESULT_STATUS_MAP_PROP)
+                ? (actionProps[ResultConvention.RESULT_STATUS_MAP_PROP] as ResultStatusMap)
                 : new ResultStatusMap().AddDefaultMap();
 
             var resultStatusOptions = resultStatusMap[result.Status];

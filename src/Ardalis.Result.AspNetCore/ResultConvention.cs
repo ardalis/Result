@@ -20,10 +20,7 @@ namespace Ardalis.Result.AspNetCore
 
         private readonly ResultStatusMap _map;
 
-        internal ResultConvention(ResultStatusMap map)
-        {
-            _map = map;
-        }
+        internal ResultConvention(ResultStatusMap map) => _map = map;
 
         public void Apply(ActionModel action)
         {
