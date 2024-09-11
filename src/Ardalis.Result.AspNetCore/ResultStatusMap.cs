@@ -26,6 +26,7 @@ namespace Ardalis.Result.AspNetCore
         public ResultStatusMap AddDefaultMap()
         {
             return For(ResultStatus.Ok, HttpStatusCode.OK)
+                .For(ResultStatus.Created, HttpStatusCode.Created)
                 .For(ResultStatus.Error, (HttpStatusCode)422, resultStatusOptions => resultStatusOptions
                     .With(UnprocessableEntity))
                 .For(ResultStatus.Forbidden, HttpStatusCode.Forbidden)
@@ -50,7 +51,7 @@ namespace Ardalis.Result.AspNetCore
         /// Allows to override default status code for specific Http Methods
         /// </summary>
         /// <param name="status">Result Status to map.</param>
-        /// <param name="defaultStatusCode">Default Status Code.<param>
+        /// <param name="defaultStatusCode">Default Status Code.</param>
         /// <param name="configure">A <see cref="Action"/> to configure Status Codes for specific Http Methods.</param>
         public ResultStatusMap For(ResultStatus status, HttpStatusCode defaultStatusCode, Action<ResultStatusOptions> configure)
         {

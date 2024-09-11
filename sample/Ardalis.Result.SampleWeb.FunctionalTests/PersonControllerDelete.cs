@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Ardalis.Result.Sample.Core.DTOs;
 using Xunit;
+using System.Text.Json;
 
 namespace Ardalis.Result.SampleWeb.FunctionalTests;
 
@@ -48,9 +48,9 @@ public class PersonControllerDelete : IClassFixture<WebApplicationFactory<WebMar
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         var stringResponse = await response.Content.ReadAsStringAsync();
 
-        var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(stringResponse);
+        var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(stringResponse);
 
-        Assert.Contains("Resource not found.", problemDetails.Title);
+        Assert.Contains("Resource not found.", problemDetails!.Title);
         Assert.Contains("Person with id 2 Not Found", problemDetails.Detail);
         Assert.Equal(404, problemDetails.Status);
     }

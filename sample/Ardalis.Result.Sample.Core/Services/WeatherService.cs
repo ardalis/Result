@@ -56,6 +56,19 @@ namespace Ardalis.Result.Sample.Core.Services
                         ErrorMessage = "PostalCode is required" }
                     });
             }
+            
+            // Test value to return Created result with a location
+            if (model.PostalCode == "12345")
+            {
+                return Result<IEnumerable<WeatherForecast>>.Created(
+                    Enumerable.Range(1, 1).Select(index =>
+                        new WeatherForecast
+                        {
+                            Date = DateTime.Now,
+                            TemperatureC = 0,
+                            Summary = Summaries[0]
+                        }), "weatherforecast/12345");
+            }
 
             // test value
             if (model.PostalCode == "55555")
