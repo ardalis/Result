@@ -1,17 +1,17 @@
 <Project>
-  <PropertyGroup>
-    <NetCoreFrameworks>net6.0;net7.0;net8.0</NetCoreFrameworks>
-     <TargetFrameworks>netstandard2.0;$(NetCoreFrameworks)</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Steve Smith (@ardalis); Shady Nagy (@ShadyNagy)</Authors>
-    <Company>Ardalis.com</Company>
-    <PackageProjectUrl>https://github.com/ardalis/result</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIcon>icon.png</PackageIcon>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-  </PropertyGroup>
+	<PropertyGroup>
+		<NetCoreFrameworks>net6.0;net7.0;net8.0</NetCoreFrameworks>
+		<TargetFrameworks>netstandard2.0;$(NetCoreFrameworks)</TargetFrameworks>
+		<LangVersion>latest</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Authors>Steve Smith (@ardalis); Shady Nagy (@ShadyNagy)</Authors>
+		<Company>Ardalis.com</Company>
+		<PackageProjectUrl>https://github.com/ardalis/result</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/ardalis/result</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIcon>icon.png</PackageIcon>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	</PropertyGroup>
 
 </Project>
