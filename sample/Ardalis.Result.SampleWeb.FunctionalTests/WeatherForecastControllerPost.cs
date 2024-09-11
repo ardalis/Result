@@ -2,12 +2,12 @@ using Ardalis.Result.Sample.Core.DTOs;
 using Ardalis.Result.Sample.Core.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -30,10 +30,10 @@ public class WeatherForecastControllerThrows : IClassFixture<WebApplicationFacto
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         var stringResponse = await response.Content.ReadAsStringAsync();
-        var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(stringResponse);
+        var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(stringResponse);
 
         Assert.Equal("One or more validation errors occurred.", problemDetails?.Title);
-        Assert.Equal(400, problemDetails.Status);
+        Assert.Equal(400, problemDetails!.Status);
     }
 }
 
@@ -58,7 +58,7 @@ public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory
         response.EnsureSuccessStatusCode();
 
         var stringResponse = await response.Content.ReadAsStringAsync();
-        var forecasts = JsonConvert.DeserializeObject<List<WeatherForecast>>(stringResponse);
+        var forecasts = JsonSerializer.Deserialize<List<WeatherForecast>>(stringResponse);
 
         Assert.Equal("Freezing", forecasts?.First()?.Summary);
     }
@@ -74,9 +74,9 @@ public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         var stringResponse = await response.Content.ReadAsStringAsync();
 
-        var validationProblemDetails = JsonConvert.DeserializeObject<ValidationProblemDetails>(stringResponse);
+        var validationProblemDetails = JsonSerializer.Deserialize<ValidationProblemDetails>(stringResponse);
 
-        Assert.Contains(validationProblemDetails.Errors, d => d.Key == nameof(ForecastRequestDto.PostalCode));
+        Assert.Contains(validationProblemDetails!.Errors, d => d.Key == nameof(ForecastRequestDto.PostalCode));
         Assert.Equal(400, validationProblemDetails.Status);
     }
 
@@ -91,9 +91,9 @@ public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         var stringResponse = await response.Content.ReadAsStringAsync();
 
-        var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(stringResponse);
+        var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(stringResponse);
 
-        Assert.Equal("Resource not found.", problemDetails.Title);
+        Assert.Equal("Resource not found.", problemDetails!.Title);
         Assert.Equal(404, problemDetails.Status);
     }
 
@@ -108,9 +108,9 @@ public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         var stringResponse = await response.Content.ReadAsStringAsync();
 
-        var validationProblemDetails = JsonConvert.DeserializeObject<ValidationProblemDetails>(stringResponse);
+        var validationProblemDetails = JsonSerializer.Deserialize<ValidationProblemDetails>(stringResponse);
 
-        Assert.Contains(validationProblemDetails.Errors, d => d.Key == nameof(ForecastRequestDto.PostalCode));
+        Assert.Contains(validationProblemDetails!.Errors, d => d.Key == nameof(ForecastRequestDto.PostalCode));
         Assert.Contains(validationProblemDetails.Errors[nameof(ForecastRequestDto.PostalCode)], e => e.Equals("PostalCode cannot exceed 10 characters.", System.StringComparison.OrdinalIgnoreCase));
         Assert.Equal(400, validationProblemDetails.Status);
     }
@@ -126,15 +126,15 @@ public class WeatherForecastControllerPost : IClassFixture<WebApplicationFactory
         Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
         var stringResponse = await response.Content.ReadAsStringAsync();
 
-        var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(stringResponse);
+        var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(stringResponse);
 
-        Assert.Equal("There was a conflict.", problemDetails.Title);
+        Assert.Equal("There was a conflict.", problemDetails!.Title);
         Assert.Equal(409, problemDetails.Status);
     }
 
     private async Task<HttpResponseMessage> PostDTOAndGetResponse(ForecastRequestDto dto, string route)
     {
-        var jsonContent = new StringContent(JsonConvert.SerializeObject(dto),
+        var jsonContent = new StringContent(JsonSerializer.Serialize(dto),
             Encoding.Default, "application/json");
         return await _client.PostAsync(route, jsonContent);
     }

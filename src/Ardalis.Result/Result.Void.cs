@@ -18,7 +18,7 @@ namespace Ardalis.Result
         /// Represents a successful operation without return type
         /// </summary>
         /// <param name="successMessage">Sets the SuccessMessage property</param>
-        /// <returns>A Result></returns>
+        /// <returns>A Result</returns>
         public static Result SuccessWithMessage(string successMessage) => new() { SuccessMessage = successMessage };
 
         /// <summary>
@@ -37,6 +37,30 @@ namespace Ardalis.Result
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> Success<T>(T value, string successMessage) => new(value, successMessage);
 
+		/// <summary>
+		/// Represents a successful operation that resulted in the creation of a new resource.
+		/// Accepts a value as the result of the operation.
+		/// </summary>		
+		/// <param name="value">Sets the Value property</param>
+		/// <returns>A Result<typeparamref name="T"/></returns>
+		public static Result<T> Created<T>(T value)
+		{
+			return Result<T>.Created(value);
+		}
+
+		/// <summary>
+		/// Represents a successful operation that resulted in the creation of a new resource.
+		/// Accepts a value as the result of the operation.
+		/// Accepts a location for the new resource.
+		/// </summary>		
+		/// <param name="value">Sets the Value property</param>
+		/// <param name="location">The location of the newly created resource</param>
+		/// <returns>A Result<typeparamref name="T"/></returns>
+		public static Result<T> Created<T>(T value, string location)
+		{
+			return Result<T>.Created(value, location);
+		}
+
         /// <summary>
         /// Represents an error that occurred during the execution of the service.
         /// Error messages may be provided and will be exposed via the Errors property.
@@ -54,9 +78,8 @@ namespace Ardalis.Result
         /// A single error message may be provided and will be exposed via the Errors property.
         /// </summary>
         /// <param name="errorMessage"></param>
-        /// <returns></returns>
-        public static Result Error(string errorMessage) => new(ResultStatus.Error) { Errors = new[] { errorMessage } };
-
+        /// <returns>A Result</returns>
+        public new static Result Error(string errorMessage) => new(ResultStatus.Error) { Errors = new[] { errorMessage } };
 
         /// <summary>
         /// Represents the validation error that prevents the underlying service from completing.
@@ -131,7 +154,7 @@ namespace Ardalis.Result
         /// such as an edit conflict between multiple concurrent updates.
         /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
         /// </summary>
-        /// <returns>A Result<typeparamref name="T"/></returns>
+        /// <returns>A Result</returns>
         public new static Result Conflict() => new(ResultStatus.Conflict);
 
         /// <summary>
@@ -141,7 +164,7 @@ namespace Ardalis.Result
         /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
-        /// <returns>A Result<typeparamref name="T"/></returns>
+        /// <returns>A Result</returns>
         public new static Result Conflict(params string[] errorMessages) => new(ResultStatus.Conflict) { Errors = errorMessages };
 
         /// <summary>
@@ -153,6 +176,7 @@ namespace Ardalis.Result
         /// <returns></returns>
         public new static Result Unavailable(params string[] errorMessages) => new(ResultStatus.Unavailable) { Errors = errorMessages };
 
+        /// <summary>
         /// Represents a critical error that occurred during the execution of the service.
         /// Everything provided by the user was valid, but the service was unable to complete due to an exception.
         /// See also HTTP 500 Internal Server Error: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#5xx_server_errors
