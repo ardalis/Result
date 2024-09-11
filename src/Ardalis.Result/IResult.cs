@@ -10,5 +10,6 @@ namespace Ardalis.Result
         IEnumerable<ValidationError> ValidationErrors { get; }
         Type ValueType { get; }
         object GetValue();
+        string Location { get; }
     }
 }
