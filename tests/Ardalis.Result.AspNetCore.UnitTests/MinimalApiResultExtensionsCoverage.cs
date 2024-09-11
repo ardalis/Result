@@ -1,4 +1,4 @@
-#if NET8_0_OR_GREATER
+#if NET7_0_OR_GREATER
 
 using Ardalis.Result.AspNetCore;
 using Xunit;
@@ -22,6 +22,13 @@ public class MinimalApiResultExtensionsCoverage : BaseResultConventionTest
     {
         foreach (ResultStatus resultStatus in Enum.GetValues(typeof(ResultStatus)))
         {
+#if NET7_0
+            // Results.Created does not accept empty string URI in net7
+            if (resultStatus == ResultStatus.Created)
+            {
+                continue;
+            }
+#endif
             Result result = new TestResult(resultStatus);
             try
             {
