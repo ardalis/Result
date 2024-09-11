@@ -2,14 +2,9 @@
 
 namespace Ardalis.Result
 {
-    public class PagedResult<T> : Result<T>
+    public class PagedResult<T>(PagedInfo pagedInfo, T value) : Result<T>(value)
     {
-        public PagedResult(PagedInfo pagedInfo, T value) : base(value)
-        {
-            PagedInfo = pagedInfo;
-        }
-
-        [JsonInclude] 
-        public PagedInfo PagedInfo { get; init; }
+        [JsonInclude]
+        public PagedInfo PagedInfo { get; init; } = pagedInfo;
     }
 }

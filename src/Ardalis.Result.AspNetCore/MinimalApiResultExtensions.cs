@@ -16,20 +16,14 @@ public static partial class ResultExtensions
     /// <typeparam name="T">The value being returned</typeparam>
     /// <param name="result">The Ardalis.Result to convert to an Microsoft.AspNetCore.Http.IResult</param>
     /// <returns></returns>
-    public static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult<T>(this Result<T> result)
-    {
-        return ToMinimalApiResult((IResult)result);
-    }
+    public static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult<T>(this Result<T> result) => ToMinimalApiResult((IResult)result);
 
     /// <summary>
     /// Convert a <see cref="Result"/> to an instance of <see cref="Microsoft.AspNetCore.Http.IResult"/>
     /// </summary>
     /// <param name="result">The Ardalis.Result to convert to an Microsoft.AspNetCore.Http.IResult</param>
     /// <returns></returns>
-    public static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult(this Result result)
-    {
-        return ToMinimalApiResult((IResult)result);
-    }
+    public static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult(this Result result) => ToMinimalApiResult((IResult)result);
 
     internal static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult(this IResult result) =>
         result.Status switch

@@ -2,25 +2,16 @@
 
 namespace Ardalis.Result
 {
-    public class PagedInfo
+    public class PagedInfo(long pageNumber, long pageSize, long totalPages, long totalRecords)
     {
-
-        public PagedInfo(long pageNumber, long pageSize, long totalPages, long totalRecords)
-        {
-            PageNumber = pageNumber;
-            PageSize = pageSize;
-            TotalPages = totalPages;
-            TotalRecords = totalRecords;
-        }
-
-        [JsonInclude] 
-        public long PageNumber { get; private set; }
-        [JsonInclude] 
-        public long PageSize { get; private set; }
-        [JsonInclude] 
-        public long TotalPages { get; private set; }
-        [JsonInclude] 
-        public long TotalRecords { get; private set; }
+        [JsonInclude]
+        public long PageNumber { get; private set; } = pageNumber;
+        [JsonInclude]
+        public long PageSize { get; private set; } = pageSize;
+        [JsonInclude]
+        public long TotalPages { get; private set; } = totalPages;
+        [JsonInclude]
+        public long TotalRecords { get; private set; } = totalRecords;
 
         public PagedInfo SetPageNumber(long pageNumber)
         {

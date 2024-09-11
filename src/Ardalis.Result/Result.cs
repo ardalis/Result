@@ -9,25 +9,16 @@ namespace Ardalis.Result
     {
         protected Result() { }
 
-        public Result(T value)
-        {
-            Value = value;
-        }
+        public Result(T value) => Value = value;
 
-        protected internal Result(T value, string successMessage) : this(value)
-        {
-            SuccessMessage = successMessage;
-        }
+        protected internal Result(T value, string successMessage) : this(value) => SuccessMessage = successMessage;
 
-        protected Result(ResultStatus status)
-        {
-            Status = status;
-        }
+        protected Result(ResultStatus status) => Status = status;
 
         public static implicit operator T(Result<T> result) => result.Value;
         public static implicit operator Result<T>(T value) => new Result<T>(value);
 
-        public static implicit operator Result<T>(Result result) => new Result<T>(default(T))
+        public static implicit operator Result<T>(Result result) => new(default(T))
         {
             Status = result.Status,
             Errors = result.Errors,
@@ -36,35 +27,32 @@ namespace Ardalis.Result
             ValidationErrors = result.ValidationErrors,
         };
 
-        [JsonInclude] 
+        [JsonInclude]
         public T Value { get; init; }
 
         [JsonIgnore]
         public Type ValueType => typeof(T);
-        [JsonInclude] 
+        [JsonInclude]
         public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
 
         public bool IsSuccess => Status is ResultStatus.Ok or ResultStatus.NoContent or ResultStatus.Created;
 
-        [JsonInclude] 
+        [JsonInclude]
         public string SuccessMessage { get; protected set; } = string.Empty;
-        [JsonInclude] 
+        [JsonInclude]
         public string CorrelationId { get; protected set; } = string.Empty;
-        [JsonInclude] 
+        [JsonInclude]
         public string Location { get; protected set; } = string.Empty;
-        [JsonInclude] 
+        [JsonInclude]
         public IEnumerable<string> Errors { get; protected set; } = [];
-        [JsonInclude] 
+        [JsonInclude]
         public IEnumerable<ValidationError> ValidationErrors { get; protected set; } = [];
 
         /// <summary>
         /// Returns the current value.
         /// </summary>
         /// <returns></returns>
-        public object GetValue()
-        {
-            return this.Value;
-        }
+        public object GetValue() => this.Value;
 
         /// <summary>
         /// Converts PagedInfo into a PagedResult<typeparamref name="T"/>
@@ -90,10 +78,7 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="value">Sets the Value property</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Success(T value)
-        {
-            return new Result<T>(value);
-        }
+        public static Result<T> Success(T value) => new(value);
 
         /// <summary>
         /// Represents a successful operation and accepts a values as the result of the operation
@@ -102,20 +87,14 @@ namespace Ardalis.Result
         /// <param name="value">Sets the Value property</param>
         /// <param name="successMessage">Sets the SuccessMessage property</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Success(T value, string successMessage)
-        {
-            return new Result<T>(value, successMessage);
-        }
-        
+        public static Result<T> Success(T value, string successMessage) => new(value, successMessage);
+
         /// <summary>
         /// Represents a successful operation that resulted in the creation of a new resource.
         /// </summary>
         /// <typeparam name="T">The type of the resource created.</typeparam>
         /// <returns>A Result<typeparamref name="T"/> with status Created.</returns>
-        public static Result<T> Created(T value)
-        {
-            return new Result<T>(ResultStatus.Created) { Value = value };
-        }
+        public static Result<T> Created(T value) => new(ResultStatus.Created) { Value = value };
 
         /// <summary>
         /// Represents a successful operation that resulted in the creation of a new resource.
@@ -125,10 +104,7 @@ namespace Ardalis.Result
         /// <param name="value">The value of the resource created.</param>
         /// <param name="location">The URL indicating where the newly created resource can be accessed.</param>
         /// <returns>A Result<typeparamref name="T"/> with status Created.</returns>
-        public static Result<T> Created(T value, string location)
-        {
-            return new Result<T>(ResultStatus.Created) { Value = value, Location = location };
-        }
+        public static Result<T> Created(T value, string location) => new(ResultStatus.Created) { Value = value, Location = location };
 
         /// <summary>
         /// Represents an error that occurred during the execution of the service.
@@ -136,10 +112,7 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessage"></param>
         /// <returns></returns>
-        public static Result<T> Error(string errorMessage)
-        {
-            return new Result<T>(ResultStatus.Error) { Errors = new[] { errorMessage } };
-        }
+        public static Result<T> Error(string errorMessage) => new(ResultStatus.Error) { Errors = new[] { errorMessage } };
 
         /// <summary>
         /// Represents an error that occurred during the execution of the service.
@@ -147,14 +120,11 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="error">An optional instance of ErrorList with list of string error messages and CorrelationId.</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Error(ErrorList error = null)
+        public static Result<T> Error(ErrorList error = null) => new(ResultStatus.Error)
         {
-            return new Result<T>(ResultStatus.Error)
-            {
-              CorrelationId = error?.CorrelationId ?? string.Empty,
-              Errors = error?.ErrorMessages ?? []
-            };
-        }
+            CorrelationId = error?.CorrelationId ?? string.Empty,
+            Errors = error?.ErrorMessages ?? []
+        };
 
         /// <summary>
         /// Represents a validation error that prevents the underlying service from completing.
@@ -162,20 +132,16 @@ namespace Ardalis.Result
         /// <param name="validationError">The validation error encountered</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> Invalid(ValidationError validationError)
-        {
-            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = [validationError] };
-        }
+            => new(ResultStatus.Invalid) { ValidationErrors = [validationError] };
 
         /// <summary>
         /// Represents validation errors that prevent the underlying service from completing.
         /// </summary>
         /// <param name="validationErrors">A list of validation errors encountered</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Invalid(params ValidationError[] validationErrors)
-        {
-            return new Result<T>(ResultStatus.Invalid)
-                { ValidationErrors = new List<ValidationError>(validationErrors) };
-        }
+        public static Result<T> Invalid(params ValidationError[] validationErrors) =>
+            new(ResultStatus.Invalid)
+            { ValidationErrors = new List<ValidationError>(validationErrors) };
 
         /// <summary>
         /// Represents validation errors that prevent the underlying service from completing.
@@ -183,18 +149,13 @@ namespace Ardalis.Result
         /// <param name="validationErrors">A list of validation errors encountered</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
         public static Result<T> Invalid(IEnumerable<ValidationError> validationErrors)
-        {
-            return new Result<T>(ResultStatus.Invalid) { ValidationErrors = validationErrors };
-        }
+            => new(ResultStatus.Invalid) { ValidationErrors = validationErrors };
 
         /// <summary>
         /// Represents the situation where a service was unable to find a requested resource.
         /// </summary>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> NotFound()
-        {
-            return new Result<T>(ResultStatus.NotFound);
-        }
+        public static Result<T> NotFound() => new(ResultStatus.NotFound);
 
         /// <summary>
         /// Represents the situation where a service was unable to find a requested resource.
@@ -202,20 +163,14 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> NotFound(params string[] errorMessages)
-        {
-            return new Result<T>(ResultStatus.NotFound) { Errors = errorMessages };
-        }
+        public static Result<T> NotFound(params string[] errorMessages) => new(ResultStatus.NotFound) { Errors = errorMessages };
 
         /// <summary>
         /// The parameters to the call were correct, but the user does not have permission to perform some action.
         /// See also HTTP 403 Forbidden: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
         /// </summary>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Forbidden()
-        {
-            return new Result<T>(ResultStatus.Forbidden);
-        }
+        public static Result<T> Forbidden() => new(ResultStatus.Forbidden);
 
         /// <summary>
         /// The parameters to the call were correct, but the user does not have permission to perform some action.
@@ -223,20 +178,14 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param> 
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Forbidden(params string[] errorMessages)
-        {
-            return new Result<T>(ResultStatus.Forbidden) { Errors = errorMessages };
-        }
+        public static Result<T> Forbidden(params string[] errorMessages) => new(ResultStatus.Forbidden) { Errors = errorMessages };
 
         /// <summary>
         /// This is similar to Forbidden, but should be used when the user has not authenticated or has attempted to authenticate but failed.
         /// See also HTTP 401 Unauthorized: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
         /// </summary>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Unauthorized()
-        {
-            return new Result<T>(ResultStatus.Unauthorized);
-        }
+        public static Result<T> Unauthorized() => new(ResultStatus.Unauthorized);
 
         /// <summary>
         /// This is similar to Forbidden, but should be used when the user has not authenticated or has attempted to authenticate but failed.
@@ -244,10 +193,7 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>  
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Unauthorized(params string[] errorMessages)
-        {
-            return new Result<T>(ResultStatus.Unauthorized) { Errors = errorMessages };
-        }
+        public static Result<T> Unauthorized(params string[] errorMessages) => new(ResultStatus.Unauthorized) { Errors = errorMessages };
 
         /// <summary>
         /// Represents a situation where a service is in conflict due to the current state of a resource,
@@ -255,11 +201,8 @@ namespace Ardalis.Result
         /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
         /// </summary>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Conflict()
-        {
-            return new Result<T>(ResultStatus.Conflict);
-        }
-        
+        public static Result<T> Conflict() => new(ResultStatus.Conflict);
+
         /// <summary>
         /// Represents a situation where a service is in conflict due to the current state of a resource,
         /// such as an edit conflict between multiple concurrent updates.
@@ -268,11 +211,8 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> Conflict(params string[] errorMessages)
-        {
-            return new Result<T>(ResultStatus.Conflict) { Errors = errorMessages };
-        }
-        
+        public static Result<T> Conflict(params string[] errorMessages) => new(ResultStatus.Conflict) { Errors = errorMessages };
+
         /// <summary>
         /// Represents a critical error that occurred during the execution of the service.
         /// Everything provided by the user was valid, but the service was unable to complete due to an exception.
@@ -280,10 +220,7 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessages">A list of string error messages.</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
-        public static Result<T> CriticalError(params string[] errorMessages)
-        {
-            return new Result<T>(ResultStatus.CriticalError) { Errors = errorMessages };
-        }
+        public static Result<T> CriticalError(params string[] errorMessages) => new(ResultStatus.CriticalError) { Errors = errorMessages };
 
         /// <summary>
         /// Represents a situation where a service is unavailable, such as when the underlying data store is unavailable.
@@ -292,19 +229,13 @@ namespace Ardalis.Result
         /// </summary>
         /// <param name="errorMessages">A list of string error messages</param>
         /// <returns></returns>
-        public static Result<T> Unavailable(params string[] errorMessages)
-        {
-            return new Result<T>(ResultStatus.Unavailable) { Errors = errorMessages};
-        }
+        public static Result<T> Unavailable(params string[] errorMessages) => new(ResultStatus.Unavailable) { Errors = errorMessages };
 
         /// <summary>
         /// Represents a situation where the server has successfully fulfilled the request, but there is no content to send back in the response body.
         /// </summary>
         /// <typeparam name="T">The type parameter representing the expected response data.</typeparam>
         /// <returns>A Result object</returns>
-        public static Result<T> NoContent()
-        {
-            return new Result<T>(ResultStatus.NoContent);
-        }
+        public static Result<T> NoContent() => new(ResultStatus.NoContent);
     }
 }

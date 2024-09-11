@@ -24,8 +24,8 @@ namespace Ardalis.Result.AspNetCore
         /// Adds default mapping for all known <see cref="ResultStatus"/>es to <see cref="HttpStatusCode"/>s
         /// </summary>
         public ResultStatusMap AddDefaultMap()
-        {
-            return For(ResultStatus.Ok, HttpStatusCode.OK)
+
+            => For(ResultStatus.Ok, HttpStatusCode.OK)
                 .For(ResultStatus.Created, HttpStatusCode.Created)
                 .For(ResultStatus.Error, (HttpStatusCode)422, resultStatusOptions => resultStatusOptions
                     .With(UnprocessableEntity))
@@ -44,7 +44,6 @@ namespace Ardalis.Result.AspNetCore
                     resultStatusOptions
                         .With(UnavailableEntity))
                 .For(ResultStatus.NoContent, HttpStatusCode.NoContent);
-        }
 
         /// <summary>
         /// Maps <paramref name="status"/> to <paramref name="defaultStatusCode"/>.
@@ -88,10 +87,7 @@ namespace Ardalis.Result.AspNetCore
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
-        public bool ContainsKey(ResultStatus status)
-        {
-            return _map.ContainsKey(status);
-        }
+        public bool ContainsKey(ResultStatus status) => _map.ContainsKey(status);
 
         internal ResultStatusOptions this[ResultStatus status]
         {
@@ -138,7 +134,7 @@ namespace Ardalis.Result.AspNetCore
                 Detail = result.Errors.Any() ? details.ToString() : null
             };
         }
-        
+
         private static ProblemDetails ConflictEntity(ControllerBase controller, IResult result)
         {
             var details = new StringBuilder("Next error(s) occurred:");

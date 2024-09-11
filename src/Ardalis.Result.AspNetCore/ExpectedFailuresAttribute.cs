@@ -4,13 +4,8 @@ using System.Collections.Generic;
 namespace Ardalis.Result.AspNetCore
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class ExpectedFailuresAttribute : Attribute
+    public class ExpectedFailuresAttribute(params ResultStatus[] resultStatuses) : Attribute
     {
-        public ExpectedFailuresAttribute(params ResultStatus[] resultStatuses)
-        {
-            ResultStatuses = resultStatuses;
-        }
-
-        public IEnumerable<ResultStatus> ResultStatuses { get; }
+        public IEnumerable<ResultStatus> ResultStatuses { get; } = resultStatuses;
     }
 }

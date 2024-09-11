@@ -6,10 +6,7 @@
         {
         }
 
-        public ValidationError(string errorMessage)
-        {
-            ErrorMessage = errorMessage;
-        }
+        public ValidationError(string errorMessage) => ErrorMessage = errorMessage;
 
         public ValidationError(string identifier, string errorMessage, string errorCode, ValidationSeverity severity)
         {

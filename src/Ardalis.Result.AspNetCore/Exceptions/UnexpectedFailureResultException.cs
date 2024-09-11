@@ -3,18 +3,11 @@ using System.Collections.Generic;
 
 namespace Ardalis.Result.AspNetCore.Exceptions
 {
-    internal class UnexpectedFailureResultsException : Exception
+    internal class UnexpectedFailureResultsException(IEnumerable<ResultStatus> statuses) : Exception
     {
-        public UnexpectedFailureResultsException(IEnumerable<ResultStatus> statuses)
-        {
-            UnexpectedStatuses = statuses;
-        }
-
-        public IEnumerable<ResultStatus> UnexpectedStatuses { get; }
+        public IEnumerable<ResultStatus> UnexpectedStatuses { get; } = statuses;
 
         public override string ToString()
-        {
-            return $"ActionModel has [{nameof(ExpectedFailuresAttribute)}] with result statuses which are not configured in ResultConvention.";
-        }
+            => $"ActionModel has [{nameof(ExpectedFailuresAttribute)}] with result statuses which are not configured in ResultConvention.";
     }
 }
