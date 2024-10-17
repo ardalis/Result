@@ -156,8 +156,8 @@ namespace Ardalis.Result
             var result = await resultTask;
             return result.Status switch
             {
-                ResultStatus.Ok => await bindFunc(result.Value),
-                ResultStatus.Created => await bindFunc(result.Value),
+                ResultStatus.Ok => await bindFunc(result.Value).ConfigureAwait(false),
+                ResultStatus.Created => await bindFunc(result.Value).ConfigureAwait(false),
                 _ => HandleNonSuccessStatus<TSource, TDestination>(result),
             };
         }
@@ -169,8 +169,8 @@ namespace Ardalis.Result
             var result = await resultTask;
             return result.Status switch
             {
-                ResultStatus.Ok => await bindFunc(result.Value),
-                ResultStatus.Created => await bindFunc(result.Value),
+                ResultStatus.Ok => await bindFunc(result.Value).ConfigureAwait(false),
+                ResultStatus.Created => await bindFunc(result.Value).ConfigureAwait(false),
                 _ => HandleNonSuccessStatus(result),
             };
         }
@@ -181,8 +181,8 @@ namespace Ardalis.Result
         {
             return result.Status switch
             {
-                ResultStatus.Ok => await bindFunc(result.Value),
-                ResultStatus.Created => await bindFunc(result.Value),
+                ResultStatus.Ok => await bindFunc(result.Value).ConfigureAwait(false),
+                ResultStatus.Created => await bindFunc(result.Value).ConfigureAwait(false),
                 _ => HandleNonSuccessStatus(result),
             };
         }
@@ -193,8 +193,8 @@ namespace Ardalis.Result
         {
             return result.Status switch
             {
-                ResultStatus.Ok => await bindFunc(result.Value),
-                ResultStatus.Created => await bindFunc(result.Value),
+                ResultStatus.Ok => await bindFunc(result.Value).ConfigureAwait(false),
+                ResultStatus.Created => await bindFunc(result.Value).ConfigureAwait(false),
                 _ => HandleNonSuccessStatus(result),
             };
         }
@@ -206,8 +206,8 @@ namespace Ardalis.Result
             var result = await resultTask;
             return result.Status switch
             {
-                ResultStatus.Ok => await bindFunc(result.Value),
-                ResultStatus.Created => await bindFunc(result.Value),
+                ResultStatus.Ok => await bindFunc(result.Value).ConfigureAwait(false),
+                ResultStatus.Created => await bindFunc(result.Value).ConfigureAwait(false),
                 _ => HandleNonSuccessStatus<TDestination>(result),
             };
         }
@@ -218,8 +218,8 @@ namespace Ardalis.Result
         {
             return result.Status switch
             {
-                ResultStatus.Ok => await bindFunc(result.Value),
-                ResultStatus.Created => await bindFunc(result.Value),
+                ResultStatus.Ok => await bindFunc(result.Value).ConfigureAwait(false),
+                ResultStatus.Created => await bindFunc(result.Value).ConfigureAwait(false),
                 _ => HandleNonSuccessStatus<TSource, TDestination>(result),
             };
         }
@@ -230,8 +230,8 @@ namespace Ardalis.Result
         {
             return result.Status switch
             {
-                ResultStatus.Ok => await bindFunc(result.Value),
-                ResultStatus.Created => await bindFunc(result.Value),
+                ResultStatus.Ok => await bindFunc(result.Value).ConfigureAwait(false),
+                ResultStatus.Created => await bindFunc(result.Value).ConfigureAwait(false),
                 _ => HandleNonSuccessStatus(result),
             };
         }
@@ -241,8 +241,8 @@ namespace Ardalis.Result
             var result = await resultTask;
             return result.Status switch
             {
-                ResultStatus.Ok => await bindFunc(result),
-                ResultStatus.Created => await bindFunc(result),
+                ResultStatus.Ok => await bindFunc(result).ConfigureAwait(false),
+                ResultStatus.Created => await bindFunc(result).ConfigureAwait(false),
                 _ => HandleNonSuccessStatus(result),
             };
         }
