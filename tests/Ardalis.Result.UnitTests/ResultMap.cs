@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Ardalis.Result.UnitTests
@@ -235,7 +236,7 @@ namespace Ardalis.Result.UnitTests
         }
 
         [Fact]
-        public void ShouldProduceUnauthroizedWithError()
+        public void ShouldProduceUnauthorizedWithError()
         {
             string expectedMessage = "You are unauthorized";
             var result = Result<int>.Unauthorized(expectedMessage);
