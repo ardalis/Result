@@ -1,4 +1,5 @@
 using FluentAssertions;
+using FluentAssertions.Execution;
 using Xunit;
 
 namespace Ardalis.Result.UnitTests;
@@ -63,6 +64,21 @@ public class ResultGenericToVoidMap
         var actual = result.Map();
 
         actual.Status.Should().Be(ResultStatus.Error);
+    }
+
+    [Fact]
+    public void ShouldProduceErrorWhenConstructedWithErrorList()
+    {
+        string correlationId = Guid.NewGuid.ToString();
+        string errorMessage = "Error occured 💥";
+        var result = Result<int>.Error(new ErrorList([errorMessage], correlationId));
+
+        var actual = result.Map();
+
+        using var assertionScope = new AssertionScope();
+        actual.Status.Should().Be(ResultStatus.Error);
+        actual.CorrelationId.Should().Be(correlationId);
+        actual.Errors.Single().Should().Be(errorMessage);
     }
 
     [Fact]
