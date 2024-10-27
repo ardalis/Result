@@ -28,7 +28,7 @@
 		  **Full Changelog**: https://github.com/ardalis/Result/compare/v9.1.0...v10.0.0
 	  </PackageReleaseNotes>
 	  <AssemblyName>Ardalis.Result.AspNetCore</AssemblyName>
-    <Version>10.0.0</Version>
+    <Version>10.1.0</Version>
     <TargetFrameworks>$(NetCoreFrameworks)</TargetFrameworks>
   </PropertyGroup>
 
