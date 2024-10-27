@@ -69,7 +69,7 @@ public class ResultGenericToVoidMap
     [Fact]
     public void ShouldProduceErrorWhenConstructedWithErrorList()
     {
-        string correlationId = Guid.NewGuid.ToString();
+        string correlationId = Guid.NewGuid().ToString();
         string errorMessage = "Error occured 💥";
         var result = Result<int>.Error(new ErrorList([errorMessage], correlationId));
 
