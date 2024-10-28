@@ -10,7 +10,7 @@
 		## What's Changed
 		* Add Bind in addition to Map to support Railway Oriented Programming by @christophercalm in https://github.com/ardalis/Result/pull/215
 		* Add Map Extension Method to Support Mapping from generic Result to Result by @jmrtnz94 in https://github.com/ardalis/Result/pull/213
-		* Add identifier & error message constructor to ValidationError by @gordysc in https://github.com/ardalis/Result/pull/209
+		* Add identifier and error message constructor to ValidationError by @gordysc in https://github.com/ardalis/Result/pull/209
 
 		## New Contributors
 		* @christophercalm made their first contribution in https://github.com/ardalis/Result/pull/215
