@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions;
 using Xunit;
 
 namespace Ardalis.Result.UnitTests
@@ -25,7 +25,8 @@ namespace Ardalis.Result.UnitTests
             var result = Result<int>.Success(123);
             var expected = Result<string>.Success("125");
 
-            var actual = result.Bind(v => Result<int>.Success(v + 1))
+            var actual = result
+                .Bind(v => Result<int>.Success(v + 1))
                 .Bind(v => Result<int>.Success(v + 1))
                 .Bind(v => Result<string>.Success(v.ToString()));
 
@@ -49,7 +50,7 @@ namespace Ardalis.Result.UnitTests
             var result = Result<int>.Success(123);
             var expected = Result.Success();
 
-            var actual = result.Bind(_ => Result.Success());
+            Result actual = result.Bind(_ => Result.Success());
 
             actual.Should().BeEquivalentTo(expected);
         }
@@ -164,7 +165,7 @@ namespace Ardalis.Result.UnitTests
             var validationErrors = new List<ValidationError>
             {
                 new() { ErrorMessage = "Validation Error 1" },
-                new() { ErrorMessage = "Validation Error 2" }
+                new() { ErrorMessage = "Validation Error 2" },
             };
             var result = Result<int>.Invalid(validationErrors);
 
@@ -336,7 +337,7 @@ namespace Ardalis.Result.UnitTests
             var result = Result<int>.Success(successValue);
             var validationErrors = new List<ValidationError>
             {
-                new() { ErrorMessage = "Value must be greater than 1" }
+                new() { ErrorMessage = "Value must be greater than 1" },
             };
 
             var actual = result.Bind(val =>
