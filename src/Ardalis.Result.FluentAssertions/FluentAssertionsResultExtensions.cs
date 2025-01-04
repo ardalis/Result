@@ -5,6 +5,11 @@ namespace Ardalis.Result.FluentAssertions;
 
 public static class FluentAssertionsResultExtensions
 {
+    public static AndConstraint<BooleanAssertions> ShouldBeNotFound(this Result result)
+    {
+        return result.IsNotFound().Should().BeTrue();
+    }
+    
     public static AndConstraint<BooleanAssertions> ShouldBeError(this Result result)
     {
         return result.IsError().Should().BeTrue();

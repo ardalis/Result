@@ -10,14 +10,20 @@ public class FluentAssertionsResultExtensionsTests
     private const string ErrorMessage = "Error message"; 
     
     [Fact]
-    public void ResultErrorShouldBeError()
+    public void ErrorResultShouldBeError()
     {
         Result.Error().ShouldBeError().Should().BeOfType(typeof(AndConstraint<BooleanAssertions>));
     }
 
     [Fact]
-    public void ResultErrorShouldBeErrorWithMessage()
+    public void ErrorResultShouldBeErrorWithMessage()
     {
         Result.Error(ErrorMessage).ShouldBeError(ErrorMessage).Should().BeOfType(typeof(AndConstraint<BooleanAssertions>));
+    }
+
+    [Fact]
+    public void NotFoundResultShouldBeNotFound()
+    {
+        Result.NotFound().ShouldBeNotFound().Should().BeOfType(typeof(AndConstraint<BooleanAssertions>));
     }
 }
