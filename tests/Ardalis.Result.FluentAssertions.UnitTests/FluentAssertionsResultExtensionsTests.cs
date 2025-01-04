@@ -10,20 +10,31 @@ public class FluentAssertionsResultExtensionsTests
     private const string ErrorMessage = "Error message"; 
     
     [Fact]
-    public void ErrorResultShouldBeError()
+    public void ErrorResultShouldBeErrorAsBooleanAssertionConstraint()
     {
-        Result.Error().ShouldBeError().Should().BeOfType(typeof(AndConstraint<BooleanAssertions>));
+        ShouldBeBooleanAssertionConstraint(Result.Error().ShouldBeError());
     }
 
     [Fact]
-    public void ErrorResultShouldBeErrorWithMessage()
+    public void ErrorResultShouldBeErrorWithMessageAsBooleanAssertionConstraint()
     {
-        Result.Error(ErrorMessage).ShouldBeError(ErrorMessage).Should().BeOfType(typeof(AndConstraint<BooleanAssertions>));
+        ShouldBeBooleanAssertionConstraint(Result.Error(ErrorMessage).ShouldBeError(ErrorMessage));
     }
 
     [Fact]
-    public void NotFoundResultShouldBeNotFound()
+    public void NotFoundResultShouldBeNotFoundAsBooleanAssertionConstraint()
     {
-        Result.NotFound().ShouldBeNotFound().Should().BeOfType(typeof(AndConstraint<BooleanAssertions>));
+        ShouldBeBooleanAssertionConstraint(Result.NotFound().ShouldBeNotFound());
+    }
+
+    [Fact]
+    public void NotFoundResultShouldBeFailureAsBooleanAssertionConstraint()
+    {
+        ShouldBeBooleanAssertionConstraint(Result.NotFound().ShouldBeFailure());
+    }
+
+    private static void ShouldBeBooleanAssertionConstraint(object obj)
+    {
+        obj.Should().BeOfType(typeof(AndConstraint<BooleanAssertions>));
     }
 }
