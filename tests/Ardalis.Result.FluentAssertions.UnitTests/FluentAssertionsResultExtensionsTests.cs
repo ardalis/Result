@@ -1,11 +1,14 @@
 using FluentAssertions;
 using FluentAssertions.Primitives;
 using Xunit;
+using Xunit.Sdk;
 
 namespace Ardalis.Result.FluentAssertions.UnitTests;
 
 public class FluentAssertionsResultExtensionsTests
 {
+    private const string ErrorMessage = "Error message"; 
+    
     [Fact]
     public void ResultErrorShouldBeError()
     {
@@ -15,6 +18,6 @@ public class FluentAssertionsResultExtensionsTests
     [Fact]
     public void ResultErrorShouldBeErrorWithMessage()
     {
-        Result.Error("Error message").ShouldBeError("Error message").Should().BeOfType(typeof(AndConstraint<BooleanAssertions>));
+        Result.Error(ErrorMessage).ShouldBeError(ErrorMessage).Should().BeOfType(typeof(AndConstraint<BooleanAssertions>));
     }
 }
