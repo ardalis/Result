@@ -11,4 +11,10 @@ public class FluentAssertionsResultExtensionsTests
     {
         Result.Error().ShouldBeError().Should().BeOfType(typeof(AndConstraint<BooleanAssertions>));
     }
+
+    [Fact]
+    public void ResultErrorShouldBeErrorWithMessage()
+    {
+        Result.Error("Error message").ShouldBeError("Error message").Should().BeOfType(typeof(AndConstraint<BooleanAssertions>));
+    }
 }

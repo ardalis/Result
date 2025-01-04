@@ -9,4 +9,13 @@ public static class FluentAssertionsResultExtensions
     {
         return result.IsError().Should().BeTrue();
     }
+
+    public static AndConstraint<BooleanAssertions> ShouldBeError(this Result result, params string[] errorMessages)
+    {
+        result.ShouldBeError();
+
+        result.Errors.Should().BeEquivalentTo(errorMessages);
+
+        return new AndConstraint<BooleanAssertions>(new BooleanAssertions(true));
+    }
 }
