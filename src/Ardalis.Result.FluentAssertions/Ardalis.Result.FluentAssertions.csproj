@@ -28,6 +28,11 @@
 		<None Include="icon.png" Pack="true" Visible="false" PackagePath="" />
 	</ItemGroup>
 
+
+	<ItemGroup>
+	  <PackageReference Include="FluentAssertions" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\Ardalis.Result\Ardalis.Result.csproj" />
 	</ItemGroup>

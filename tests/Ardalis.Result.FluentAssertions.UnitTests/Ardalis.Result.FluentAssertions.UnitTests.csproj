@@ -13,4 +13,8 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\Ardalis.Result.FluentAssertions\Ardalis.Result.FluentAssertions.csproj" />
+	  <ProjectReference Include="..\..\src\Ardalis.Result\Ardalis.Result.csproj" />
+	</ItemGroup>
 </Project>
