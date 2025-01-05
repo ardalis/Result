@@ -28,9 +28,51 @@ public class FluentAssertionsResultExtensionsTests
     }
 
     [Fact]
+    public void ConflictResultShouldBeFailureAsBooleanAssertionConstraint()
+    {
+        ShouldBeBooleanAssertionConstraint(Result.Conflict().ShouldBeFailure());
+    }
+
+    [Fact]
+    public void CriticalErrorResultShouldBeFailureAsBooleanAssertionConstraint()
+    {
+        ShouldBeBooleanAssertionConstraint(Result.CriticalError().ShouldBeFailure());
+    }
+
+    [Fact]
+    public void ErrorResultShouldBeFailureAsBooleanAssertionConstraint()
+    {
+        ShouldBeBooleanAssertionConstraint(Result.Error().ShouldBeFailure());
+    }
+
+    [Fact]
+    public void ForbiddenResultShouldBeFailureAsBooleanAssertionConstraint()
+    {
+        ShouldBeBooleanAssertionConstraint(Result.Forbidden().ShouldBeFailure());
+    }
+
+    [Fact]
+    public void InvalidResultShouldBeFailureAsBooleanAssertionConstraint()
+    {
+        ShouldBeBooleanAssertionConstraint(Result.Invalid().ShouldBeFailure());
+    }
+
+    [Fact]
     public void NotFoundResultShouldBeFailureAsBooleanAssertionConstraint()
     {
         ShouldBeBooleanAssertionConstraint(Result.NotFound().ShouldBeFailure());
+    }
+
+    [Fact]
+    public void UnauthorizedResultShouldBeFailureAsBooleanAssertionConstraint()
+    {
+        ShouldBeBooleanAssertionConstraint(Result.Unauthorized().ShouldBeFailure());
+    }
+
+    [Fact]
+    public void UnavailableResultShouldBeFailureAsBooleanAssertionConstraint()
+    {
+        ShouldBeBooleanAssertionConstraint(Result.Unavailable().ShouldBeFailure());
     }
 
     private static void ShouldBeBooleanAssertionConstraint(object obj)
