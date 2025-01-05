@@ -6,21 +6,21 @@ namespace Ardalis.Result.FluentAssertions;
 
 public static class FluentAssertionsResultExtensions
 {
+    private static readonly IReadOnlyCollection<ResultStatus> FailureResultStatus =
+    [
+        ResultStatus.Conflict,
+        ResultStatus.CriticalError,
+        ResultStatus.Error,
+        ResultStatus.Forbidden,
+        ResultStatus.Invalid,
+        ResultStatus.NotFound,
+        ResultStatus.Unauthorized,
+        ResultStatus.Unavailable
+    ];
+
     public static AndConstraint<BooleanAssertions> ShouldBeFailure(this Result result)
     {
-        var res = new List<ResultStatus>()
-        {
-            ResultStatus.Conflict,
-            ResultStatus.CriticalError,
-            ResultStatus.Error,
-            ResultStatus.Forbidden,
-            ResultStatus.Invalid,
-            ResultStatus.NotFound,
-            ResultStatus.Unauthorized,
-            ResultStatus.Unavailable
-        };
-        
-        result.Status.Should().BeOneOf(res);
+        result.Status.Should().BeOneOf(FailureResultStatus);
 
         return new AndConstraint<BooleanAssertions>(new BooleanAssertions(true));
     }
