@@ -18,6 +18,12 @@ public class FluentAssertionsResultExtensionsTests
     }
 
     [Fact]
+    public void ConflictResult_ShouldBeConflict()
+    {
+        Result.Conflict().ShouldBeConflict();
+    }
+
+    [Fact]
     public void CriticalErrorResult_ShouldBeFailure()
     {
         Result.CriticalError().ShouldBeFailure();
