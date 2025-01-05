@@ -23,6 +23,20 @@ public class FluentAssertionsResultExtensionsTests
         Result.Conflict().ShouldBeConflict();
     }
 
+
+    [Fact]
+    public void ConflictResultWithErrorMessages_ShouldBeConflictWithErrorMessages()
+    {
+        Result.Conflict(ErrorMessage).ShouldBeConflict(ErrorMessage);
+    }
+
+    [Fact]
+    public void ConflictResultWithErrorMessages_ShouldBeFailureWithErrorMessages()
+    {
+        Result.Conflict(ErrorMessage).ShouldBeFailure(ErrorMessage);
+    }
+
+
     [Fact]
     public void CriticalErrorResult_ShouldBeFailure()
     {
@@ -73,11 +87,7 @@ public class FluentAssertionsResultExtensionsTests
 
     //ShouldBEFailureWithMessage
 
-    [Fact]
-    public void ConflictResultWithMessage_ShouldBeFailureWithMessage()
-    {
-        Result.Conflict(ErrorMessage).ShouldBeFailure(ErrorMessage);
-    }
+
     
     [Fact]
     public void CriticalErrorResultWithMessage_ShouldBeFailureWithMessage()

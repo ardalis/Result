@@ -31,6 +31,18 @@ public static class FluentAssertionsResultExtensions
         return result.Should().BeEquivalentTo(Result.Conflict());
     }
 
+    public static AndConstraint<ObjectAssertions> ShouldBeConflict(this Result result, params string[] errorMessages)
+    {
+        return result.Should().BeEquivalentTo(Result.Conflict(errorMessages));
+    }
+
+    public static AndConstraint<ObjectAssertions> ShouldHaveResultStatus(this Result result, ResultStatus resultStatus)
+    {
+        result.Status.Should().Be(resultStatus);
+        
+        return new AndConstraint<ObjectAssertions>(result.Should());
+    }
+
     public static AndConstraint<ObjectAssertions> ShouldBeFailure(this Result result, params string[] errorMessages)
     {
         result.ShouldBeFailure();
