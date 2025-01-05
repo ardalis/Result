@@ -9,7 +9,7 @@ public class FluentAssertionsResultExtensionsTests
 {
     private const string ErrorMessage = "Error message"; 
     
-    //ShouldBeFailure
+    //Conflict
 
     [Fact]
     public void ConflictResult_ShouldBeFailure()
@@ -18,11 +18,16 @@ public class FluentAssertionsResultExtensionsTests
     }
 
     [Fact]
+    public void ConflictResultWithErrorMessages_ShouldBeFailureWithErrorMessages()
+    {
+        Result.Conflict(ErrorMessage).ShouldBeFailure(ErrorMessage);
+    }
+
+    [Fact]
     public void ConflictResult_ShouldBeConflict()
     {
         Result.Conflict().ShouldBeConflict();
     }
-
 
     [Fact]
     public void ConflictResultWithErrorMessages_ShouldBeConflictWithErrorMessages()
@@ -30,18 +35,36 @@ public class FluentAssertionsResultExtensionsTests
         Result.Conflict(ErrorMessage).ShouldBeConflict(ErrorMessage);
     }
 
-    [Fact]
-    public void ConflictResultWithErrorMessages_ShouldBeFailureWithErrorMessages()
-    {
-        Result.Conflict(ErrorMessage).ShouldBeFailure(ErrorMessage);
-    }
 
+
+    //CriticalError
 
     [Fact]
     public void CriticalErrorResult_ShouldBeFailure()
     {
         Result.CriticalError().ShouldBeFailure();
     }
+
+    [Fact]
+    public void CriticalErrorResultWithErrorMessages_ShouldBeFailureWithErrorMessages()
+    {
+        Result.CriticalError(ErrorMessage).ShouldBeFailure(ErrorMessage);
+    }
+
+    [Fact]
+    public void CriticalErrorResult_ShouldBeConflict()
+    {
+        Result.CriticalError().ShouldBeCriticalError();
+    }
+
+    [Fact]
+    public void CriticalErrorResultWithErrorMessages_ShouldBeConflictWithErrorMessages()
+    {
+        Result.CriticalError(ErrorMessage).ShouldBeCriticalError(ErrorMessage);
+    }
+
+
+
 
     [Fact]
     public void ErrorResult_ShouldBeFailure()
@@ -88,12 +111,6 @@ public class FluentAssertionsResultExtensionsTests
     //ShouldBEFailureWithMessage
 
 
-    
-    [Fact]
-    public void CriticalErrorResultWithMessage_ShouldBeFailureWithMessage()
-    {
-        Result.CriticalError(ErrorMessage).ShouldBeFailure(ErrorMessage);
-    }
     
     [Fact]
     public void ErrorResultWithMessage_ShouldBeFailureWithMessage()
