@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using FluentAssertions.Collections;
 using FluentAssertions.Primitives;
 
 namespace Ardalis.Result.FluentAssertions;
@@ -18,29 +19,20 @@ public static class FluentAssertionsResultExtensions
         ResultStatus.Unavailable
     ];
 
-    public static AndConstraint<BooleanAssertions> ShouldBeFailure(this Result result)
+    public static AndConstraint<ObjectAssertions> ShouldBeFailure(this Result result)
     {
         result.Status.Should().BeOneOf(FailureResultStatus);
 
-        return new AndConstraint<BooleanAssertions>(new BooleanAssertions(true));
+        return new AndConstraint<ObjectAssertions>(result.Should());
     }
     
-    public static AndConstraint<BooleanAssertions> ShouldBeNotFound(this Result result)
+    public static AndConstraint<ObjectAssertions> ShouldBeError(this Result result)
     {
-        return result.IsNotFound().Should().BeTrue();
-    }
-    
-    public static AndConstraint<BooleanAssertions> ShouldBeError(this Result result)
-    {
-        return result.IsError().Should().BeTrue();
+        return result.Should().BeEquivalentTo(Result.Error());
     }
 
-    public static AndConstraint<BooleanAssertions> ShouldBeError(this Result result, params string[] errorMessages)
+    public static AndConstraint<ObjectAssertions> ShouldBeError(this Result result, string errorMessage)
     {
-        result.ShouldBeError();
-
-        result.Errors.Should().BeEquivalentTo(errorMessages);
-
-        return new AndConstraint<BooleanAssertions>(new BooleanAssertions(true));
+        return result.Should().BeEquivalentTo(Result.Error(errorMessage));
     }
 }
