@@ -12,71 +12,66 @@ public class FluentAssertionsResultExtensionsTests
     [Fact]
     public void ErrorResultShouldBeErrorAsBooleanAssertionConstraint()
     {
-        ShouldBeBooleanAssertionConstraint(Result.Error().ShouldBeError());
+        Result.Error().ShouldBeError().ShouldBeOfTypeBooleanAssertionConstraint();
     }
 
     [Fact]
     public void ErrorResultShouldBeErrorWithMessageAsBooleanAssertionConstraint()
     {
-        ShouldBeBooleanAssertionConstraint(Result.Error(ErrorMessage).ShouldBeError(ErrorMessage));
+        Result.Error(ErrorMessage).ShouldBeError(ErrorMessage).ShouldBeOfTypeBooleanAssertionConstraint();
     }
 
     [Fact]
     public void NotFoundResultShouldBeNotFoundAsBooleanAssertionConstraint()
     {
-        ShouldBeBooleanAssertionConstraint(Result.NotFound().ShouldBeNotFound());
+        Result.NotFound().ShouldBeNotFound().ShouldBeOfTypeBooleanAssertionConstraint();
     }
 
     [Fact]
     public void ConflictResultShouldBeFailureAsBooleanAssertionConstraint()
     {
-        ShouldBeBooleanAssertionConstraint(Result.Conflict().ShouldBeFailure());
+        Result.Conflict().ShouldBeFailure().ShouldBeOfTypeBooleanAssertionConstraint();
     }
 
     [Fact]
     public void CriticalErrorResultShouldBeFailureAsBooleanAssertionConstraint()
     {
-        ShouldBeBooleanAssertionConstraint(Result.CriticalError().ShouldBeFailure());
+        Result.CriticalError().ShouldBeFailure().ShouldBeOfTypeBooleanAssertionConstraint();
     }
 
     [Fact]
     public void ErrorResultShouldBeFailureAsBooleanAssertionConstraint()
     {
-        ShouldBeBooleanAssertionConstraint(Result.Error().ShouldBeFailure());
+        Result.Error().ShouldBeFailure().ShouldBeOfTypeBooleanAssertionConstraint();
     }
 
     [Fact]
     public void ForbiddenResultShouldBeFailureAsBooleanAssertionConstraint()
     {
-        ShouldBeBooleanAssertionConstraint(Result.Forbidden().ShouldBeFailure());
+        Result.Forbidden().ShouldBeFailure().ShouldBeOfTypeBooleanAssertionConstraint();
     }
 
     [Fact]
     public void InvalidResultShouldBeFailureAsBooleanAssertionConstraint()
     {
-        ShouldBeBooleanAssertionConstraint(Result.Invalid().ShouldBeFailure());
+        Result.Invalid().ShouldBeFailure().ShouldBeOfTypeBooleanAssertionConstraint();
     }
 
     [Fact]
     public void NotFoundResultShouldBeFailureAsBooleanAssertionConstraint()
     {
-        ShouldBeBooleanAssertionConstraint(Result.NotFound().ShouldBeFailure());
+        Result.NotFound().ShouldBeFailure().ShouldBeOfTypeBooleanAssertionConstraint();
     }
 
     [Fact]
     public void UnauthorizedResultShouldBeFailureAsBooleanAssertionConstraint()
     {
-        ShouldBeBooleanAssertionConstraint(Result.Unauthorized().ShouldBeFailure());
+        Result.Unauthorized().ShouldBeFailure().ShouldBeOfTypeBooleanAssertionConstraint();
     }
 
     [Fact]
     public void UnavailableResultShouldBeFailureAsBooleanAssertionConstraint()
     {
-        ShouldBeBooleanAssertionConstraint(Result.Unavailable().ShouldBeFailure());
-    }
-
-    private static void ShouldBeBooleanAssertionConstraint(object obj)
-    {
-        obj.Should().BeOfType(typeof(AndConstraint<BooleanAssertions>));
+        Result.Unavailable().ShouldBeFailure().ShouldBeOfTypeBooleanAssertionConstraint();
     }
 }
