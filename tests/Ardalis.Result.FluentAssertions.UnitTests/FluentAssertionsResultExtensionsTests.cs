@@ -21,6 +21,9 @@ public class FluentAssertionsResultExtensionsTests
         Result.Error(ErrorMessage).ShouldBeError(ErrorMessage).ShouldBeOfTypeAndConstraintObjectAssertion();
     }
 
+
+    //ShouldBeFailure
+    
     [Fact]
     public void NotFoundResultShouldBeNotFoundAsBooleanAssertionConstraint()
     {
@@ -73,5 +76,55 @@ public class FluentAssertionsResultExtensionsTests
     public void UnavailableResultShouldBeFailureAsBooleanAssertionConstraint()
     {
         Result.Unavailable().ShouldBeFailureOfTypeAndConstraintObjectAssertion();
+    }
+
+    //ShouldBEFailureWithMessage
+
+    [Fact]
+    public void ConflictResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
+    {
+        Result.Conflict(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
+    }
+    
+    [Fact]
+    public void CriticalErrorResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
+    {
+        Result.CriticalError(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
+    }
+    
+    [Fact]
+    public void ErrorResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
+    {
+        Result.Error(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
+    }
+    
+    [Fact]
+    public void ForbiddenResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
+    {
+        Result.Forbidden(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
+    }
+    
+    //[Fact]
+    //public void InvalidResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
+    //{
+    //    Result.Invalid(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
+    //}
+    
+    [Fact]
+    public void NotFoundResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
+    {
+        Result.NotFound(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
+    }
+    
+    [Fact]
+    public void UnauthorizedResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
+    {
+        Result.Unauthorized(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
+    }
+
+    [Fact]
+    public void UnavailableResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
+    {
+        Result.Unavailable(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
     }
 }

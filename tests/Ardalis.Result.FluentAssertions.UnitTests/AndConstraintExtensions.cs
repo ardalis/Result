@@ -20,4 +20,9 @@ public static class AndConstraintExtensions
     {
         return result.ShouldBeFailure().ShouldBeOfTypeAndConstraintObjectAssertion();
     }
+
+    public static AndConstraint<ObjectAssertions> ShouldBeFailureOfTypeAndConstraintObjectAssertion(this Result result, params string[] errorMessages)
+    {
+        return result.ShouldBeFailure(errorMessages).ShouldBeOfTypeAndConstraintObjectAssertion();
+    }
 }
