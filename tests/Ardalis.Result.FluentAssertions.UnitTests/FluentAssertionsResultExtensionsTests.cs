@@ -9,122 +9,103 @@ public class FluentAssertionsResultExtensionsTests
 {
     private const string ErrorMessage = "Error message"; 
     
-    [Fact]
-    public void ErrorResultShouldBeErrorAsBooleanAssertionConstraint()
-    {
-        Result.Error().ShouldBeError().ShouldBeOfTypeAndConstraintObjectAssertion();
-    }
-
-    [Fact]
-    public void ErrorResultShouldBeErrorWithMessageAsObjectAssertionConstraint()
-    {
-        Result.Error(ErrorMessage).ShouldBeError(ErrorMessage).ShouldBeOfTypeAndConstraintObjectAssertion();
-    }
-
-
     //ShouldBeFailure
-    
+
     [Fact]
-    public void NotFoundResultShouldBeNotFoundAsBooleanAssertionConstraint()
+    public void ConflictResult_ShouldBeFailure()
     {
-        Result.NotFound().ShouldBeFailureOfTypeAndConstraintObjectAssertion();
+        Result.Conflict().ShouldBeFailure();
     }
 
     [Fact]
-    public void ConflictResultShouldBeFailureAsBooleanAssertionConstraint()
+    public void CriticalErrorResult_ShouldBeFailure()
     {
-        Result.Conflict().ShouldBeFailureOfTypeAndConstraintObjectAssertion();
+        Result.CriticalError().ShouldBeFailure();
     }
 
     [Fact]
-    public void CriticalErrorResultShouldBeFailureAsBooleanAssertionConstraint()
+    public void ErrorResult_ShouldBeFailure()
     {
-        Result.CriticalError().ShouldBeFailureOfTypeAndConstraintObjectAssertion();
+        Result.Error().ShouldBeFailure();
     }
 
     [Fact]
-    public void ErrorResultShouldBeFailureAsBooleanAssertionConstraint()
+    public void ForbiddenResult_ShouldBeFailure()
     {
-        Result.Error().ShouldBeFailureOfTypeAndConstraintObjectAssertion();
+        Result.Forbidden().ShouldBeFailure();
     }
 
     [Fact]
-    public void ForbiddenResultShouldBeFailureAsBooleanAssertionConstraint()
+    public void InvalidResult_ShouldBeFailure()
     {
-        Result.Forbidden().ShouldBeFailureOfTypeAndConstraintObjectAssertion();
+        Result.Invalid().ShouldBeFailure();
     }
 
     [Fact]
-    public void InvalidResultShouldBeFailureAsBooleanAssertionConstraint()
+    public void InvalidResultWithValidationError_ShouldBeFailure()
     {
-        Result.Invalid().ShouldBeFailureOfTypeAndConstraintObjectAssertion();
+        Result.Invalid(new ValidationError("IDENTIFIER", "ERROR_MESSAGE")).ShouldBeFailure();
     }
 
     [Fact]
-    public void NotFoundResultShouldBeFailureAsBooleanAssertionConstraint()
+    public void NotFoundResult_ShouldBeFailure()
     {
-        Result.NotFound().ShouldBeFailureOfTypeAndConstraintObjectAssertion();
+        Result.NotFound().ShouldBeFailure();
     }
 
     [Fact]
-    public void UnauthorizedResultShouldBeFailureAsBooleanAssertionConstraint()
+    public void UnauthorizedResult_ShouldBeFailure()
     {
-        Result.Unauthorized().ShouldBeFailureOfTypeAndConstraintObjectAssertion();
+        Result.Unauthorized().ShouldBeFailure();
     }
 
     [Fact]
-    public void UnavailableResultShouldBeFailureAsBooleanAssertionConstraint()
+    public void UnavailableResult_ShouldBeFailure()
     {
-        Result.Unavailable().ShouldBeFailureOfTypeAndConstraintObjectAssertion();
+        Result.Unavailable().ShouldBeFailure();
     }
 
     //ShouldBEFailureWithMessage
 
     [Fact]
-    public void ConflictResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
+    public void ConflictResultWithMessage_ShouldBeFailureWithMessage()
     {
-        Result.Conflict(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
+        Result.Conflict(ErrorMessage).ShouldBeFailure(ErrorMessage);
     }
     
     [Fact]
-    public void CriticalErrorResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
+    public void CriticalErrorResultWithMessage_ShouldBeFailureWithMessage()
     {
-        Result.CriticalError(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
+        Result.CriticalError(ErrorMessage).ShouldBeFailure(ErrorMessage);
     }
     
     [Fact]
-    public void ErrorResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
+    public void ErrorResultWithMessage_ShouldBeFailureWithMessage()
     {
-        Result.Error(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
+        Result.Error(ErrorMessage).ShouldBeFailure(ErrorMessage);
     }
     
     [Fact]
-    public void ForbiddenResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
+    public void ForbiddenResultWithMessage_ShouldBeFailureWithMessage()
     {
-        Result.Forbidden(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
-    }
-    
-    //[Fact]
-    //public void InvalidResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
-    //{
-    //    Result.Invalid(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
-    //}
-    
-    [Fact]
-    public void NotFoundResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
-    {
-        Result.NotFound(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
-    }
-    
-    [Fact]
-    public void UnauthorizedResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
-    {
-        Result.Unauthorized(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
+        Result.Forbidden(ErrorMessage).ShouldBeFailure(ErrorMessage);
     }
 
     [Fact]
-    public void UnavailableResultWithMessage_ShouldBeNotFoundWithMessage_AsAndConstraintObjectAssertion()
+    public void NotFoundResultWithMessage_ShouldBeFailureWithMessage()
     {
-        Result.Unavailable(ErrorMessage).ShouldBeFailureOfTypeAndConstraintObjectAssertion(ErrorMessage);
+        Result.NotFound(ErrorMessage).ShouldBeFailure(ErrorMessage);
+    }
+    
+    [Fact]
+    public void UnauthorizedResultWithMessage_ShouldBeFailureWithMessage()
+    {
+        Result.Unauthorized(ErrorMessage).ShouldBeFailure(ErrorMessage);
+    }
+
+    [Fact]
+    public void UnavailableResultWithMessage_ShouldBeFailureWithMessage()
+    {
+        Result.Unavailable(ErrorMessage).ShouldBeFailure(ErrorMessage);
     }
 }
