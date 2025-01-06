@@ -103,9 +103,6 @@ public class FluentAssertionsResultExtensionsTests
         Result.Error(errorList).ShouldBeError([ErrorMessage], "CorrelationId");
     }
 
-
-
-
     //Forbidden
 
     [Fact]
@@ -121,14 +118,19 @@ public class FluentAssertionsResultExtensionsTests
     }
 
     [Fact]
-    public void ForbiddenResultWithMessage_ShouldBeForbidden()
+    public void ForbiddenResult_ShouldBeForbidden()
     {
         Result.Forbidden().ShouldBeForbidden();
     }
 
+    [Fact]
+    public void ForbiddenResultWithMessage_ShouldBeForbiddenWithMessage()
+    {
+        Result.Forbidden(ErrorMessage).ShouldBeForbidden(ErrorMessage);
+    }
 
-
-
+    //Invalid
+    
 
     [Fact]
     public void InvalidResult_ShouldBeFailure()
@@ -141,6 +143,16 @@ public class FluentAssertionsResultExtensionsTests
     {
         Result.Invalid(new ValidationError("IDENTIFIER", "ERROR_MESSAGE")).ShouldBeFailure();
     }
+
+    [Fact]
+    public void InvalidResultr_ShouldBeInvalid()
+    {
+        Result.Invalid().ShoudBeInvalid();
+    }
+
+
+
+
 
     [Fact]
     public void NotFoundResult_ShouldBeFailure()
