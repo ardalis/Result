@@ -32,8 +32,6 @@ public class FluentAssertionsResultExtensionsTests
         Result.Conflict(ErrorMessage).ShouldBeConflict(ErrorMessage);
     }
 
-
-
     //CriticalError
 
     [Fact]
