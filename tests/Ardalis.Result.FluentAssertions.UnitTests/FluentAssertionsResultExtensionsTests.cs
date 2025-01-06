@@ -147,18 +147,17 @@ public class FluentAssertionsResultExtensionsTests
     [Fact]
     public void InvalidResult_ShouldBeInvalid()
     {
-        Result.Invalid().ShoudBeInvalid();
+        Result.Invalid().ShouldBeInvalid();
     }
 
     [Fact]
     public void InvalidResultWithValidationError_ShouldBeInvalidWithValidationError()
     {
         var validationError = new ValidationError("IDENTIFIER", "ERROR_MESSAGE");
-        Result.Invalid(validationError).ShoudBeInvalid(validationError);
+        Result.Invalid(validationError).ShouldBeInvalid(validationError);
     }
-
-
-
+    
+    //NotFound
 
 
     [Fact]
@@ -166,6 +165,21 @@ public class FluentAssertionsResultExtensionsTests
     {
         Result.NotFound().ShouldBeFailure();
     }
+
+    [Fact]
+    public void NotFoundResultWithMessage_ShouldBeFailureWithMessage()
+    {
+        Result.NotFound(ErrorMessage).ShouldBeFailure(ErrorMessage);
+    }
+
+    [Fact]
+    public void NotFoundResult_ShouldBeNotFound()
+    {
+        Result.NotFound().ShouldBeNotFound();
+    }
+
+
+
 
     [Fact]
     public void UnauthorizedResult_ShouldBeFailure()
@@ -181,11 +195,7 @@ public class FluentAssertionsResultExtensionsTests
 
     //ShouldBEFailureWithMessage
 
-    [Fact]
-    public void NotFoundResultWithMessage_ShouldBeFailureWithMessage()
-    {
-        Result.NotFound(ErrorMessage).ShouldBeFailure(ErrorMessage);
-    }
+
     
     [Fact]
     public void UnauthorizedResultWithMessage_ShouldBeFailureWithMessage()
