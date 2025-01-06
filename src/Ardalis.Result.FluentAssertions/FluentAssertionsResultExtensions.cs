@@ -66,6 +66,11 @@ public static class FluentAssertionsResultExtensions
         return result.ShouldBeEquivalentTo(Result.Error(new ErrorList(errorMessages, correlationId)));
     }
 
+    public static AndConstraint<ObjectAssertions> ShouldBeForbidden(this Result result)
+    {
+        return result.ShouldBeEquivalentTo(Result.Forbidden());
+    }
+
     public static AndConstraint<ObjectAssertions> ShouldBeFailure(this Result result, params string[] errorMessages)
     {
         var andConstraint = result.ShouldBeFailure();

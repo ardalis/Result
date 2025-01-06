@@ -106,13 +106,29 @@ public class FluentAssertionsResultExtensionsTests
 
 
 
-
+    //Forbidden
 
     [Fact]
     public void ForbiddenResult_ShouldBeFailure()
     {
         Result.Forbidden().ShouldBeFailure();
     }
+
+    [Fact]
+    public void ForbiddenResultWithMessage_ShouldBeFailureWithMessage()
+    {
+        Result.Forbidden(ErrorMessage).ShouldBeFailure(ErrorMessage);
+    }
+
+    [Fact]
+    public void ForbiddenResultWithMessage_ShouldBeForbidden()
+    {
+        Result.Forbidden().ShouldBeForbidden();
+    }
+
+
+
+
 
     [Fact]
     public void InvalidResult_ShouldBeFailure()
@@ -145,14 +161,6 @@ public class FluentAssertionsResultExtensionsTests
     }
 
     //ShouldBEFailureWithMessage
-
-
-    
-    [Fact]
-    public void ForbiddenResultWithMessage_ShouldBeFailureWithMessage()
-    {
-        Result.Forbidden(ErrorMessage).ShouldBeFailure(ErrorMessage);
-    }
 
     [Fact]
     public void NotFoundResultWithMessage_ShouldBeFailureWithMessage()
