@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using FluentAssertions.Collections;
 using FluentAssertions.Primitives;
 
 namespace Ardalis.Result.FluentAssertions;
@@ -29,52 +28,55 @@ public static class FluentAssertionsResultExtensions
 
     public static AndConstraint<ObjectAssertions> ShouldBeConflict(this Result result)
     {
-        return result.Should().BeEquivalentTo(Result.Conflict());
+        return result.ShouldBeEquivalentTo(Result.Conflict());
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeConflict(this Result result, params string[] errorMessages)
     {
-        return result.Should().BeEquivalentTo(Result.Conflict(errorMessages));
+        return result.ShouldBeEquivalentTo(Result.Conflict(errorMessages));
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeCriticalError(this Result result)
     {
-        return result.Should().BeEquivalentTo(Result.CriticalError());
+        return result.ShouldBeEquivalentTo(Result.CriticalError());
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeCriticalError(this Result result, params string[] errorMessages)
     {
-        return result.Should().BeEquivalentTo(Result.CriticalError(errorMessages));
+        return result.ShouldBeEquivalentTo(Result.CriticalError(errorMessages));
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeError(this Result result)
     {
-        return result.Should().BeEquivalentTo(Result.Error());
+        return result.ShouldBeEquivalentTo(Result.Error());
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeError(this Result result, string errorMessage)
     {
-        return result.Should().BeEquivalentTo(Result.Error(errorMessage));
+        return result.ShouldBeEquivalentTo(Result.Error(errorMessage));
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeError(this Result result, ErrorList errorList)
     {
-        return result.Should().BeEquivalentTo(Result.Error(errorList));
+        return result.ShouldBeEquivalentTo(Result.Error(errorList));
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeError(this Result result, IEnumerable<string> errorMessages, string? correlationId)
     {
-        return result.Should().BeEquivalentTo(Result.Error(new ErrorList(errorMessages, correlationId)));
+        return result.ShouldBeEquivalentTo(Result.Error(new ErrorList(errorMessages, correlationId)));
     }
-
-
 
     public static AndConstraint<ObjectAssertions> ShouldBeFailure(this Result result, params string[] errorMessages)
     {
-        result.ShouldBeFailure();
+        var andConstraint = result.ShouldBeFailure();
 
         result.Errors.Should().BeEquivalentTo(errorMessages);
 
-        return new AndConstraint<ObjectAssertions>(result.Should());
+        return andConstraint;
+    }
+
+    private static AndConstraint<ObjectAssertions> ShouldBeEquivalentTo(this Result result, Result assertingResult)
+    {
+        return result.Should().BeEquivalentTo(assertingResult);
     }
 }
