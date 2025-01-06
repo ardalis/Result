@@ -95,6 +95,17 @@ public static class FluentAssertionsResultExtensions
         return result.ShouldBeEquivalentTo(Result.NotFound(errorMessages));
     }
 
+
+    public static AndConstraint<ObjectAssertions> ShouldBeUnauthorized(this Result result)
+    {
+        return result.ShouldBeEquivalentTo(Result.Unauthorized());
+    }
+
+    public static AndConstraint<ObjectAssertions> ShouldBeUnauthorized(this Result result, params string[] errorMessages)
+    {
+        return result.ShouldBeEquivalentTo(Result.Unauthorized(errorMessages));
+    }
+
     public static AndConstraint<ObjectAssertions> ShouldBeFailure(this Result result, params string[] errorMessages)
     {
         var andConstraint = result.ShouldBeFailure();
