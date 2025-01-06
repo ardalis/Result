@@ -212,8 +212,7 @@ public class FluentAssertionsResultExtensionsTests
     }
 
 
-
-
+    //Unavailable
 
     [Fact]
     public void UnavailableResult_ShouldBeFailure()
@@ -221,15 +220,21 @@ public class FluentAssertionsResultExtensionsTests
         Result.Unavailable().ShouldBeFailure();
     }
 
-    //ShouldBEFailureWithMessage
-
-
-    
-
-
     [Fact]
-    public void UnavailableResultWithMessage_ShouldBeFailureWithMessage()
+    public void UnavailableResultWithErrorMessages_ShouldBeFailureWithErrorMessages()
     {
         Result.Unavailable(ErrorMessage).ShouldBeFailure(ErrorMessage);
+    }
+
+    [Fact]
+    public void UnavailableResult_ShouldBeUnavailable()
+    {
+        Result.Unavailable().ShouldBeUnavailable();
+    }
+
+    [Fact]
+    public void UnavailableResultWithErrorMessages_ShouldBeUnavailableWithErrorMessages()
+    {
+        Result.Unavailable(ErrorMessage).ShouldBeUnavailable(ErrorMessage);
     }
 }
