@@ -81,6 +81,11 @@ public static class FluentAssertionsResultExtensions
         return result.ShouldBeEquivalentTo(Result.Invalid());
     }
 
+    public static AndConstraint<ObjectAssertions> ShoudBeInvalid(this Result result, params ValidationError[] validationErrors)
+    {
+        return result.ShouldBeEquivalentTo(Result.Invalid(validationErrors));
+    }
+
     public static AndConstraint<ObjectAssertions> ShouldBeFailure(this Result result, params string[] errorMessages)
     {
         var andConstraint = result.ShouldBeFailure();

@@ -145,9 +145,16 @@ public class FluentAssertionsResultExtensionsTests
     }
 
     [Fact]
-    public void InvalidResultr_ShouldBeInvalid()
+    public void InvalidResult_ShouldBeInvalid()
     {
         Result.Invalid().ShoudBeInvalid();
+    }
+
+    [Fact]
+    public void InvalidResultWithValidationError_ShouldBeInvalidWithValidationError()
+    {
+        var validationError = new ValidationError("IDENTIFIER", "ERROR_MESSAGE");
+        Result.Invalid(validationError).ShoudBeInvalid(validationError);
     }
 
 
