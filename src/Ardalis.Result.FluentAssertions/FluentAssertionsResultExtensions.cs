@@ -17,8 +17,7 @@ public static class FluentAssertionsResultExtensions
         ResultStatus.Unauthorized,
         ResultStatus.Unavailable
     ];
-
-
+    
     public static AndConstraint<ObjectAssertions> ShouldBeFailure(this Result result)
     {
         result.Status.Should().BeOneOf(FailureResultStatus);
@@ -76,14 +75,24 @@ public static class FluentAssertionsResultExtensions
         return result.ShouldBeEquivalentTo(Result.Forbidden(errorMessages));
     }
 
-    public static AndConstraint<ObjectAssertions> ShoudBeInvalid(this Result result)
+    public static AndConstraint<ObjectAssertions> ShouldBeInvalid(this Result result)
     {
         return result.ShouldBeEquivalentTo(Result.Invalid());
     }
 
-    public static AndConstraint<ObjectAssertions> ShoudBeInvalid(this Result result, params ValidationError[] validationErrors)
+    public static AndConstraint<ObjectAssertions> ShouldBeInvalid(this Result result, params ValidationError[] validationErrors)
     {
         return result.ShouldBeEquivalentTo(Result.Invalid(validationErrors));
+    }
+
+    public static AndConstraint<ObjectAssertions> ShouldBeNotFound(this Result result)
+    {
+        return result.ShouldBeEquivalentTo(Result.NotFound());
+    }
+
+    public static AndConstraint<ObjectAssertions> ShouldBeNotFound(this Result result, params string[] errorMessages)
+    {
+        return result.ShouldBeEquivalentTo(Result.NotFound(errorMessages));
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeFailure(this Result result, params string[] errorMessages)
