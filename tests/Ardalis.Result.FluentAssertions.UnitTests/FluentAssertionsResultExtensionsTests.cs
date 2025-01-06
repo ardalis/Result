@@ -52,25 +52,64 @@ public class FluentAssertionsResultExtensionsTests
     }
 
     [Fact]
-    public void CriticalErrorResult_ShouldBeConflict()
+    public void CriticalErrorResult_ShouldBeCriticalError()
     {
         Result.CriticalError().ShouldBeCriticalError();
     }
 
     [Fact]
-    public void CriticalErrorResultWithErrorMessages_ShouldBeConflictWithErrorMessages()
+    public void CriticalErrorResultWithErrorMessages_ShouldBeCriticalErrorWithErrorMessages()
     {
         Result.CriticalError(ErrorMessage).ShouldBeCriticalError(ErrorMessage);
     }
 
 
-
+    //Error
 
     [Fact]
     public void ErrorResult_ShouldBeFailure()
     {
         Result.Error().ShouldBeFailure();
     }
+
+    [Fact]
+    public void ErrorResultWithErrorMessages_ShouldBeFailureWithErrorMessages()
+    {
+        Result.Error(ErrorMessage).ShouldBeFailure(ErrorMessage);
+    }
+
+    [Fact]
+    public void ErrorResult_ShouldBeError()
+    {
+        Result.Error().ShouldBeError();
+    }
+
+    [Fact]
+    public void ErrorResultWithErrorMessage_ShouldBeErrorWithErrorMessage()
+    {
+        Result.Error(ErrorMessage).ShouldBeError(ErrorMessage);
+    }
+
+    [Fact]
+    public void ErrorResultWithErrorList_ShouldBeErrorWithErrorList()
+    {
+        var errorList = new ErrorList([ErrorMessage], "CorrelationId");
+        
+        Result.Error(errorList).ShouldBeError(errorList);
+    }
+
+    [Fact]
+    public void ErrorResultWithErrorList_ShouldBeErrorWithErrorMessagesAndCorrelationId()
+    {
+        var errorList = new ErrorList([ErrorMessage], "CorrelationId");
+
+        Result.Error(errorList).ShouldBeError([ErrorMessage], "CorrelationId");
+    }
+
+
+
+
+
 
     [Fact]
     public void ForbiddenResult_ShouldBeFailure()
@@ -111,12 +150,6 @@ public class FluentAssertionsResultExtensionsTests
     //ShouldBEFailureWithMessage
 
 
-    
-    [Fact]
-    public void ErrorResultWithMessage_ShouldBeFailureWithMessage()
-    {
-        Result.Error(ErrorMessage).ShouldBeFailure(ErrorMessage);
-    }
     
     [Fact]
     public void ForbiddenResultWithMessage_ShouldBeFailureWithMessage()
