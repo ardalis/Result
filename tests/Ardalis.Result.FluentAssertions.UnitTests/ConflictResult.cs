@@ -1,13 +1,11 @@
-using Moq;
 using Xunit;
 using static Ardalis.Result.Result;
+using static Ardalis.Result.FluentAssertions.UnitTests.Constants;
 
 namespace Ardalis.Result.FluentAssertions.UnitTests;
 
 public class ConflictResult
 {
-    private const string ErrorMessage = "Error message"; 
-    
     [Fact]
     public void ShouldBeFailure()
     {
