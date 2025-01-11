@@ -63,4 +63,12 @@ public class InvalidResult
         
         Invalid(validationError).ShouldHaveValidationErrorWithMessage("ERROR_MESSAGE");
     }
+    
+    [Fact]
+    public void ShouldHaveValidationErrorWithSeverity()
+    {
+        var validationError = new ValidationError("IDENTIFIER", "ERROR_MESSAGE", "ERROR_CODE", ValidationSeverity.Error);
+        
+        Invalid(validationError).ShouldHaveValidationErrorWithSeverity(ValidationSeverity.Error);
+    }
 }

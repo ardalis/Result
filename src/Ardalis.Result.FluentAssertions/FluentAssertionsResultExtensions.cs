@@ -133,7 +133,7 @@ public static class FluentAssertionsResultExtensions
 
         result.ValidationErrors.Count().Should().BePositive();
 
-        result.ValidationErrors.First().ErrorCode.Should().Be(errorCode);
+        result.ValidationErrors.Should().Satisfy(validationError => validationError.ErrorCode == errorCode);
 
         return andConstraint;
     }
@@ -144,7 +144,7 @@ public static class FluentAssertionsResultExtensions
 
         result.ValidationErrors.Count().Should().BePositive();
 
-        result.ValidationErrors.First().Identifier.Should().Be(identifier);
+        result.ValidationErrors.Should().Satisfy(validationError => validationError.Identifier == identifier);
 
         return andConstraint;
     }
@@ -155,7 +155,18 @@ public static class FluentAssertionsResultExtensions
 
         result.ValidationErrors.Count().Should().BePositive();
 
-        result.ValidationErrors.First().ErrorMessage.Should().Be(errorMessage);
+        result.ValidationErrors.Should().Satisfy(validationError => validationError.ErrorMessage == errorMessage);
+
+        return andConstraint;
+    }
+    
+    public static AndConstraint<ObjectAssertions> ShouldHaveValidationErrorWithSeverity(this Result result, ValidationSeverity severity)
+    {
+        var andConstraint = result.ShouldBeInvalid();
+
+        result.ValidationErrors.Count().Should().BePositive();
+
+        result.ValidationErrors.Should().Satisfy(validationError => validationError.Severity == severity);
 
         return andConstraint;
     }
