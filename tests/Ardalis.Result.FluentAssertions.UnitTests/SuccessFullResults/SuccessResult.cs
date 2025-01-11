@@ -13,8 +13,14 @@ public class SuccessResult
     }
     
     [Fact]
-    public void ShouldBeSuccessWithMessage()
+    public void SuccessWithMessage_ShouldBeSuccessWithMessage()
     {
         SuccessWithMessage("SUCCESS_MESSAGE").ShouldBeSuccessWithMessage("SUCCESS_MESSAGE");
+    }
+    
+    [Fact]
+    public void SuccessWithMessage_ShouldBeSuccess()
+    {
+        SuccessWithMessage("SUCCESS_MESSAGE").ShouldBeSuccess();
     }
 }
