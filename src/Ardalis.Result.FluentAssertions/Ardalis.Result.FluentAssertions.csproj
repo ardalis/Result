@@ -7,17 +7,6 @@
 		<Summary>A simple package to implement FluentAssertions with the Ardalis.Result package.</Summary>
 		<PackageTags>result;pattern;web;api;aspnetcore;mvc;FluentAssertions;Validation</PackageTags>
 		<PackageReleaseNotes>
-			## What's Changed
-			* Add Bind in addition to Map to support Railway Oriented Programming by @christophercalm in https://github.com/ardalis/Result/pull/215
-			* Add Map Extension Method to Support Mapping from generic Result to Result by @jmrtnz94 in https://github.com/ardalis/Result/pull/213
-			* Add identifier and error message constructor to ValidationError by @gordysc in https://github.com/ardalis/Result/pull/209
-
-			## New Contributors
-			* @christophercalm made their first contribution in https://github.com/ardalis/Result/pull/215
-			* @jmrtnz94 made their first contribution in https://github.com/ardalis/Result/pull/213
-			* @gordysc made their first contribution in https://github.com/ardalis/Result/pull/209
-
-			**Full Changelog**: https://github.com/ardalis/Result/compare/v10.0.0...v10.1.0
 		</PackageReleaseNotes>
 		<AssemblyName>Ardalis.Result.FluentAssertions</AssemblyName>
 		<Version>1.0.0</Version>
