@@ -192,6 +192,11 @@ public static class FluentAssertionsResultExtensions
         return new AndConstraint<ObjectAssertions>(result.Should());
     }
     
+    public static AndConstraint<ObjectAssertions> ShouldBeSuccessWithMessage(this Result result, string successMessage)
+    {
+        return result.ShouldBeEquivalentTo(Result.SuccessWithMessage(successMessage));
+    }
+    
     private static AndConstraint<ObjectAssertions> ShouldBeEquivalentTo(this Result result, Result assertingResult)
     {
         return result.Should().BeEquivalentTo(assertingResult);

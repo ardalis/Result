@@ -11,4 +11,10 @@ public class SuccessResult
     {
         Success().ShouldBeSuccess();
     }
+    
+    [Fact]
+    public void ShouldBeSuccessWithMessage()
+    {
+        SuccessWithMessage("SUCCESS_MESSAGE").ShouldBeSuccessWithMessage("SUCCESS_MESSAGE");
+    }
 }
