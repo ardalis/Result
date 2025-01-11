@@ -1,8 +1,7 @@
-using Moq;
 using Xunit;
 using static Ardalis.Result.Result;
 
-namespace Ardalis.Result.FluentAssertions.UnitTests;
+namespace Ardalis.Result.FluentAssertions.UnitTests.FailureResults;
 
 public class UnavailableResult
 {

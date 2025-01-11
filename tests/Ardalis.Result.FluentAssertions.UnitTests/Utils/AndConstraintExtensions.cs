@@ -1,7 +1,7 @@
-﻿using FluentAssertions.Primitives;
-using FluentAssertions;
+﻿using FluentAssertions;
+using FluentAssertions.Primitives;
 
-namespace Ardalis.Result.FluentAssertions.UnitTests;
+namespace Ardalis.Result.FluentAssertions.UnitTests.Utils;
 
 public static class AndConstraintExtensions
 {

@@ -1,8 +1,8 @@
 using Xunit;
 using static Ardalis.Result.Result;
-using static Ardalis.Result.FluentAssertions.UnitTests.Constants;
+using static Ardalis.Result.FluentAssertions.UnitTests.Utils.Constants;
 
-namespace Ardalis.Result.FluentAssertions.UnitTests;
+namespace Ardalis.Result.FluentAssertions.UnitTests.FailureResults;
 
 public class ConflictResult
 {

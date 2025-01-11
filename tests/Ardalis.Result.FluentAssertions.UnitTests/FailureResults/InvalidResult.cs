@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Ardalis.Result.FluentAssertions.UnitTests;
+namespace Ardalis.Result.FluentAssertions.UnitTests.FailureResults;
 
 public class InvalidResult
 {
