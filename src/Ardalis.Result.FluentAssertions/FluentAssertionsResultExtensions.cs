@@ -21,7 +21,7 @@ public static class FluentAssertionsResultExtensions
     
     public static AndConstraint<ObjectAssertions> ShouldBeFailure(this Result result)
     {
-        result.Status.Should().BeOneOf(FailureResultStatus);
+        result.IsSuccess.Should().BeFalse();
 
         return new AndConstraint<ObjectAssertions>(result.Should());
     }
@@ -185,6 +185,13 @@ public static class FluentAssertionsResultExtensions
         return andConstraint;
     }
 
+    public static AndConstraint<ObjectAssertions> ShouldBeSuccess(this Result result)
+    {
+        result.IsSuccess.Should().BeTrue();
+
+        return new AndConstraint<ObjectAssertions>(result.Should());
+    }
+    
     private static AndConstraint<ObjectAssertions> ShouldBeEquivalentTo(this Result result, Result assertingResult)
     {
         return result.Should().BeEquivalentTo(assertingResult);
