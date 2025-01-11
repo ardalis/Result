@@ -42,4 +42,10 @@ public class InvalidResult
     {
         Invalid(ValidationError).ShouldHaveValidationErrorWithCode("ERROR_CODE");
     }
+    
+    [Fact]
+    public void ShouldHaveValidationErrorWithIdentifier()
+    {
+        Invalid(ValidationError).ShouldHaveValidationErrorWithIdentifier("IDENTIFIER");
+    }
 }
