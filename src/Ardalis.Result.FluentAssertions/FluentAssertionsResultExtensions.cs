@@ -7,18 +7,6 @@ namespace Ardalis.Result.FluentAssertions;
 
 public static class FluentAssertionsResultExtensions
 {
-    private static readonly IReadOnlyCollection<ResultStatus> FailureResultStatus =
-    [
-        ResultStatus.Conflict,
-        ResultStatus.CriticalError,
-        ResultStatus.Error,
-        ResultStatus.Forbidden,
-        ResultStatus.Invalid,
-        ResultStatus.NotFound,
-        ResultStatus.Unauthorized,
-        ResultStatus.Unavailable
-    ];
-    
     public static AndConstraint<ObjectAssertions> ShouldBeFailure(this Result result)
     {
         result.IsSuccess.Should().BeFalse();
@@ -185,11 +173,23 @@ public static class FluentAssertionsResultExtensions
         return andConstraint;
     }
 
+    public static AndConstraint<ObjectAssertions> ShouldBeSuccess<TResult>(this Result<TResult> result)
+    {
+        result.IsSuccess.Should().BeTrue();
+
+        return new AndConstraint<ObjectAssertions>(result.Should());
+    }
+    
     public static AndConstraint<ObjectAssertions> ShouldBeSuccess(this Result result)
     {
         result.IsSuccess.Should().BeTrue();
 
         return new AndConstraint<ObjectAssertions>(result.Should());
+    }
+    
+    public static AndConstraint<ObjectAssertions> ShouldBeCreatedWithLocation<TResult>(this Result<TResult> result, string location)
+    {
+        return result.Should().BeEquivalentTo(Result.Created(result.Value, location));
     }
     
     public static AndConstraint<ObjectAssertions> ShouldBeSuccessWithMessage(this Result result, string successMessage)

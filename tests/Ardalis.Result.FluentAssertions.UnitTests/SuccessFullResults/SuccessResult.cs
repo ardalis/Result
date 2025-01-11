@@ -1,3 +1,4 @@
+using Moq;
 using Xunit;
 using static Ardalis.Result.Result;
 using static Ardalis.Result.FluentAssertions.UnitTests.Utils.Constants;
@@ -22,5 +23,23 @@ public class SuccessResult
     public void SuccessWithMessage_ShouldBeSuccess()
     {
         SuccessWithMessage("SUCCESS_MESSAGE").ShouldBeSuccess();
+    }
+    
+    [Fact]
+    public void NoContent_ShouldBeSuccess()
+    {
+        NoContent().ShouldBeSuccess();
+    }
+    
+    [Fact]
+    public void Created_ShouldBeSuccess()
+    {
+        Created(It.IsAny<object>()).ShouldBeSuccess();
+    }
+    
+    [Fact]
+    public void CreatedWithLocation_ShouldBeCreatedWithLocation()
+    {
+        Created(It.IsAny<object>(), "LOCATION").ShouldBeCreatedWithLocation("LOCATION");
     }
 }
