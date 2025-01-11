@@ -148,6 +148,17 @@ public static class FluentAssertionsResultExtensions
 
         return andConstraint;
     }
+    
+    public static AndConstraint<ObjectAssertions> ShouldHaveValidationErrorWithMessage(this Result result, string errorMessage)
+    {
+        var andConstraint = result.ShouldBeInvalid();
+
+        result.ValidationErrors.Count().Should().BePositive();
+
+        result.ValidationErrors.First().ErrorMessage.Should().Be(errorMessage);
+
+        return andConstraint;
+    }
 
     private static AndConstraint<ObjectAssertions> ShouldBeEquivalentTo(this Result result, Result assertingResult)
     {

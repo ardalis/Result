@@ -5,8 +5,6 @@ namespace Ardalis.Result.FluentAssertions.UnitTests.FailureResults;
 
 public class InvalidResult
 {
-    private static readonly ValidationError ValidationError = new("IDENTIFIER", "ERROR_MESSAGE", "ERROR_CODE", ValidationSeverity.Error);
-    
     [Fact]
     public void ShouldBeFailure()
     {
@@ -28,24 +26,41 @@ public class InvalidResult
     [Fact]
     public void WithValidationError_ShouldBeInvalidWithValidationError()
     {
-        Invalid(ValidationError).ShouldBeInvalid(ValidationError);
+        var validationError = new ValidationError("IDENTIFIER", "ERROR_MESSAGE", "ERROR_CODE", ValidationSeverity.Error);
+        
+        Invalid(validationError)
+            .ShouldBeInvalid(validationError);
     }
     
     [Fact]
     public void WithValidationError_ShouldBeInvalid()
     {
-        Invalid(ValidationError).ShouldBeInvalid();
+        var validationError = new ValidationError("IDENTIFIER", "ERROR_MESSAGE", "ERROR_CODE", ValidationSeverity.Error);
+        
+        Invalid(validationError).ShouldBeInvalid();
     }
     
     [Fact]
     public void ShouldHaveValidationErrorWithCode()
     {
-        Invalid(ValidationError).ShouldHaveValidationErrorWithCode("ERROR_CODE");
+        var validationError = new ValidationError("IDENTIFIER", "ERROR_MESSAGE", "ERROR_CODE", ValidationSeverity.Error);
+        
+        Invalid(validationError).ShouldHaveValidationErrorWithCode("ERROR_CODE");
     }
     
     [Fact]
     public void ShouldHaveValidationErrorWithIdentifier()
     {
-        Invalid(ValidationError).ShouldHaveValidationErrorWithIdentifier("IDENTIFIER");
+        var validationError = new ValidationError("IDENTIFIER", "ERROR_MESSAGE", "ERROR_CODE", ValidationSeverity.Error);
+        
+        Invalid(validationError).ShouldHaveValidationErrorWithIdentifier("IDENTIFIER");
+    }
+    
+    [Fact]
+    public void ShouldHaveValidationErrorWithErrorMessage()
+    {
+        var validationError = new ValidationError("IDENTIFIER", "ERROR_MESSAGE", "ERROR_CODE", ValidationSeverity.Error);
+        
+        Invalid(validationError).ShouldHaveValidationErrorWithMessage("ERROR_MESSAGE");
     }
 }
