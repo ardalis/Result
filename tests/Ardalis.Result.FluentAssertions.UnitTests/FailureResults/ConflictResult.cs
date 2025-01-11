@@ -17,11 +17,17 @@ public class ConflictResult
     {
         Conflict(ErrorMessage).ShouldBeFailure(ErrorMessage);
     }
-
+    
     [Fact]
     public void ShouldBeConflict()
     {
         Conflict().ShouldBeConflict();
+    }
+    
+    [Fact]
+    public void WithErrorMessages_ShouldBeConflict()
+    {
+        Conflict(ErrorMessage).ShouldBeConflict();
     }
 
     [Fact]

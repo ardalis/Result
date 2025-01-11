@@ -23,6 +23,12 @@ public class ForbiddenResult
     {
         Forbidden().ShouldBeForbidden();
     }
+    
+    [Fact]
+    public void WithErrorMessages_ShouldBeForbidden()
+    {
+        Forbidden(ErrorMessage).ShouldBeForbidden();
+    }
 
     [Fact]
     public void ShouldBeForbiddenWithMessage()

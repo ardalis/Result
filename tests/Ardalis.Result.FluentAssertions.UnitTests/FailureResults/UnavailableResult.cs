@@ -29,4 +29,10 @@ public class UnavailableResult
     {
         Unavailable(ErrorMessage).ShouldBeUnavailable(ErrorMessage);
     }
+    
+    [Fact]
+    public void WithErrorMessages_ShouldBeUnavailable()
+    {
+        Unavailable(ErrorMessage).ShouldBeUnavailable();
+    }
 }

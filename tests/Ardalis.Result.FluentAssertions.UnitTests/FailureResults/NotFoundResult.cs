@@ -23,6 +23,12 @@ public class NotFoundResult
     {
         NotFound().ShouldBeNotFound();
     }
+    
+    [Fact]
+    public void WithErrorMessages_ShouldBeNotFound()
+    {
+        NotFound(ErrorMessage).ShouldBeNotFound();
+    }
 
     [Fact]
     public void WithErrorMessages_ShouldBeNotFoundWithErrorMessages()

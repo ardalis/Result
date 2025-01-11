@@ -28,7 +28,9 @@ public static class FluentAssertionsResultExtensions
 
     public static AndConstraint<ObjectAssertions> ShouldBeConflict(this Result result)
     {
-        return result.ShouldBeEquivalentTo(Result.Conflict());
+        result.Status.Should().Be(ResultStatus.Conflict);
+
+        return new AndConstraint<ObjectAssertions>(result.Should());
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeConflict(this Result result, params string[] errorMessages)
@@ -38,7 +40,9 @@ public static class FluentAssertionsResultExtensions
 
     public static AndConstraint<ObjectAssertions> ShouldBeCriticalError(this Result result)
     {
-        return result.ShouldBeEquivalentTo(Result.CriticalError());
+        result.Status.Should().Be(ResultStatus.CriticalError);
+
+        return new AndConstraint<ObjectAssertions>(result.Should());
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeCriticalError(this Result result, params string[] errorMessages)
@@ -48,7 +52,9 @@ public static class FluentAssertionsResultExtensions
 
     public static AndConstraint<ObjectAssertions> ShouldBeError(this Result result)
     {
-        return result.ShouldBeEquivalentTo(Result.Error());
+        result.Status.Should().Be(ResultStatus.Error);
+
+        return new AndConstraint<ObjectAssertions>(result.Should());
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeError(this Result result, string errorMessage)
@@ -68,7 +74,9 @@ public static class FluentAssertionsResultExtensions
 
     public static AndConstraint<ObjectAssertions> ShouldBeForbidden(this Result result)
     {
-        return result.ShouldBeEquivalentTo(Result.Forbidden());
+        result.Status.Should().Be(ResultStatus.Forbidden);
+
+        return new AndConstraint<ObjectAssertions>(result.Should());
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeForbidden(this Result result, params string[] errorMessages)
@@ -90,7 +98,9 @@ public static class FluentAssertionsResultExtensions
 
     public static AndConstraint<ObjectAssertions> ShouldBeNotFound(this Result result)
     {
-        return result.ShouldBeEquivalentTo(Result.NotFound());
+        result.Status.Should().Be(ResultStatus.NotFound);
+
+        return new AndConstraint<ObjectAssertions>(result.Should());
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeNotFound(this Result result, params string[] errorMessages)
@@ -100,7 +110,9 @@ public static class FluentAssertionsResultExtensions
 
     public static AndConstraint<ObjectAssertions> ShouldBeUnauthorized(this Result result)
     {
-        return result.ShouldBeEquivalentTo(Result.Unauthorized());
+        result.Status.Should().Be(ResultStatus.Unauthorized);
+
+        return new AndConstraint<ObjectAssertions>(result.Should());
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeUnauthorized(this Result result, params string[] errorMessages)
@@ -110,7 +122,9 @@ public static class FluentAssertionsResultExtensions
 
     public static AndConstraint<ObjectAssertions> ShouldBeUnavailable(this Result result)
     {
-        return result.ShouldBeEquivalentTo(Result.Unavailable());
+        result.Status.Should().Be(ResultStatus.Unavailable);
+
+        return new AndConstraint<ObjectAssertions>(result.Should());
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeUnavailable(this Result result, params string[] errorMessages)

@@ -17,6 +17,12 @@ public class UnauthorizedResult
     {
         Unauthorized(ErrorMessage).ShouldBeFailure(ErrorMessage);
     }
+    
+    [Fact]
+    public void WithErrorMessages_ShouldBeUnauthorized()
+    {
+        Unauthorized(ErrorMessage).ShouldBeUnauthorized();
+    }
 
     [Fact]
     public void ShouldBeUnauthorized()

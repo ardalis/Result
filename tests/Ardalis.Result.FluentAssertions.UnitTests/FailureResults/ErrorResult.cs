@@ -29,6 +29,12 @@ public class ErrorResult
     {
         Error(ErrorMessage).ShouldBeError(ErrorMessage);
     }
+    
+    [Fact]
+    public void WithErrorMessages_ShouldBeError()
+    {
+        Error(ErrorMessage).ShouldBeError();
+    }
 
     [Fact]
     public void ShouldBeErrorWithErrorList()

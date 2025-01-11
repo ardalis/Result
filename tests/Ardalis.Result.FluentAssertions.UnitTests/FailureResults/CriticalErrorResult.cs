@@ -23,6 +23,12 @@ public class CriticalErrorResult
     {
         CriticalError().ShouldBeCriticalError();
     }
+    
+    [Fact]
+    public void WithErrorMessages_ShouldBeCriticalError()
+    {
+        CriticalError(ErrorMessage).ShouldBeCriticalError();
+    }
 
     [Fact]
     public void ShouldBeCriticalErrorWithErrorMessages()
