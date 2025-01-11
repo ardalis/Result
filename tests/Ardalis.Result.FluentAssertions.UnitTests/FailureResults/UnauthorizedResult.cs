@@ -1,32 +1,32 @@
 ﻿using Xunit;
+using static Ardalis.Result.Result;
+using static Ardalis.Result.FluentAssertions.UnitTests.Utils.Constants;
 
 namespace Ardalis.Result.FluentAssertions.UnitTests.FailureResults;
 
 public class UnauthorizedResult
 {
-    private const string ErrorMessage = "Error message"; 
-    
     [Fact]
-    public void UnauthorizedResult_ShouldBeFailure()
+    public void ShouldBeFailure()
     {
-        Result.Unauthorized().ShouldBeFailure();
+        Unauthorized().ShouldBeFailure();
     }
 
     [Fact]
-    public void UnauthorizedResultWithErrorMessages_ShouldBeFailureWithErrorMessages()
+    public void WithErrorMessages_ShouldBeFailureWithErrorMessages()
     {
-        Result.Unauthorized(ErrorMessage).ShouldBeFailure(ErrorMessage);
+        Unauthorized(ErrorMessage).ShouldBeFailure(ErrorMessage);
     }
 
     [Fact]
-    public void UnauthorizedResult_ShouldBeUnauthorized()
+    public void ShouldBeUnauthorized()
     {
-        Result.Unauthorized().ShouldBeUnauthorized();
+        Unauthorized().ShouldBeUnauthorized();
     }
 
     [Fact]
-    public void UnauthorizedResultWithErrorMessages_ShouldBeUnauthorizedWithErrorMessages()
+    public void WithErrorMessages_ShouldBeUnauthorizedWithErrorMessages()
     {
-        Result.Unauthorized(ErrorMessage).ShouldBeUnauthorized(ErrorMessage);
+        Unauthorized(ErrorMessage).ShouldBeUnauthorized(ErrorMessage);
     }
 }

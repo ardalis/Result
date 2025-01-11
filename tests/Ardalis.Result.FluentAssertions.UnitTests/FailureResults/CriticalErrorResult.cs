@@ -1,34 +1,32 @@
 ﻿using Xunit;
+using static Ardalis.Result.Result;
+using static Ardalis.Result.FluentAssertions.UnitTests.Utils.Constants;
 
 namespace Ardalis.Result.FluentAssertions.UnitTests.FailureResults;
 
 public class CriticalErrorResult
 {
-    private const string ErrorMessage = "Error message"; 
-    
-    //CriticalError
-
     [Fact]
-    public void CriticalErrorResult_ShouldBeFailure()
+    public void ShouldBeFailure()
     {
-        Result.CriticalError().ShouldBeFailure();
+        CriticalError().ShouldBeFailure();
     }
 
     [Fact]
-    public void CriticalErrorResultWithErrorMessages_ShouldBeFailureWithErrorMessages()
+    public void WithErrorMessages_ShouldBeFailureWithErrorMessages()
     {
-        Result.CriticalError(ErrorMessage).ShouldBeFailure(ErrorMessage);
+        CriticalError(ErrorMessage).ShouldBeFailure(ErrorMessage);
     }
 
     [Fact]
-    public void CriticalErrorResult_ShouldBeCriticalError()
+    public void ShouldBeCriticalError()
     {
-        Result.CriticalError().ShouldBeCriticalError();
+        CriticalError().ShouldBeCriticalError();
     }
 
     [Fact]
-    public void CriticalErrorResultWithErrorMessages_ShouldBeCriticalErrorWithErrorMessages()
+    public void ShouldBeCriticalErrorWithErrorMessages()
     {
-        Result.CriticalError(ErrorMessage).ShouldBeCriticalError(ErrorMessage);
+        CriticalError(ErrorMessage).ShouldBeCriticalError(ErrorMessage);
     }
 }

@@ -1,48 +1,48 @@
 ﻿using Xunit;
+using static Ardalis.Result.Result;
+using static Ardalis.Result.FluentAssertions.UnitTests.Utils.Constants;
 
 namespace Ardalis.Result.FluentAssertions.UnitTests.FailureResults;
 
 public class ErrorResult
 {
-    private const string ErrorMessage = "Error message"; 
-    
     [Fact]
-    public void ErrorResult_ShouldBeFailure()
+    public void ShouldBeFailure()
     {
-        Result.Error().ShouldBeFailure();
+        Error().ShouldBeFailure();
     }
 
     [Fact]
-    public void ErrorResultWithErrorMessages_ShouldBeFailureWithErrorMessages()
+    public void WithErrorMessages_ShouldBeFailureWithErrorMessages()
     {
-        Result.Error(ErrorMessage).ShouldBeFailure(ErrorMessage);
+        Error(ErrorMessage).ShouldBeFailure(ErrorMessage);
     }
 
     [Fact]
-    public void ErrorResult_ShouldBeError()
+    public void ShouldBeError()
     {
-        Result.Error().ShouldBeError();
+        Error().ShouldBeError();
     }
 
     [Fact]
-    public void ErrorResultWithErrorMessage_ShouldBeErrorWithErrorMessage()
+    public void ShouldBeErrorWithErrorMessage()
     {
-        Result.Error(ErrorMessage).ShouldBeError(ErrorMessage);
+        Error(ErrorMessage).ShouldBeError(ErrorMessage);
     }
 
     [Fact]
-    public void ErrorResultWithErrorList_ShouldBeErrorWithErrorList()
+    public void ShouldBeErrorWithErrorList()
     {
         var errorList = new ErrorList([ErrorMessage], "CorrelationId");
         
-        Result.Error(errorList).ShouldBeError(errorList);
+        Error(errorList).ShouldBeError(errorList);
     }
 
     [Fact]
-    public void ErrorResultWithErrorList_ShouldBeErrorWithErrorMessagesAndCorrelationId()
+    public void ShouldBeErrorWithErrorMessagesAndCorrelationId()
     {
         var errorList = new ErrorList([ErrorMessage], "CorrelationId");
 
-        Result.Error(errorList).ShouldBeError([ErrorMessage], "CorrelationId");
+        Error(errorList).ShouldBeError([ErrorMessage], "CorrelationId");
     }
 }

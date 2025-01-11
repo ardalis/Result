@@ -1,32 +1,32 @@
 ﻿using Xunit;
+using static Ardalis.Result.Result;
+using static Ardalis.Result.FluentAssertions.UnitTests.Utils.Constants;
 
 namespace Ardalis.Result.FluentAssertions.UnitTests.FailureResults;
 
 public class NotFoundResult
 {
-    private const string ErrorMessage = "Error message"; 
-
     [Fact]
-    public void NotFoundResult_ShouldBeFailure()
+    public void ShouldBeFailure()
     {
-        Result.NotFound().ShouldBeFailure();
+        NotFound().ShouldBeFailure();
     }
 
     [Fact]
-    public void NotFoundResultWithMessage_ShouldBeFailureWithMessage()
+    public void WithErrorMessages_ShouldBeFailureWithErrorMessages()
     {
-        Result.NotFound(ErrorMessage).ShouldBeFailure(ErrorMessage);
+        NotFound(ErrorMessage).ShouldBeFailure(ErrorMessage);
     }
 
     [Fact]
-    public void NotFoundResult_ShouldBeNotFound()
+    public void ShouldBeNotFound()
     {
-        Result.NotFound().ShouldBeNotFound();
+        NotFound().ShouldBeNotFound();
     }
 
     [Fact]
-    public void NotFoundResultWithErrorMessages_ShouldBeNotFoundWithErrorMessages()
+    public void WithErrorMessages_ShouldBeNotFoundWithErrorMessages()
     {
-        Result.NotFound(ErrorMessage).ShouldBeNotFound(ErrorMessage);
+        NotFound(ErrorMessage).ShouldBeNotFound(ErrorMessage);
     }
 }

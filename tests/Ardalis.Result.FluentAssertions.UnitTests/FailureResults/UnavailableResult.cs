@@ -1,32 +1,31 @@
 using Xunit;
 using static Ardalis.Result.Result;
+using static Ardalis.Result.FluentAssertions.UnitTests.Utils.Constants;
 
 namespace Ardalis.Result.FluentAssertions.UnitTests.FailureResults;
 
 public class UnavailableResult
 {
-    private const string ErrorMessage = "Error message"; 
-    
     [Fact]
-    public void UnavailableResult_ShouldBeFailure()
+    public void ShouldBeFailure()
     {
         Unavailable().ShouldBeFailure();
     }
 
     [Fact]
-    public void UnavailableResultWithErrorMessages_ShouldBeFailureWithErrorMessages()
+    public void WithErrorMessages_ShouldBeFailureWithErrorMessages()
     {
         Unavailable(ErrorMessage).ShouldBeFailure(ErrorMessage);
     }
 
     [Fact]
-    public void UnavailableResult_ShouldBeUnavailable()
+    public void ShouldBeUnavailable()
     {
         Unavailable().ShouldBeUnavailable();
     }
 
     [Fact]
-    public void UnavailableResultWithErrorMessages_ShouldBeUnavailableWithErrorMessages()
+    public void WithErrorMessages_ShouldBeUnavailableWithErrorMessages()
     {
         Unavailable(ErrorMessage).ShouldBeUnavailable(ErrorMessage);
     }

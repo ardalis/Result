@@ -1,32 +1,32 @@
 ﻿using Xunit;
+using static Ardalis.Result.Result;
+using static Ardalis.Result.FluentAssertions.UnitTests.Utils.Constants;
 
 namespace Ardalis.Result.FluentAssertions.UnitTests.FailureResults;
 
 public class ForbiddenResult
 {
-    private const string ErrorMessage = "Error message"; 
-
     [Fact]
-    public void ForbiddenResult_ShouldBeFailure()
+    public void ShouldBeFailure()
     {
-        Result.Forbidden().ShouldBeFailure();
+        Forbidden().ShouldBeFailure();
     }
 
     [Fact]
-    public void ForbiddenResultWithMessage_ShouldBeFailureWithMessage()
+    public void ShouldBeFailureWithMessage()
     {
-        Result.Forbidden(ErrorMessage).ShouldBeFailure(ErrorMessage);
+        Forbidden(ErrorMessage).ShouldBeFailure(ErrorMessage);
     }
 
     [Fact]
-    public void ForbiddenResult_ShouldBeForbidden()
+    public void ShouldBeForbidden()
     {
-        Result.Forbidden().ShouldBeForbidden();
+        Forbidden().ShouldBeForbidden();
     }
 
     [Fact]
-    public void ForbiddenResultWithMessage_ShouldBeForbiddenWithMessage()
+    public void ShouldBeForbiddenWithMessage()
     {
-        Result.Forbidden(ErrorMessage).ShouldBeForbidden(ErrorMessage);
+        Forbidden(ErrorMessage).ShouldBeForbidden(ErrorMessage);
     }
 }

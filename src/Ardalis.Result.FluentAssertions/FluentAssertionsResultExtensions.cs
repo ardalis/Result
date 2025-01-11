@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Primitives;
 
@@ -77,7 +78,9 @@ public static class FluentAssertionsResultExtensions
 
     public static AndConstraint<ObjectAssertions> ShouldBeInvalid(this Result result)
     {
-        return result.ShouldBeEquivalentTo(Result.Invalid());
+        result.Status.Should().Be(ResultStatus.Invalid);
+
+        return new AndConstraint<ObjectAssertions>(result.Should());
     }
 
     public static AndConstraint<ObjectAssertions> ShouldBeInvalid(this Result result, params ValidationError[] validationErrors)
@@ -120,6 +123,17 @@ public static class FluentAssertionsResultExtensions
         var andConstraint = result.ShouldBeFailure();
 
         result.Errors.Should().BeEquivalentTo(errorMessages);
+
+        return andConstraint;
+    }
+    
+    public static AndConstraint<ObjectAssertions> ShouldHaveValidationErrorWithCode(this Result result, string errorCode)
+    {
+        var andConstraint = result.ShouldBeInvalid();
+
+        result.ValidationErrors.Count().Should().BePositive();
+
+        result.ValidationErrors.First().ErrorCode.Should().Be(errorCode);
 
         return andConstraint;
     }

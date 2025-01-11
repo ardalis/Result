@@ -1,31 +1,45 @@
 ﻿using Xunit;
+using static Ardalis.Result.Result;
 
 namespace Ardalis.Result.FluentAssertions.UnitTests.FailureResults;
 
 public class InvalidResult
 {
+    private static readonly ValidationError ValidationError = new("IDENTIFIER", "ERROR_MESSAGE", "ERROR_CODE", ValidationSeverity.Error);
+    
     [Fact]
-    public void InvalidResult_ShouldBeFailure()
+    public void ShouldBeFailure()
     {
-        Result.Invalid().ShouldBeFailure();
+        Invalid().ShouldBeFailure();
     }
 
     [Fact]
-    public void InvalidResultWithValidationError_ShouldBeFailure()
+    public void WithValidationError_ShouldBeFailure()
     {
-        Result.Invalid(new ValidationError("IDENTIFIER", "ERROR_MESSAGE")).ShouldBeFailure();
+        Invalid().ShouldBeFailure();
     }
 
     [Fact]
-    public void InvalidResult_ShouldBeInvalid()
+    public void ShouldBeInvalid()
     {
-        Result.Invalid().ShouldBeInvalid();
+        Invalid().ShouldBeInvalid();
     }
 
     [Fact]
-    public void InvalidResultWithValidationError_ShouldBeInvalidWithValidationError()
+    public void WithValidationError_ShouldBeInvalidWithValidationError()
     {
-        var validationError = new ValidationError("IDENTIFIER", "ERROR_MESSAGE");
-        Result.Invalid(validationError).ShouldBeInvalid(validationError);
+        Invalid(ValidationError).ShouldBeInvalid(ValidationError);
+    }
+    
+    [Fact]
+    public void WithValidationError_ShouldBeInvalid()
+    {
+        Invalid(ValidationError).ShouldBeInvalid();
+    }
+    
+    [Fact]
+    public void ShouldHaveValidationErrorWithCode()
+    {
+        Invalid(ValidationError).ShouldHaveValidationErrorWithCode("ERROR_CODE");
     }
 }
