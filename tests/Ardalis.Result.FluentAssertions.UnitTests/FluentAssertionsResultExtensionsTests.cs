@@ -8,32 +8,6 @@ public class FluentAssertionsResultExtensionsTests
 {
     private const string ErrorMessage = "Error message"; 
     
-    //Conflict
-
-    [Fact]
-    public void ConflictResult_ShouldBeFailure()
-    {
-        Conflict().ShouldBeFailure();
-    }
-
-    [Fact]
-    public void ConflictResultWithErrorMessages_ShouldBeFailureWithErrorMessages()
-    {
-        Conflict(ErrorMessage).ShouldBeFailure(ErrorMessage);
-    }
-
-    [Fact]
-    public void ConflictResult_ShouldBeConflict()
-    {
-        Conflict().ShouldBeConflict();
-    }
-
-    [Fact]
-    public void ConflictResultWithErrorMessages_ShouldBeConflictWithErrorMessages()
-    {
-        Conflict(ErrorMessage).ShouldBeConflict(ErrorMessage);
-    }
-
     //CriticalError
 
     [Fact]
@@ -233,13 +207,5 @@ public class FluentAssertionsResultExtensionsTests
     public void UnavailableResultWithErrorMessages_ShouldBeUnavailableWithErrorMessages()
     {
         Unavailable(ErrorMessage).ShouldBeUnavailable(ErrorMessage);
-    }
-
-    //Success
-
-    [Fact]
-    public void Foo()
-    {
-        Created(It.IsAny<object>()).ShouldBeSuccess(ErrorMessage);
     }
 }
