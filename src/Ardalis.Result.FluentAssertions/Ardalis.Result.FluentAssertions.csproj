@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<PackageId>Ardalis.Result.FluentAssertions</PackageId>
+		<Title>Ardalis.Result.FluentAssertions</Title>
+		<Description>A simple package to implement FluentAssertions with the Ardalis.Result package.</Description>
+		<Summary>A simple package to implement FluentAssertions with the Ardalis.Result package.</Summary>
+		<PackageTags>result;pattern;web;api;aspnetcore;mvc;FluentAssertions;Validation</PackageTags>
+		<PackageReleaseNotes>
+		</PackageReleaseNotes>
+		<AssemblyName>Ardalis.Result.FluentAssertions</AssemblyName>
+		<Version>1.0.0</Version>
+	</PropertyGroup>
+
+
+	<ItemGroup>
+		<None Include="icon.png" Pack="true" Visible="false" PackagePath="" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <PackageReference Include="FluentAssertions" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Ardalis.Result\Ardalis.Result.csproj" />
+	</ItemGroup>
+</Project>
