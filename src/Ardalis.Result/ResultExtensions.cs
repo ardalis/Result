@@ -290,6 +290,20 @@ namespace Ardalis.Result
             };
         }
 
+        public static async Task<Result> BindAsync<TSource>(
+            this Task<Result<TSource>> resultTask,
+            Func<TSource, Result> bindFunc
+        )
+        {
+            var result = await resultTask;
+            return result.Status switch
+            {
+                ResultStatus.Ok => bindFunc(result.Value),
+                ResultStatus.Created => bindFunc(result.Value),
+                _ => HandleNonSuccessStatus(result),
+            };
+        }
+
         private static Result<TDestination> HandleNonSuccessStatus<TSource, TDestination>(
             Result<TSource> result
         )
