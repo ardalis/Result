@@ -46,7 +46,7 @@ jobs:
         output: 'both'
 
     - name: Upload code coverage results artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: success() || failure()
       with:
         name: code-coverage-results
@@ -61,7 +61,7 @@ jobs:
       run: echo $PR_NUMBER > pr-number.txt
 
     - name: Upload the PR number
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: github.event_name == 'pull_request' &&  (success() || failure())
       with:
         name: pr-number
