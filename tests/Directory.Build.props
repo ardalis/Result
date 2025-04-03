@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <NetCoreFrameworks>net6.0;net7.0;net8.0</NetCoreFrameworks>
+    <NetCoreFrameworks>net7.0;net8.0</NetCoreFrameworks>
     <TargetFrameworks>net48;$(NetCoreFrameworks)</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
