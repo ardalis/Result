@@ -26,6 +26,17 @@ public class IResultExtensions
     }
 
     [Fact]
+    public void IsAccepted_ReturnsTrue_WhenStatusIsAccepted()
+    {
+        // Arrange & Act
+        var foo = new Foo("Bar");
+        var result = Result<Foo>.Accepted(foo);
+
+        // Assert
+        Assert.True(result.IsAccepted());
+    }
+
+    [Fact]
     public void IsError_ReturnsTrue_WhenStatusIsError()
     {
         // Arrange & Act
