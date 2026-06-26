@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <NetCoreFrameworks>net6.0;net8.0</NetCoreFrameworks>
-    <TargetFrameworks>net48;$(NetCoreFrameworks)</TargetFrameworks>
+    <TargetFrameworks>$(NetCoreFrameworks)</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
