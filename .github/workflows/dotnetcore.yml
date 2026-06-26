@@ -24,6 +24,10 @@ jobs:
           dotnet-version: |
             6.0.x
             8.x
+    - name: Install Mono
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y mono-devel
     - name: Install dependencies
       run: dotnet restore
     - name: Build
@@ -33,6 +37,12 @@ jobs:
       # Add coverlet.collector nuget package to test project - 'dotnet add <TestProject.cspoj> package coverlet
     - name: Test
       run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
+
+    - name: Test .NET Framework 4.8 compatibility
+      run: |
+        dotnet test sample/Ardalis.Result.Sample.UnitTests/Ardalis.Result.Sample.UnitTests.csproj --framework net48 --no-restore --verbosity normal
+        dotnet test tests/Ardalis.Result.UnitTests/Ardalis.Result.UnitTests.csproj --framework net48 --no-restore --verbosity normal
+        dotnet test tests/Ardalis.Result.FluentAssertions.UnitTests/Ardalis.Result.FluentAssertions.UnitTests.csproj --framework net48 --no-restore --verbosity normal
 
     - name: Copy Coverage To Predictable Location
       # run: cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
