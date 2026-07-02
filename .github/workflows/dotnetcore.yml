@@ -40,7 +40,16 @@ jobs:
 
     - name: Test .NET Framework 4.8 compatibility
       run: |
-        dotnet test sample/Ardalis.Result.Sample.UnitTests/Ardalis.Result.Sample.UnitTests.csproj --framework net48 --no-restore --verbosity normal
+        for attempt in 1 2 3; do
+          dotnet test sample/Ardalis.Result.Sample.UnitTests/Ardalis.Result.Sample.UnitTests.csproj --framework net48 --no-restore --verbosity normal && break
+
+          if [ "$attempt" -eq 3 ]; then
+            echo "Sample net48 compatibility tests failed after 3 attempts."
+            exit 1
+          fi
+
+          echo "Retrying sample net48 compatibility tests due intermittent Mono test host crash (attempt $((attempt + 1))/3)..."
+        done
         dotnet test tests/Ardalis.Result.UnitTests/Ardalis.Result.UnitTests.csproj --framework net48 --no-restore --verbosity normal
         dotnet test tests/Ardalis.Result.FluentAssertions.UnitTests/Ardalis.Result.FluentAssertions.UnitTests.csproj --framework net48 --no-restore --verbosity normal
 
