@@ -51,7 +51,8 @@ public static partial class ResultExtensions
         return Results.UnprocessableEntity(new ProblemDetails
         {
             Title = "Something went wrong.",
-            Detail = details.ToString()
+            Detail = details.ToString(),
+            Status = StatusCodes.Status422UnprocessableEntity
         });
     }
 
@@ -66,7 +67,8 @@ public static partial class ResultExtensions
             return Results.NotFound(new ProblemDetails
             {
                 Title = "Resource not found.",
-                Detail = details.ToString()
+                Detail = details.ToString(),
+                Status = StatusCodes.Status404NotFound
             });
         }
         else
@@ -86,7 +88,8 @@ public static partial class ResultExtensions
             return Results.Conflict(new ProblemDetails
             {
                 Title = "There was a conflict.",
-                Detail = details.ToString()
+                Detail = details.ToString(),
+                Status = StatusCodes.Status409Conflict
             });
         }
         else

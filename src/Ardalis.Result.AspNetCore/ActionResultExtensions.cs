@@ -76,9 +76,17 @@ namespace Ardalis.Result.AspNetCore
 
                     return controller.Created(locationUri, result.GetValue());
                 default:
-                    return resultStatusOptions.ResponseType == null
-                        ? (ActionResult)controller.StatusCode(statusCode)
-                        : controller.StatusCode(statusCode, resultStatusOptions.GetResponseObject(controller, result));
+                    if (resultStatusOptions.ResponseType == null)
+                        return controller.StatusCode(statusCode);
+
+                    var responseObject = resultStatusOptions.GetResponseObject(controller, result);
+
+                    // Populate ProblemDetails.Status to match the resolved HTTP status code (RFC 7807 section 3.1),
+                    // honoring any custom status-code mapping. Only set when unset to respect explicit values.
+                    if (responseObject is ProblemDetails problemDetails && problemDetails.Status is null)
+                        problemDetails.Status = statusCode;
+
+                    return controller.StatusCode(statusCode, responseObject);
             }
         }
     }
