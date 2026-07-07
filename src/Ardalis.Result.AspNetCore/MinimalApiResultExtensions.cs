@@ -25,7 +25,13 @@ public static partial class ResultExtensions
     /// <returns></returns>
     public static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult(this Result result) => ToMinimalApiResult((IResult)result);
 
-    internal static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult(this IResult result) =>
+    /// <summary>
+    /// Convert an Ardalis.Result <see cref="IResult"/> to a <see cref="Microsoft.AspNetCore.Http.IResult"/>.
+    /// Exposed so consumers can write a custom converter that handles selected statuses and delegates the
+    /// remaining statuses to the library's default mapping.
+    /// </summary>
+    /// <param name="result">The Ardalis.Result to convert.</param>
+    public static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult(this IResult result) =>
         result.Status switch
         {
             ResultStatus.Ok => result is Result ? Results.Ok() : Results.Ok(result.GetValue()),
