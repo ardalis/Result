@@ -361,4 +361,47 @@ public class ResultConstructor
         
         Assert.True(result.IsSuccess);
     }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData(123)]
+    [InlineData("test value")]
+    public void InitializesStatusToAcceptedGivenAcceptedFactoryCall(object value)
+    {
+        var result = Result<object>.Accepted(value);
+
+        Assert.Equal(ResultStatus.Accepted, result.Status);
+        Assert.Equal(result.Location, string.Empty);
+        Assert.True(result.IsSuccess);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData(123)]
+    [InlineData("test value")]
+    public void InitializesStatusToAcceptedAndSetLocationGivenAcceptedFactoryCall(object value)
+    {
+        string location = "status/12345";
+        var result = Result<object>.Accepted(value, location);
+
+        Assert.Equal(ResultStatus.Accepted, result.Status);
+        Assert.Equal(location, result.Location);
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public void InitializedIsSuccessTrueForAcceptedFactoryCall()
+    {
+        var result = Result<object>.Accepted(new object());
+        
+        Assert.True(result.IsSuccess);
+    }
+    
+    [Fact]
+    public void InitializedIsSuccessTrueForAcceptedWithLocationFactoryCall()
+    {
+        var result = Result<object>.Accepted(new object(), "status/endpoint");
+        
+        Assert.True(result.IsSuccess);
+    }
 }

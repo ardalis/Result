@@ -29,7 +29,8 @@ public static partial class ResultExtensions
         result.Status switch
         {
             ResultStatus.Ok => result is Result ? Results.Ok() : Results.Ok(result.GetValue()),
-            ResultStatus.Created => Results.Created("", result.GetValue()),
+            ResultStatus.Created => Results.Created(result.Location ?? "", result.GetValue()),
+            ResultStatus.Accepted => Results.Accepted(result.Location ?? "", result.GetValue()),
             ResultStatus.NoContent => Results.NoContent(),
             ResultStatus.NotFound => NotFoundEntity(result),
             ResultStatus.Unauthorized => UnAuthorized(result),
