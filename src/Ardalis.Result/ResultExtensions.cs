@@ -448,5 +448,31 @@ namespace Ardalis.Result
                     );
             }
         }
+
+
+        /// <summary>
+        /// Propagates a failure Result from one type to another, preserving the error status and details.
+        /// This is useful for converting a Result{T} to Result{U} when the operation has failed,
+        /// ensuring all error information is transferred to the new Result type.
+        /// </summary>
+        /// <typeparam name="T">The source Result value type.</typeparam>
+        /// <typeparam name="U">The destination Result value type.</typeparam>
+        /// <param name="result">The source Result to propagate.</param>
+        /// <returns>A new Result of type U with the same failure status and error details.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the Result status is not recognized.</exception>
+        public static Result<U> PropagateFailure<T, U>(this Result<T> result) =>
+            result.Status switch
+            {
+                ResultStatus.Error => Result<U>.Error(new ErrorList(result.Errors)),
+                ResultStatus.Forbidden => Result<U>.Forbidden(result.Errors.ToArray()),
+                ResultStatus.Unauthorized => Result<U>.Unauthorized(result.Errors.ToArray()),
+                ResultStatus.Invalid => Result<U>.Invalid(result.ValidationErrors),
+                ResultStatus.NotFound => Result<U>.NotFound(result.Errors.ToArray()),
+                ResultStatus.NoContent => Result<U>.NoContent(),
+                ResultStatus.Conflict => Result<U>.Conflict(result.Errors.ToArray()),
+                ResultStatus.CriticalError => Result<U>.CriticalError(result.Errors.ToArray()),
+                ResultStatus.Unavailable => Result<U>.Unavailable(result.Errors.ToArray()),
+                _ => throw new InvalidOperationException($"Unexpected ResultStatus: {result.Status}")
+            };
     }
 }
