@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
@@ -74,19 +74,29 @@ namespace Ardalis.Result
         }
 
         /// <summary>
-        /// Represents a successful operation and accepts a values as the result of the operation
+        /// Represents a successful operation and accepts a value as the result of the operation.
         /// </summary>
         /// <param name="value">Sets the Value property</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
+        /// <example>
+        /// <code>
+        /// var result = Result<int>.Success(42);
+        /// </code>
+        /// </example>
         public static Result<T> Success(T value) => new(value);
 
         /// <summary>
-        /// Represents a successful operation and accepts a values as the result of the operation
-        /// Sets the SuccessMessage property to the provided value
+        /// Represents a successful operation and accepts a value as the result of the operation.
+        /// Sets the SuccessMessage property to the provided value.
         /// </summary>
         /// <param name="value">Sets the Value property</param>
         /// <param name="successMessage">Sets the SuccessMessage property</param>
         /// <returns>A Result<typeparamref name="T"/></returns>
+        /// <example>
+        /// <code>
+        /// var result = Result<string>.Success("OK", "Operation completed successfully");
+        /// </code>
+        /// </example>
         public static Result<T> Success(T value, string successMessage) => new(value, successMessage);
 
         /// <summary>
