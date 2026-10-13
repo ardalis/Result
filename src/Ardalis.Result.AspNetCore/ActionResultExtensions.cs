@@ -61,12 +61,19 @@ namespace Ardalis.Result.AspNetCore
             switch (result.Status)
             {
                 case ResultStatus.Ok:
+                    if (resultStatusOptions.GetResponseObject != null)
+                        return controller.StatusCode(statusCode, resultStatusOptions.GetResponseObject(controller, result));
+
                     return typeof(Result).IsInstanceOfType(result)
                         ? (ActionResult)controller.StatusCode(statusCode)
                         : controller.StatusCode(statusCode, result.GetValue());
                 case ResultStatus.Created:
+                    var createdValue = resultStatusOptions.GetResponseObject != null
+                        ? resultStatusOptions.GetResponseObject(controller, result)
+                        : result.GetValue();
+
                     if(string.IsNullOrEmpty(result.Location))
-                        return controller.Created((string?)null, result.GetValue());
+                        return controller.Created((string?)null, createdValue);
                     
                     var httpRequest = controller.HttpContext.Request;
                     var locationUri = new UriBuilder(httpRequest.Scheme, 
@@ -74,7 +81,7 @@ namespace Ardalis.Result.AspNetCore
                         httpRequest.Host.Port ?? -1,
                         result.Location).Uri.AbsoluteUri;
 
-                    return controller.Created(locationUri, result.GetValue());
+                    return controller.Created(locationUri, createdValue);
                 default:
                     return resultStatusOptions.ResponseType == null
                         ? (ActionResult)controller.StatusCode(statusCode)
