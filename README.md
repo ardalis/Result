@@ -307,6 +307,33 @@ public async Task<Result<BlogCategory>> UpdateAsync(BlogCategory blogCategory)
 }
 ```
 
+### Asserting on Results in Tests with Shouldly
+
+The [Ardalis.Result.Shouldly](https://www.nuget.org/packages/Ardalis.Result.Shouldly/) package adds [Shouldly](https://github.com/shouldly/shouldly) assertions for `Result` and `Result<T>`:
+
+```csharp
+using Ardalis.Result.Shouldly;
+
+[Fact]
+public async Task ReturnsNotFoundForMissingCategory()
+{
+    Result<BlogCategory> result = await _service.UpdateAsync(new BlogCategory());
+
+    result.ShouldBeNotFound();
+}
+
+[Fact]
+public void ReturnsInvalidForMissingName()
+{
+    Result<BlogCategory> result = _service.Create(new BlogCategory { Name = "" });
+
+    result.ShouldBeInvalid();
+    result.ShouldHaveValidationErrorWithIdentifier(nameof(BlogCategory.Name));
+}
+```
+
+Each status has a `ShouldBe*` assertion (`ShouldBeSuccess`, `ShouldBeError`, `ShouldBeConflict`, `ShouldBeForbidden`, ...), most with an overload that also checks the error messages. A failed assertion throws Shouldly's `ShouldAssertException`.
+
 ## Getting Started
 
 If you're building an ASP.NET Core Web API you can simply install the [Ardalis.Result.AspNetCore](https://www.nuget.org/packages/Ardalis.Result.AspNetCore/) package to get started. Then, apply the `[TranslateResultToActionResult]` attribute to any actions or controllers that you want to automatically translate from Result types to ActionResult types.

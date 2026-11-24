@@ -4,14 +4,15 @@ Guidance for AI coding agents (and human contributors) working in this repositor
 
 ## What This Is
 
-`Ardalis.Result` implements the Result pattern: a way for service/domain methods to return success *or* one of many non-success states (NotFound, Invalid, Conflict, Forbidden, etc.) without throwing exceptions, in a form that maps cleanly onto HTTP status codes. The repo ships four independently versioned NuGet packages:
+`Ardalis.Result` implements the Result pattern: a way for service/domain methods to return success *or* one of many non-success states (NotFound, Invalid, Conflict, Forbidden, etc.) without throwing exceptions, in a form that maps cleanly onto HTTP status codes. The repo ships five independently versioned NuGet packages:
 
 - **`Ardalis.Result`** (`src/Ardalis.Result`) — the core abstraction. No third-party dependencies. The other packages and any consumer depend on this.
 - **`Ardalis.Result.AspNetCore`** (`src/Ardalis.Result.AspNetCore`) — translates `Result`/`Result<T>` into MVC `ActionResult` and Minimal API `IResult`. Depends on the ASP.NET Core shared framework.
 - **`Ardalis.Result.FluentValidation`** (`src/Ardalis.Result.FluentValidation`) — a single extension (`ValidationResult.AsErrors()`) bridging FluentValidation failures into `ValidationError`s.
 - **`Ardalis.Result.FluentAssertions`** (`src/Ardalis.Result.FluentAssertions`) — `ShouldBe*` test assertions for results.
+- **`Ardalis.Result.Shouldly`** (`src/Ardalis.Result.Shouldly`) — the same `ShouldBe*` assertions built on Shouldly. They extend `Result<T>`, so they also work on non-generic `Result` (which is a `Result<Result>`).
 
-Core/AspNetCore/FluentValidation are versioned together (currently `10.1.0`, set in each `.csproj`); FluentAssertions is on its own track (`1.0.0`). Release notes live inline in the `<PackageReleaseNotes>` of each `.csproj`.
+Core/AspNetCore/FluentValidation are versioned together (currently `10.1.0`, set in each `.csproj`); FluentAssertions and Shouldly are each on their own track (both `1.0.0`). Release notes live inline in the `<PackageReleaseNotes>` of each `.csproj`.
 
 ## Common Commands
 
@@ -75,7 +76,7 @@ Other cross-cutting build facts:
 
 ## CI and Publishing
 
-- **`.github/workflows/dotnetcore.yml`** is the PR/main build, in two jobs. **`build`** (ubuntu) installs .NET 6 + 8, then `restore` → `build -c Release` (this still compiles the net48 targets) → `dotnet test --framework net6.0` and `--framework net8.0` with `XPlat Code Coverage`. **`net48`** (windows-latest) runs the three net48-targeting test projects with `--framework net48` — if you touch multi-targeting, expect this job to catch regressions. Coverage (from the Linux job only) is summarized and posted back to the PR by `comment-on-pr.yml`.
+- **`.github/workflows/dotnetcore.yml`** is the PR/main build, in two jobs. **`build`** (ubuntu) installs .NET 6 + 8, then `restore` → `build -c Release` (this still compiles the net48 targets) → `dotnet test --framework net6.0` and `--framework net8.0` with `XPlat Code Coverage`. **`net48`** (windows-latest) runs the four net48-targeting test projects with `--framework net48` — if you touch multi-targeting, expect this job to catch regressions. Coverage (from the Linux job only) is summarized and posted back to the PR by `comment-on-pr.yml`.
 - **`publish.yml`** publishes **every** package under `src/` to NuGet when a GitHub **release is published**. It builds, runs the net6.0/net8.0 tests, packs each `src/*/*.csproj`, and pushes with `--skip-duplicate`, so only packages whose `<Version>` was bumped since their last release actually ship. To release: bump the version (and `<PackageReleaseNotes>`) in each `.csproj` you want to ship, merge, then publish a GitHub release. It authenticates with **NuGet trusted publishing** (OIDC via `NuGet/login`), not a stored API key. The trusted publishing policy on nuget.org is tied to this repo and the `publish.yml` file name, so renaming the workflow breaks publishing until the policy is updated.
 - **`jekyll-gh-pages.yml`** publishes `docs/` to <https://result.ardalis.com> on changes under `docs/`.
 
@@ -108,5 +109,5 @@ The status→HTTP mapping for the MVC path is configurable through **`ResultStat
 
 - **xUnit** throughout, with **FluentAssertions** for assertions, **Moq** where mocking is needed, and **coverlet** for coverage.
 - Test files/classes are named `<TypeUnderTest><Member>` — one file per method/behavior under test (e.g. `ResultConstructor.cs`, `ResultBind.cs`, `ResultMapAsync.cs`, `PersonServiceCreate.cs`). Follow this pattern when adding tests rather than one large file per class.
-- `Ardalis.Result.FluentAssertions.UnitTests` tests the assertion helpers themselves; its `FailureResults/` and `SuccessFullResults/` folders mirror each `ResultStatus`.
+- `Ardalis.Result.FluentAssertions.UnitTests` and `Ardalis.Result.Shouldly.UnitTests` test the assertion helpers themselves; their `FailureResults/` and `SuccessFullResults/` folders mirror each `ResultStatus`. The Shouldly tests also cover typed `Result<T>` results (`GenericResults/`) and check that each kind of assertion throws on a mismatch (`AssertionFailures/`).
 - Public API and behavior changes that span frameworks should be validated against `net48` as well (see the CI net48 step), since that target is the reason several compatibility constraints exist.
