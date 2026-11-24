@@ -35,7 +35,7 @@ namespace Ardalis.Result
         [JsonInclude]
         public ResultStatus Status { get; protected set; } = ResultStatus.Ok;
 
-        public bool IsSuccess => Status is ResultStatus.Ok or ResultStatus.NoContent or ResultStatus.Created;
+        public bool IsSuccess => Status is ResultStatus.Ok or ResultStatus.NoContent or ResultStatus.Created or ResultStatus.Accepted;
 
         [JsonInclude]
         public string SuccessMessage { get; protected set; } = string.Empty;
@@ -105,6 +105,23 @@ namespace Ardalis.Result
         /// <param name="location">The URL indicating where the newly created resource can be accessed.</param>
         /// <returns>A Result<typeparamref name="T"/> with status Created.</returns>
         public static Result<T> Created(T value, string location) => new(ResultStatus.Created) { Value = value, Location = location };
+
+        /// <summary>
+        /// Represents a successful operation where the request has been accepted for processing, but the processing has not been completed.
+        /// </summary>
+        /// <typeparam name="T">The type of the value returned.</typeparam>
+        /// <returns>A Result<typeparamref name="T"/> with status Accepted.</returns>
+        public static Result<T> Accepted(T value) => new(ResultStatus.Accepted) { Value = value };
+
+        /// <summary>
+        /// Represents a successful operation where the request has been accepted for processing, but the processing has not been completed.
+        /// Sets the Location property to the provided value.
+        /// </summary>
+        /// <typeparam name="T">The type of the value returned.</typeparam>
+        /// <param name="value">The value to return.</param>
+        /// <param name="location">The URL indicating where the status of the operation can be monitored.</param>
+        /// <returns>A Result<typeparamref name="T"/> with status Accepted.</returns>
+        public static Result<T> Accepted(T value, string location) => new(ResultStatus.Accepted) { Value = value, Location = location };
 
         /// <summary>
         /// Represents an error that occurred during the execution of the service.

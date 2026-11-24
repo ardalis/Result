@@ -61,6 +61,30 @@ namespace Ardalis.Result
 			return Result<T>.Created(value, location);
 		}
 
+		/// <summary>
+		/// Represents a successful operation where the request has been accepted for processing, but the processing has not been completed.
+		/// Accepts a value as the result of the operation.
+		/// </summary>		
+		/// <param name="value">Sets the Value property</param>
+		/// <returns>A Result<typeparamref name="T"/></returns>
+		public static Result<T> Accepted<T>(T value)
+		{
+			return Result<T>.Accepted(value);
+		}
+
+		/// <summary>
+		/// Represents a successful operation where the request has been accepted for processing, but the processing has not been completed.
+		/// Accepts a value as the result of the operation.
+		/// Accepts a location for monitoring the status.
+		/// </summary>		
+		/// <param name="value">Sets the Value property</param>
+		/// <param name="location">The location where the status of the operation can be monitored</param>
+		/// <returns>A Result<typeparamref name="T"/></returns>
+		public static Result<T> Accepted<T>(T value, string location)
+		{
+			return Result<T>.Accepted(value, location);
+		}
+
         /// <summary>
         /// Represents an error that occurred during the execution of the service.
         /// Error messages may be provided and will be exposed via the Errors property.

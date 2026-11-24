@@ -75,6 +75,17 @@ namespace Ardalis.Result.AspNetCore
                         result.Location).Uri.AbsoluteUri;
 
                     return controller.Created(locationUri, result.GetValue());
+                case ResultStatus.Accepted:
+                    if(string.IsNullOrEmpty(result.Location))
+                        return controller.Accepted((string?)null, result.GetValue());
+                    
+                    var httpRequestAccepted = controller.HttpContext.Request;
+                    var locationUriAccepted = new UriBuilder(httpRequestAccepted.Scheme, 
+                        httpRequestAccepted.Host.Host, 
+                        httpRequestAccepted.Host.Port ?? -1,
+                        result.Location).Uri.AbsoluteUri;
+
+                    return controller.Accepted(locationUriAccepted, result.GetValue());
                 default:
                     return resultStatusOptions.ResponseType == null
                         ? (ActionResult)controller.StatusCode(statusCode)

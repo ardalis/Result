@@ -23,8 +23,8 @@ public class MinimalApiResultExtensionsCoverage : BaseResultConventionTest
         foreach (ResultStatus resultStatus in Enum.GetValues(typeof(ResultStatus)))
         {
 #if NET7_0
-            // Results.Created does not accept empty string URI in net7
-            if (resultStatus == ResultStatus.Created)
+            // Results.Created and Results.Accepted do not accept empty string URI in net7
+            if (resultStatus == ResultStatus.Created || resultStatus == ResultStatus.Accepted)
             {
                 continue;
             }

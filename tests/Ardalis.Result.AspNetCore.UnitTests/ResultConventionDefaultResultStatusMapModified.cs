@@ -21,7 +21,7 @@ public class ResultConventionDefaultResultStatusMapModified : BaseResultConventi
 
         convention.Apply(actionModel);
 
-        Assert.Equal(7, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
+        Assert.Equal(8, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
 
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 204, typeof(void)));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 404, typeof(ProblemDetails)));
@@ -30,6 +30,7 @@ public class ResultConventionDefaultResultStatusMapModified : BaseResultConventi
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 422, typeof(ProblemDetails)));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 500, typeof(ProblemDetails)));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 503, typeof(ProblemDetails)));
+        Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 202, typeof(void)));
     }
 
     [Fact]
@@ -46,7 +47,7 @@ public class ResultConventionDefaultResultStatusMapModified : BaseResultConventi
 
         convention.Apply(actionModel);
 
-        Assert.Equal(8, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
+        Assert.Equal(9, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
 
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 204, typeof(void)));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 404, typeof(ProblemDetails)));
@@ -56,6 +57,7 @@ public class ResultConventionDefaultResultStatusMapModified : BaseResultConventi
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 409, typeof(ProblemDetails)));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 500, typeof(void)));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 503, typeof(ProblemDetails)));
+        Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 202, typeof(void)));
     }
 
     [Theory]
@@ -80,7 +82,7 @@ public class ResultConventionDefaultResultStatusMapModified : BaseResultConventi
 
         convention.Apply(actionModel);
 
-        Assert.Equal(9, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
+        Assert.Equal(10, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
 
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, expectedStatusCode, expectedType));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 404, typeof(ProblemDetails)));
@@ -91,6 +93,7 @@ public class ResultConventionDefaultResultStatusMapModified : BaseResultConventi
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 422, typeof(ProblemDetails)));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 500, typeof(ProblemDetails)));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 503, typeof(ProblemDetails)));
+        Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 202, typeof(void)));
     }
 
     [Theory]
@@ -114,7 +117,7 @@ public class ResultConventionDefaultResultStatusMapModified : BaseResultConventi
 
         convention.Apply(actionModel);
 
-        Assert.Equal(10, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
+        Assert.Equal(11, actionModel.Filters.Where(f => f is ProducesResponseTypeAttribute).Count());
 
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, expectedStatusCode, expectedType));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 204, typeof(void)));
@@ -126,5 +129,6 @@ public class ResultConventionDefaultResultStatusMapModified : BaseResultConventi
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 422, typeof(ProblemDetails)));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 500, typeof(ProblemDetails)));
         Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 503, typeof(ProblemDetails)));
+        Assert.Contains(actionModel.Filters, f => ProducesResponseTypeAttribute(f, 202, typeof(void)));
     }
 }

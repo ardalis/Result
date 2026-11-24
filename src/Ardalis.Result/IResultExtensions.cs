@@ -13,6 +13,11 @@ public static class IResultExtensions
     public static bool IsCreated(this IResult result) => result.Status == ResultStatus.Created;
 
     /// <summary>
+    /// Returns true if the result is accepted (status is Accepted).
+    /// </summary>
+    public static bool IsAccepted(this IResult result) => result.Status == ResultStatus.Accepted;
+
+    /// <summary>
     /// Returns true if the result is an error (status is Error).
     /// </summary>
     public static bool IsError(this IResult result) => result.Status == ResultStatus.Error;

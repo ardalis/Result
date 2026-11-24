@@ -4,6 +4,7 @@
     {
         Ok,
         Created,
+        Accepted,
         Error,
         Forbidden,
         Unauthorized,
