@@ -7,37 +7,37 @@ namespace Ardalis.Result.Shouldly;
 
 public static class ShouldlyResultExtensions
 {
-    public static void ShouldBeFailure(this Result result)
+    public static void ShouldBeFailure<T>(this Result<T> result)
     {
         result.IsSuccess.ShouldBeFalse();
     }
 
-    public static void ShouldBeFailure(this Result result, params string[] errorMessages)
+    public static void ShouldBeFailure<T>(this Result<T> result, params string[] errorMessages)
     {
         result.ShouldBeFailure();
         result.Errors.ShouldBe(errorMessages);
     }
 
-    public static void ShouldBeError(this Result result)
+    public static void ShouldBeError<T>(this Result<T> result)
     {
         result.Status.ShouldBe(ResultStatus.Error);
     }
 
-    public static void ShouldBeError(this Result result, string errorMessage)
+    public static void ShouldBeError<T>(this Result<T> result, string errorMessage)
     {
         result.ShouldBeError();
         result.Errors.ShouldBe(new[] { errorMessage });
     }
 
-    public static void ShouldBeError(this Result result, ErrorList errorList)
+    public static void ShouldBeError<T>(this Result<T> result, ErrorList errorList)
     {
         result.ShouldBeError();
         result.Errors.ShouldBe(errorList.ErrorMessages);
         result.CorrelationId.ShouldBe(errorList.CorrelationId);
     }
 
-    public static void ShouldBeError(
-        this Result result,
+    public static void ShouldBeError<T>(
+        this Result<T> result,
         IEnumerable<string> errorMessages,
         string? correlationId)
     {
@@ -46,124 +46,119 @@ public static class ShouldlyResultExtensions
         result.CorrelationId.ShouldBe(correlationId);
     }
 
-    public static void ShouldBeConflict(this Result result)
+    public static void ShouldBeConflict<T>(this Result<T> result)
     {
         result.Status.ShouldBe(ResultStatus.Conflict);
     }
 
-    public static void ShouldBeConflict(this Result result, params string[] errorMessages)
+    public static void ShouldBeConflict<T>(this Result<T> result, params string[] errorMessages)
     {
         result.ShouldBeConflict();
         result.Errors.ShouldBe(errorMessages);
     }
 
-    public static void ShouldBeCriticalError(this Result result)
+    public static void ShouldBeCriticalError<T>(this Result<T> result)
     {
         result.Status.ShouldBe(ResultStatus.CriticalError);
     }
 
-    public static void ShouldBeCriticalError(this Result result, params string[] errorMessages)
+    public static void ShouldBeCriticalError<T>(this Result<T> result, params string[] errorMessages)
     {
         result.ShouldBeCriticalError();
         result.Errors.ShouldBe(errorMessages);
     }
 
-    public static void ShouldBeForbidden(this Result result)
+    public static void ShouldBeForbidden<T>(this Result<T> result)
     {
         result.Status.ShouldBe(ResultStatus.Forbidden);
     }
 
-    public static void ShouldBeForbidden(this Result result, params string[] errorMessages)
+    public static void ShouldBeForbidden<T>(this Result<T> result, params string[] errorMessages)
     {
         result.ShouldBeForbidden();
         result.Errors.ShouldBe(errorMessages);
     }
 
-    public static void ShouldBeNotFound(this Result result)
+    public static void ShouldBeNotFound<T>(this Result<T> result)
     {
         result.Status.ShouldBe(ResultStatus.NotFound);
     }
 
-    public static void ShouldBeNotFound(this Result result, params string[] errorMessages)
+    public static void ShouldBeNotFound<T>(this Result<T> result, params string[] errorMessages)
     {
         result.ShouldBeNotFound();
         result.Errors.ShouldBe(errorMessages);
     }
 
-    public static void ShouldBeInvalid(this Result result)
+    public static void ShouldBeInvalid<T>(this Result<T> result)
     {
         result.Status.ShouldBe(ResultStatus.Invalid);
     }
 
-    public static void ShouldBeInvalid(
-        this Result result,
+    public static void ShouldBeInvalid<T>(
+        this Result<T> result,
         params ValidationError[] validationErrors)
     {
         result.ShouldBeInvalid();
         result.ValidationErrors.ShouldBe(validationErrors);
     }
 
-    public static void ShouldHaveValidationErrorWithCode(
-        this Result result,
+    public static void ShouldHaveValidationErrorWithCode<T>(
+        this Result<T> result,
         string errorCode)
     {
         result.ShouldBeInvalid();
         result.ValidationErrors.ShouldContain(x => x.ErrorCode == errorCode);
     }
 
-    public static void ShouldHaveValidationErrorWithIdentifier(
-        this Result result,
+    public static void ShouldHaveValidationErrorWithIdentifier<T>(
+        this Result<T> result,
         string identifier)
     {
         result.ShouldBeInvalid();
         result.ValidationErrors.ShouldContain(x => x.Identifier == identifier);
     }
 
-    public static void ShouldHaveValidationErrorWithMessage(
-        this Result result,
+    public static void ShouldHaveValidationErrorWithMessage<T>(
+        this Result<T> result,
         string errorMessage)
     {
         result.ShouldBeInvalid();
         result.ValidationErrors.ShouldContain(x => x.ErrorMessage == errorMessage);
     }
 
-    public static void ShouldHaveValidationErrorWithSeverity(
-        this Result result,
+    public static void ShouldHaveValidationErrorWithSeverity<T>(
+        this Result<T> result,
         ValidationSeverity severity)
     {
         result.ShouldBeInvalid();
         result.ValidationErrors.ShouldContain(x => x.Severity == severity);
     }
 
-    public static void ShouldBeUnauthorized(this Result result)
+    public static void ShouldBeUnauthorized<T>(this Result<T> result)
     {
         result.Status.ShouldBe(ResultStatus.Unauthorized);
     }
 
-    public static void ShouldBeUnauthorized(
-        this Result result,
+    public static void ShouldBeUnauthorized<T>(
+        this Result<T> result,
         params string[] errorMessages)
     {
         result.ShouldBeUnauthorized();
         result.Errors.ShouldBe(errorMessages);
     }
 
-    public static void ShouldBeUnavailable(this Result result)
+    public static void ShouldBeUnavailable<T>(this Result<T> result)
     {
         result.Status.ShouldBe(ResultStatus.Unavailable);
     }
 
-    public static void ShouldBeUnavailable(
-        this Result result,
+    public static void ShouldBeUnavailable<T>(
+        this Result<T> result,
         params string[] errorMessages)
     {
         result.ShouldBeUnavailable();
         result.Errors.ShouldBe(errorMessages);
-    }
-
-    public static void ShouldBeSuccess(this Result result)
-    {
-        result.IsSuccess.ShouldBeTrue();
     }
 
     public static void ShouldBeSuccess<T>(this Result<T> result)
@@ -171,8 +166,8 @@ public static class ShouldlyResultExtensions
         result.IsSuccess.ShouldBeTrue();
     }
 
-    public static void ShouldBeSuccessWithMessage(
-        this Result result,
+    public static void ShouldBeSuccessWithMessage<T>(
+        this Result<T> result,
         string successMessage)
     {
         result.ShouldBeSuccess();

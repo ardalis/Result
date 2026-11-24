@@ -89,3 +89,5 @@ jobs:
       run: dotnet test tests/Ardalis.Result.UnitTests/Ardalis.Result.UnitTests.csproj --framework net48 --configuration Release --verbosity normal
     - name: Test Ardalis.Result.FluentAssertions.UnitTests (net48)
       run: dotnet test tests/Ardalis.Result.FluentAssertions.UnitTests/Ardalis.Result.FluentAssertions.UnitTests.csproj --framework net48 --configuration Release --verbosity normal
+    - name: Test Ardalis.Result.Shouldly.UnitTests (net48)
+      run: dotnet test tests/Ardalis.Result.Shouldly.UnitTests/Ardalis.Result.Shouldly.UnitTests.csproj --framework net48 --configuration Release --verbosity normal

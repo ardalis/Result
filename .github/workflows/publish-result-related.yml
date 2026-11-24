@@ -1,4 +1,4 @@
-name: Publish Ardalis.Result.AspNetCore and FluentValidation to Nuget.org
+name: Publish Ardalis.Result.AspNetCore, FluentValidation, and Shouldly to Nuget.org
 
 on:
   workflow_dispatch:
@@ -30,4 +30,10 @@ jobs:
       run: |
         rm -rf nuget/
         dotnet pack --no-build src/Ardalis.Result.FluentValidation/Ardalis.Result.FluentValidation.csproj --configuration Release --output nuget
+        dotnet nuget push nuget/*.nupkg -k '${{ secrets.NUGET_API_KEY }}' --skip-duplicate -s https://api.nuget.org/v3/index.json
+
+    - name: Publish Ardalis.Result.Shouldly to NuGet
+      run: |
+        rm -rf nuget/
+        dotnet pack --no-build src/Ardalis.Result.Shouldly/Ardalis.Result.Shouldly.csproj --configuration Release --output nuget
         dotnet nuget push nuget/*.nupkg -k '${{ secrets.NUGET_API_KEY }}' --skip-duplicate -s https://api.nuget.org/v3/index.json
