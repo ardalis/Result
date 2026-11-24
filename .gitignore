@@ -333,3 +333,6 @@ ASALocalRun/
 *.Development.json
 
 .DS_Store
+
+# Language server cache files
+*.lscache

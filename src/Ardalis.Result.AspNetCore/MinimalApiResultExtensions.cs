@@ -25,7 +25,13 @@ public static partial class ResultExtensions
     /// <returns></returns>
     public static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult(this Result result) => ToMinimalApiResult((IResult)result);
 
-    internal static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult(this IResult result) =>
+    /// <summary>
+    /// Convert an Ardalis.Result <see cref="IResult"/> to a <see cref="Microsoft.AspNetCore.Http.IResult"/>.
+    /// Exposed so consumers can write a custom converter that handles selected statuses and delegates the
+    /// remaining statuses to the library's default mapping.
+    /// </summary>
+    /// <param name="result">The Ardalis.Result to convert.</param>
+    public static Microsoft.AspNetCore.Http.IResult ToMinimalApiResult(this IResult result) =>
         result.Status switch
         {
             ResultStatus.Ok => result is Result ? Results.Ok() : Results.Ok(result.GetValue()),
@@ -42,17 +48,37 @@ public static partial class ResultExtensions
             _ => throw new NotSupportedException($"Result {result.Status} conversion is not supported."),
         };
 
+    // Invoke the optional global customization hook (if configured) on the ProblemDetails before returning it,
+    // so consumers can adjust Title/Detail/Extensions without reimplementing the conversion. See ResultProblemDetailsOptions.
+    private static ProblemDetails ApplyCustomization(IResult result, int statusCode, ProblemDetails problemDetails)
+    {
+        var customize = ResultProblemDetailsOptions.Customize;
+        if (customize != null)
+        {
+            customize(new ResultProblemDetailsContext
+            {
+                ResultStatus = result.Status,
+                StatusCode = statusCode,
+                Result = result,
+                ProblemDetails = problemDetails
+            });
+        }
+
+        return problemDetails;
+    }
+
     private static Microsoft.AspNetCore.Http.IResult UnprocessableEntity(IResult result)
     {
         var details = new StringBuilder("Next error(s) occurred:");
 
         foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
-        return Results.UnprocessableEntity(new ProblemDetails
+        return Results.UnprocessableEntity(ApplyCustomization(result, StatusCodes.Status422UnprocessableEntity, new ProblemDetails
         {
             Title = "Something went wrong.",
-            Detail = details.ToString()
-        });
+            Detail = details.ToString(),
+            Status = StatusCodes.Status422UnprocessableEntity
+        }));
     }
 
     private static Microsoft.AspNetCore.Http.IResult NotFoundEntity(IResult result)
@@ -63,11 +89,12 @@ public static partial class ResultExtensions
         {
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
-            return Results.NotFound(new ProblemDetails
+            return Results.NotFound(ApplyCustomization(result, StatusCodes.Status404NotFound, new ProblemDetails
             {
                 Title = "Resource not found.",
-                Detail = details.ToString()
-            });
+                Detail = details.ToString(),
+                Status = StatusCodes.Status404NotFound
+            }));
         }
         else
         {
@@ -83,11 +110,12 @@ public static partial class ResultExtensions
         {
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
-            return Results.Conflict(new ProblemDetails
+            return Results.Conflict(ApplyCustomization(result, StatusCodes.Status409Conflict, new ProblemDetails
             {
                 Title = "There was a conflict.",
-                Detail = details.ToString()
-            });
+                Detail = details.ToString(),
+                Status = StatusCodes.Status409Conflict
+            }));
         }
         else
         {
@@ -103,12 +131,12 @@ public static partial class ResultExtensions
         {
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
-            return Results.Problem(new ProblemDetails()
+            return Results.Problem(ApplyCustomization(result, StatusCodes.Status500InternalServerError, new ProblemDetails()
             {
                 Title = "Something went wrong.",
                 Detail = details.ToString(),
                 Status = StatusCodes.Status500InternalServerError
-            });
+            }));
         }
         else
         {
@@ -124,12 +152,12 @@ public static partial class ResultExtensions
         {
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
             
-            return Results.Problem(new ProblemDetails
+            return Results.Problem(ApplyCustomization(result, StatusCodes.Status503ServiceUnavailable, new ProblemDetails
             {
                 Title = "Service unavailable.",
                 Detail = details.ToString(),
                 Status = StatusCodes.Status503ServiceUnavailable
-            });
+            }));
         }
         else
         {
@@ -145,12 +173,12 @@ public static partial class ResultExtensions
         {
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
-            return Results.Problem(new ProblemDetails
+            return Results.Problem(ApplyCustomization(result, StatusCodes.Status403Forbidden, new ProblemDetails
             {
                 Title = "Forbidden.",
                 Detail = details.ToString(),
                 Status = StatusCodes.Status403Forbidden
-            });
+            }));
         }
         else
         {
@@ -166,12 +194,12 @@ public static partial class ResultExtensions
         {
             foreach (var error in result.Errors) details.Append("* ").Append(error).AppendLine();
 
-            return Results.Problem(new ProblemDetails
+            return Results.Problem(ApplyCustomization(result, StatusCodes.Status401Unauthorized, new ProblemDetails
             {
                 Title = "Unauthorized.",
                 Detail = details.ToString(),
                 Status = StatusCodes.Status401Unauthorized
-            });
+            }));
         }
         else
         {
