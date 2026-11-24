@@ -17,13 +17,13 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
+    - uses: actions/checkout@v7
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v6
       with:
           dotnet-version: |
-            6.0.x
-            8.x
+            10.0.x
+            11.0.x
     - name: Install dependencies
       run: dotnet restore
     - name: Build
@@ -33,11 +33,11 @@ jobs:
       # Add coverlet.collector nuget package to test project - 'dotnet add <TestProject.cspoj> package coverlet
     # .NET Framework (net48) tests can't run on Linux: the .NET 11 SDK dropped Mono support.
     # They run in the net48 job below on Windows instead.
-    - name: Test (net6.0)
-      run: dotnet test --no-restore --framework net6.0 --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
+    - name: Test (net10.0)
+      run: dotnet test --no-restore --framework net10.0 --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
 
-    - name: Test (net8.0)
-      run: dotnet test --no-restore --framework net8.0 --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
+    - name: Test (net11.0)
+      run: dotnet test --no-restore --framework net11.0 --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
 
     - name: Copy Coverage To Predictable Location
       # run: cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
@@ -81,7 +81,14 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
+    # Restore covers every target framework, so the .NET 11 SDK is needed even to test net48.
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v6
+      with:
+          dotnet-version: |
+            10.0.x
+            11.0.x
     # One step per project: a multi-line PowerShell step only fails on the last command's exit code.
     - name: Test Ardalis.Result.Sample.UnitTests (net48)
       run: dotnet test sample/Ardalis.Result.Sample.UnitTests/Ardalis.Result.Sample.UnitTests.csproj --framework net48 --configuration Release --verbosity normal

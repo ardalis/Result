@@ -24,13 +24,13 @@ dotnet build --configuration Release --no-restore
 dotnet test                                   # all test projects, all target frameworks
 ```
 
-> **Runtime gotcha:** the projects target `net6.0`/`net8.0` (and `net48`). Tests do **not** auto-roll-forward to a newer runtime — if the .NET 6 or .NET 8 runtime isn't installed, `dotnet test` aborts with *"You must install or update .NET to run this application."* Either install those runtimes (CI does this) or set `DOTNET_ROLL_FORWARD=LatestMajor` to run the existing targets on whatever newer runtime you have:
+> **Runtime gotcha:** the projects target `net10.0`/`net11.0` (and `net48`; the libraries also target `netstandard2.0`). Tests do **not** auto-roll-forward to a newer runtime — if the .NET 10 or .NET 11 runtime isn't installed, `dotnet test` aborts with *"You must install or update .NET to run this application."* Either install those runtimes (CI does this) or set `DOTNET_ROLL_FORWARD=LatestMajor` to run the existing targets on whatever newer runtime you have:
 >
 > ```bash
-> DOTNET_ROLL_FORWARD=LatestMajor dotnet test --framework net8.0
+> DOTNET_ROLL_FORWARD=LatestMajor dotnet test --framework net10.0
 > ```
 >
-> Rolling forward is good enough for the unit tests, but the `*.FunctionalTests` sample projects can fail spuriously that way (ASP.NET Core 8 apps hosted on a newer runtime). Use the real runtimes when those matter.
+> Rolling forward is good enough for the unit tests, but the `*.FunctionalTests` sample projects can fail spuriously that way (ASP.NET Core apps hosted on a newer runtime). Use the real runtimes when those matter.
 
 Run one test project:
 
@@ -44,40 +44,40 @@ Run a single test or class with a filter (xUnit; filter on the fully-qualified n
 dotnet test tests/Ardalis.Result.UnitTests/Ardalis.Result.UnitTests.csproj --filter "FullyQualifiedName~ResultBind"
 ```
 
-Pin to one framework when a project multi-targets (avoids running the same test under net6.0/net8.0/net48):
+Pin to one framework when a project multi-targets (avoids running the same test under net10.0/net11.0/net48):
 
 ```bash
-dotnet test tests/Ardalis.Result.UnitTests/Ardalis.Result.UnitTests.csproj --framework net8.0
+dotnet test tests/Ardalis.Result.UnitTests/Ardalis.Result.UnitTests.csproj --framework net11.0
 ```
 
 Run the sample apps:
 
 ```bash
 dotnet run --project sample/Ardalis.Result.SampleWeb            # MVC + ApiEndpoints + MediatR sample, has Swagger
-dotnet run --project sample/Ardalis.Result.SampleMinimalApi     # Minimal API sample (net8.0 only)
+dotnet run --project sample/Ardalis.Result.SampleMinimalApi     # Minimal API sample (net11.0 only)
 ```
 
 ## Multi-targeting and Toolchain (read before touching `.csproj`/`Directory.Build.props`)
 
-Target frameworks are **not** set in individual project files. They come from per-area `Directory.Build.props`, each of which defines `NetCoreFrameworks` (currently `net6.0;net8.0`) and a `TargetFrameworks` built from it:
+Target frameworks are **not** set in individual project files. They come from per-area `Directory.Build.props`, each of which defines `NetCoreFrameworks` (currently `net10.0;net11.0`) and a `TargetFrameworks` built from it:
 
-- `src/Directory.Build.props` → `netstandard2.0;net6.0;net8.0`, plus packaging metadata (`GeneratePackageOnBuild`, authors, SourceLink, etc.).
-- `tests/Directory.Build.props` → `net48;net6.0;net8.0`.
-- `sample/Directory.Build.props` → `net48;net6.0;net8.0`, `Nullable` enabled.
+- `src/Directory.Build.props` → `netstandard2.0;net10.0;net11.0`, plus packaging metadata (`GeneratePackageOnBuild`, authors, SourceLink, etc.).
+- `tests/Directory.Build.props` → `net48;net10.0;net11.0`.
+- `sample/Directory.Build.props` → `net48;net10.0;net11.0`, `Nullable` enabled.
 
-To change the supported .NET versions across the whole repo, edit `NetCoreFrameworks` in these three files — not the individual projects. Projects that must pin a framework override `TargetFrameworks` locally (e.g. the Minimal API sample and its tests are `net8.0` only; `Ardalis.Result.AspNetCore` uses `$(NetCoreFrameworks)` so it never targets `net48`/`netstandard2.0`).
+To change the supported .NET versions across the whole repo, edit `NetCoreFrameworks` in these three files — not the individual projects. Projects that must pin a framework override `TargetFrameworks` locally (e.g. the Minimal API sample and its tests are `net11.0` only; `Ardalis.Result.AspNetCore` uses `$(NetCoreFrameworks)` so it never targets `net48`/`netstandard2.0`).
 
 Other cross-cutting build facts:
 
-- **Central Package Management** is on (`Directory.Packages.props`, `ManagePackageVersionsCentrally=true`). Add/upgrade dependency versions there with `<PackageVersion>`; reference them in `.csproj` with a bare `<PackageReference Include="..." />` (no `Version`). Use `VersionOverride` only for per-framework pins (the samples do this for the net6.0 ASP.NET Core packages).
+- **Central Package Management** is on (`Directory.Packages.props`, `ManagePackageVersionsCentrally=true`). Add/upgrade dependency versions there with `<PackageVersion>`; reference them in `.csproj` with a bare `<PackageReference Include="..." />` (no `Version`). Use `VersionOverride` only for per-framework pins (e.g. `Microsoft.AspNetCore.Mvc.Testing` is pinned to 10.x for net10.0, and `FluentValidation` stays on 11.x for targets older than net8.0, since 12.x is net8.0+ only). `FluentAssertions` is deliberately held on 7.x: 8.0+ is under a commercial license, and `Ardalis.Result.FluentAssertions` would pass that on to its consumers.
 - **PolySharp** is a global package reference, so modern C# syntax (`init` accessors, `record`, collection expressions like `[]`, `required`) compiles even on `netstandard2.0` and `net48`. Don't add manual polyfills for these.
-- **SourceLink** (`Microsoft.SourceLink.GitHub`) is added only for packable projects on `net8.0+`.
-- **net48 caveat:** `net48` is kept in tests/samples purely to verify the core library stays usable from .NET Framework. `net48` tests run **only on Windows**: the .NET 11 SDK dropped Mono support, so on Linux/macOS `dotnet test` aborts those targets with *"Running .NET Framework tests is supported on Windows only."* On non-Windows machines, pin `--framework net8.0` (or net6.0). net48 support is sensitive; verify net48 still builds when changing targets.
+- **SourceLink** (`Microsoft.SourceLink.GitHub`) is added as a package only for packable projects below `net8.0` (the .NET 8+ SDK includes it).
+- **net48 caveat:** `net48` is kept in tests/samples purely to verify the core library stays usable from .NET Framework. `net48` tests run **only on Windows**: the .NET 11 SDK dropped Mono support, so on Linux/macOS `dotnet test` aborts those targets with *"Running .NET Framework tests is supported on Windows only."* On non-Windows machines, pin `--framework net11.0` (or net10.0). net48 support is sensitive; verify net48 still builds when changing targets.
 
 ## CI and Publishing
 
-- **`.github/workflows/dotnetcore.yml`** is the PR/main build, in two jobs. **`build`** (ubuntu) installs .NET 6 + 8, then `restore` → `build -c Release` (this still compiles the net48 targets) → `dotnet test --framework net6.0` and `--framework net8.0` with `XPlat Code Coverage`. **`net48`** (windows-latest) runs the four net48-targeting test projects with `--framework net48` — if you touch multi-targeting, expect this job to catch regressions. Coverage (from the Linux job only) is summarized and posted back to the PR by `comment-on-pr.yml`.
-- **`publish.yml`** publishes **every** package under `src/` to NuGet when a GitHub **release is published**. It builds, runs the net6.0/net8.0 tests, packs each `src/*/*.csproj`, and pushes with `--skip-duplicate`, so only packages whose `<Version>` was bumped since their last release actually ship. To release: bump the version (and `<PackageReleaseNotes>`) in each `.csproj` you want to ship, merge, then publish a GitHub release. It authenticates with **NuGet trusted publishing** (OIDC via `NuGet/login`), not a stored API key. The trusted publishing policy on nuget.org is tied to this repo and the `publish.yml` file name, so renaming the workflow breaks publishing until the policy is updated.
+- **`.github/workflows/dotnetcore.yml`** is the PR/main build, in two jobs. **`build`** (ubuntu) installs .NET 10 + 11, then `restore` → `build -c Release` (this still compiles the net48 targets) → `dotnet test --framework net10.0` and `--framework net11.0` with `XPlat Code Coverage`. **`net48`** (windows-latest) runs the four net48-targeting test projects with `--framework net48` — if you touch multi-targeting, expect this job to catch regressions. Coverage (from the Linux job only) is summarized and posted back to the PR by `comment-on-pr.yml`.
+- **`publish.yml`** publishes **every** package under `src/` to NuGet when a GitHub **release is published**. It builds, runs the net10.0/net11.0 tests, packs each `src/*/*.csproj`, and pushes with `--skip-duplicate`, so only packages whose `<Version>` was bumped since their last release actually ship. To release: bump the version (and `<PackageReleaseNotes>`) in each `.csproj` you want to ship, merge, then publish a GitHub release. It authenticates with **NuGet trusted publishing** (OIDC via `NuGet/login`), not a stored API key. The trusted publishing policy on nuget.org is tied to this repo and the `publish.yml` file name, so renaming the workflow breaks publishing until the policy is updated.
 - **`jekyll-gh-pages.yml`** publishes `docs/` to <https://result.ardalis.com> on changes under `docs/`.
 
 ## Architecture

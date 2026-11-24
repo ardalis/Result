@@ -16,25 +16,24 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # The 6.0 and 8.0 SDKs bring the runtimes the tests run on; 11.x builds.
+      # The 10.0 SDK brings the net10.0 runtime the tests run on; 11.0.x builds.
       - name: Setup dotnet
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
-            6.0.x
-            8.0.x
-            11.x
+            10.0.x
+            11.0.x
 
       - name: Build
         run: dotnet build --configuration Release
 
       # net48 can't run on Linux (the .NET 11 SDK dropped Mono support); the
       # .NET Core workflow's Windows job covers it on every PR and push to main.
-      - name: Test (net6.0)
-        run: dotnet test --configuration Release --no-build --framework net6.0
+      - name: Test (net10.0)
+        run: dotnet test --configuration Release --no-build --framework net10.0
 
-      - name: Test (net8.0)
-        run: dotnet test --configuration Release --no-build --framework net8.0
+      - name: Test (net11.0)
+        run: dotnet test --configuration Release --no-build --framework net11.0
 
       # Each package under src/ carries its own <Version> in its .csproj, so a
       # release pushes every package and --skip-duplicate skips the ones whose
