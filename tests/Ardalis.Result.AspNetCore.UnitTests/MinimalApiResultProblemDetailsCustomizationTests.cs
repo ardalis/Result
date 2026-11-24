@@ -9,6 +9,15 @@ using Xunit;
 
 namespace Ardalis.Result.AspNetCore.UnitTests;
 
+// ResultProblemDetailsOptions.Customize is a process-wide static, so while one of these tests has a hook
+// installed, any other test calling ToMinimalApiResult in parallel would run through it too (and could be
+// the call the hook captures). Run this class on its own, after the parallel tests.
+[CollectionDefinition(nameof(MinimalApiResultProblemDetailsCustomizationTests), DisableParallelization = true)]
+public class MinimalApiResultProblemDetailsCustomizationCollection
+{
+}
+
+[Collection(nameof(MinimalApiResultProblemDetailsCustomizationTests))]
 public class MinimalApiResultProblemDetailsCustomizationTests : IDisposable
 {
     // Customize is global static; reset after every test so cases stay isolated.
