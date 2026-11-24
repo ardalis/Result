@@ -41,5 +41,19 @@ public class MinimalApiResultExtensionsCoverage : BaseResultConventionTest
             }
         }
     }
+
+    [Fact]
+    public void IResultOverloadIsPubliclyCallableAndDelegatesToTypedOverload()
+    {
+        // Casting to the Ardalis.Result IResult interface and calling the (now public) overload directly
+        // must compile and behave the same as calling it on the concrete Result<T>.
+        Result<int> result = Result<int>.Success(42);
+        IResult asInterface = result;
+
+        Microsoft.AspNetCore.Http.IResult viaInterface = asInterface.ToMinimalApiResult();
+        Microsoft.AspNetCore.Http.IResult viaConcrete = result.ToMinimalApiResult();
+
+        Assert.Equal(viaConcrete.GetType(), viaInterface.GetType());
+    }
 }
 #endif
