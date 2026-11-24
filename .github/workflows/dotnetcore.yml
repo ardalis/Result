@@ -21,7 +21,9 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v3
       with:
-          dotnet-version: '8.x'
+          dotnet-version: |
+            6.0.x
+            8.x
     - name: Install dependencies
       run: dotnet restore
     - name: Build
@@ -29,8 +31,13 @@ jobs:
 
       # See https://josh-ops.com/posts/github-code-coverage/
       # Add coverlet.collector nuget package to test project - 'dotnet add <TestProject.cspoj> package coverlet
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
+    # .NET Framework (net48) tests can't run on Linux: the .NET 11 SDK dropped Mono support.
+    # They run in the net48 job below on Windows instead.
+    - name: Test (net6.0)
+      run: dotnet test --no-restore --framework net6.0 --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
+
+    - name: Test (net8.0)
+      run: dotnet test --no-restore --framework net8.0 --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
 
     - name: Copy Coverage To Predictable Location
       # run: cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
@@ -67,3 +74,18 @@ jobs:
         name: pr-number
         path: ./pr-number.txt
         retention-days: 1
+
+  # Verifies the core library stays usable from .NET Framework 4.8.
+  net48:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    # One step per project: a multi-line PowerShell step only fails on the last command's exit code.
+    - name: Test Ardalis.Result.Sample.UnitTests (net48)
+      run: dotnet test sample/Ardalis.Result.Sample.UnitTests/Ardalis.Result.Sample.UnitTests.csproj --framework net48 --configuration Release --verbosity normal
+    - name: Test Ardalis.Result.UnitTests (net48)
+      run: dotnet test tests/Ardalis.Result.UnitTests/Ardalis.Result.UnitTests.csproj --framework net48 --configuration Release --verbosity normal
+    - name: Test Ardalis.Result.FluentAssertions.UnitTests (net48)
+      run: dotnet test tests/Ardalis.Result.FluentAssertions.UnitTests/Ardalis.Result.FluentAssertions.UnitTests.csproj --framework net48 --configuration Release --verbosity normal
