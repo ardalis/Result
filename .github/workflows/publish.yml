@@ -1,0 +1,55 @@
+name: Publish Ardalis.Result packages to NuGet
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write # required for NuGet trusted publishing (OIDC)
+
+jobs:
+  publish:
+    name: Publish Ardalis.Result packages to nuget.org
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      # The 6.0 and 8.0 SDKs bring the runtimes the tests run on; 11.x builds.
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            6.0.x
+            8.0.x
+            11.x
+
+      - name: Build
+        run: dotnet build --configuration Release
+
+      # net48 can't run on Linux (the .NET 11 SDK dropped Mono support); the
+      # .NET Core workflow's Windows job covers it on every PR and push to main.
+      - name: Test (net6.0)
+        run: dotnet test --configuration Release --no-build --framework net6.0
+
+      - name: Test (net8.0)
+        run: dotnet test --configuration Release --no-build --framework net8.0
+
+      # Each package under src/ carries its own <Version> in its .csproj, so a
+      # release pushes every package and --skip-duplicate skips the ones whose
+      # version is already on nuget.org. Bump a package's version to ship it.
+      - name: Pack
+        run: |
+          for proj in src/*/*.csproj; do
+            dotnet pack "$proj" --configuration Release --no-build --output ./artifacts
+          done
+
+      - name: NuGet login (trusted publishing)
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        id: login
+        with:
+          user: ardalis
+
+      - name: Push to NuGet
+        run: dotnet nuget push "./artifacts/*.nupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate

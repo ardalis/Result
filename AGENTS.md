@@ -76,7 +76,7 @@ Other cross-cutting build facts:
 ## CI and Publishing
 
 - **`.github/workflows/dotnetcore.yml`** is the PR/main build, in two jobs. **`build`** (ubuntu) installs .NET 6 + 8, then `restore` → `build -c Release` (this still compiles the net48 targets) → `dotnet test --framework net6.0` and `--framework net8.0` with `XPlat Code Coverage`. **`net48`** (windows-latest) runs the three net48-targeting test projects with `--framework net48` — if you touch multi-targeting, expect this job to catch regressions. Coverage (from the Linux job only) is summarized and posted back to the PR by `comment-on-pr.yml`.
-- **`publish-result.yml`** and **`publish-result-related.yml`** pack and push to NuGet on every push to `main` (with `--skip-duplicate`, so the version only publishes when bumped in the `.csproj`).
+- **`publish.yml`** publishes **every** package under `src/` to NuGet when a GitHub **release is published**. It builds, runs the net6.0/net8.0 tests, packs each `src/*/*.csproj`, and pushes with `--skip-duplicate`, so only packages whose `<Version>` was bumped since their last release actually ship. To release: bump the version (and `<PackageReleaseNotes>`) in each `.csproj` you want to ship, merge, then publish a GitHub release. It authenticates with **NuGet trusted publishing** (OIDC via `NuGet/login`), not a stored API key. The trusted publishing policy on nuget.org is tied to this repo and the `publish.yml` file name, so renaming the workflow breaks publishing until the policy is updated.
 - **`jekyll-gh-pages.yml`** publishes `docs/` to <https://result.ardalis.com> on changes under `docs/`.
 
 ## Architecture
