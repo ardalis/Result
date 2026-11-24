@@ -23,11 +23,13 @@ dotnet build --configuration Release --no-restore
 dotnet test                                   # all test projects, all target frameworks
 ```
 
-> **Local runtime gotcha:** the projects target `net6.0`/`net8.0` (and `net48`), but this machine only has the **.NET 10** SDK/runtime installed. Tests do **not** auto-roll-forward — `dotnet test` aborts with *"You must install or update .NET to run this application."* Either install the .NET 6 and .NET 8 runtimes (CI does this) or set `DOTNET_ROLL_FORWARD=LatestMajor` to run the existing targets on .NET 10:
+> **Runtime gotcha:** the projects target `net6.0`/`net8.0` (and `net48`). Tests do **not** auto-roll-forward to a newer runtime — if the .NET 6 or .NET 8 runtime isn't installed, `dotnet test` aborts with *"You must install or update .NET to run this application."* Either install those runtimes (CI does this) or set `DOTNET_ROLL_FORWARD=LatestMajor` to run the existing targets on whatever newer runtime you have:
 >
 > ```bash
 > DOTNET_ROLL_FORWARD=LatestMajor dotnet test --framework net8.0
 > ```
+>
+> Rolling forward is good enough for the unit tests, but the `*.FunctionalTests` sample projects can fail spuriously that way (ASP.NET Core 8 apps hosted on a newer runtime). Use the real runtimes when those matter.
 
 Run one test project:
 
@@ -69,11 +71,11 @@ Other cross-cutting build facts:
 - **Central Package Management** is on (`Directory.Packages.props`, `ManagePackageVersionsCentrally=true`). Add/upgrade dependency versions there with `<PackageVersion>`; reference them in `.csproj` with a bare `<PackageReference Include="..." />` (no `Version`). Use `VersionOverride` only for per-framework pins (the samples do this for the net6.0 ASP.NET Core packages).
 - **PolySharp** is a global package reference, so modern C# syntax (`init` accessors, `record`, collection expressions like `[]`, `required`) compiles even on `netstandard2.0` and `net48`. Don't add manual polyfills for these.
 - **SourceLink** (`Microsoft.SourceLink.GitHub`) is added only for packable projects on `net8.0+`.
-- **net48 caveat:** `net48` is kept in tests/samples purely to verify the core library stays usable from .NET Framework. On non-Windows (CI and macOS), running `net48` tests requires **Mono** (`mono-devel`). `dotnet test` without Mono will skip/fail those targets — pin `--framework net8.0` (or net6.0) locally to avoid them. The active branch history shows net48 support is sensitive; verify net48 still builds when changing targets.
+- **net48 caveat:** `net48` is kept in tests/samples purely to verify the core library stays usable from .NET Framework. `net48` tests run **only on Windows**: the .NET 11 SDK dropped Mono support, so on Linux/macOS `dotnet test` aborts those targets with *"Running .NET Framework tests is supported on Windows only."* On non-Windows machines, pin `--framework net8.0` (or net6.0). net48 support is sensitive; verify net48 still builds when changing targets.
 
 ## CI and Publishing
 
-- **`.github/workflows/dotnetcore.yml`** is the PR/main build: installs .NET 6 + 8 and Mono, then `restore` → `build -c Release` → `dotnet test` with `XPlat Code Coverage`. It has a **dedicated step that runs the three test projects explicitly against `--framework net48`** — if you touch multi-targeting, expect this step to catch regressions. Coverage is summarized and posted back to the PR by `comment-on-pr.yml`.
+- **`.github/workflows/dotnetcore.yml`** is the PR/main build, in two jobs. **`build`** (ubuntu) installs .NET 6 + 8, then `restore` → `build -c Release` (this still compiles the net48 targets) → `dotnet test --framework net6.0` and `--framework net8.0` with `XPlat Code Coverage`. **`net48`** (windows-latest) runs the three net48-targeting test projects with `--framework net48` — if you touch multi-targeting, expect this job to catch regressions. Coverage (from the Linux job only) is summarized and posted back to the PR by `comment-on-pr.yml`.
 - **`publish-result.yml`** and **`publish-result-related.yml`** pack and push to NuGet on every push to `main` (with `--skip-duplicate`, so the version only publishes when bumped in the `.csproj`).
 - **`jekyll-gh-pages.yml`** publishes `docs/` to <https://result.ardalis.com> on changes under `docs/`.
 
