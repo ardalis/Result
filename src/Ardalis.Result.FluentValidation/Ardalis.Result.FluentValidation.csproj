@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <PackageId>Ardalis.Result.FluentValidation</PackageId>
@@ -24,7 +24,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" />
+    <!-- FluentValidation 12+ targets net8.0+ only; older targets stay on the 11.x line. -->
+    <PackageReference Include="FluentValidation" Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))" />
+    <PackageReference Include="FluentValidation" Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))" VersionOverride="11.12.0" />
   </ItemGroup>
 
   <ItemGroup>
